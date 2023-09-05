@@ -1,0 +1,936 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+%\usepackage{palatino}
+
+%\usepackage{jmlr2e}
+%\usepackage[accepted]{icml2023}
+\usepackage[page,toc,titletoc,title]{appendix}
+\usepackage[numbers]{natbib}
+\usepackage{eso-pic} % used by \AddToShipoutPicture
+\RequirePackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{placeins}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{mathrsfs,bbm}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\usepackage{aligned-overset}
+\input{math_commands.tex}
+\usepackage{tikz,tikzscale,pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.18}
+% Definitions of handy macros can go here
+\usepackage{amsthm}
+\allowdisplaybreaks
+\usepackage{hyperref}
+\usepackage[capitalize,noabbrev]{cleveref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=darkred,
+	filecolor=magenta,      
+	urlcolor=magenta,
+	citecolor=teal,
+}
+\usepackage[verbose=true,letterpaper]{geometry}
+\AtBeginDocument{
+	\newgeometry{
+		textheight=9in,
+		textwidth=6.5in,
+		top=1in,
+		headheight=14pt,
+		headsep=25pt,
+		footskip=30pt
+	}
+}
+
+% Set algorithm keyword formatting
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%\usepackage{algorithmic}
+\usepackage{xcolor}
+\usepackage{nicematrix}
+\usepackage{graphicx}
+
+\definecolor{mycolor1}{rgb}{0.50196,0.75686,0.85882}%
+\definecolor{mycolor2}{rgb}{0.20392,0.58039,0.72941}%
+\definecolor{mycolor3}{rgb}{0.95294,0.66275,0.44706}%
+\definecolor{mycolor4}{rgb}{0.92549,0.43922,0.08627}%
+\definecolor{mycolor5}{rgb}{0.46600,0.67400,0.18800}%
+\definecolor{mycolor6}{rgb}{0.23300,0.40000,0.10000}%
+\definecolor{darkred}{rgb}{0.6,0,0}%
+
+\newcommand{\ccref}[1]{\textcolor{darkred}{\cref{#1}}}
+\newcommand{\Ccref}[1]{\textcolor{darkred}{\Cref{#1}}}
+\newcommand{\ccshref}[1]{\textcolor{darkred}{\cshref{#1}}}
+\newcommand{\Ccshref}[1]{\textcolor{darkred}{\cshref{#1}}}
+
+\crefrangeformat{equation}{\text{eqns. }(#3#1#4)-(#5#2#6)}
+
+\DeclareRobustCommand{\abbrevcrefs}{%
+	\crefname{figure}{fig.}{figs.}%
+	\Crefname{figure}{Fig.}{Figs.}%
+	\crefname{equation}{\text{eqn.}}{\text{eqns.}}%
+	\Crefname{equation}{\text{Eqn.}}{\text{Eqns.}}%
+	\crefname{lemma}{\text{lem.}}{\text{lems.}}%
+	\Crefname{lemma}{\text{Lem.}}{\text{Lems.}}%
+	\crefname{theorem}{\text{thm.}}{\text{thms.}}%
+	\Crefname{theorem}{\text{Thm.}}{\text{Thms.}}%
+	\crefname{figure}{\text{fig.}}{\text{figs.}}%
+	\crefname{figure}{\text{Fig.}}{\text{Figs.}}%
+	\crefname{algorithm}{\text{alg.}}{\text{algs.}}%
+	\crefname{algorithm}{\text{Alg.}}{\text{Algs.}}%
+}
+
+\DeclareRobustCommand{\cshref}[1]{{\abbrevcrefs\cref{#1}}}
+\DeclareRobustCommand{\Cshref}[1]{{\abbrevcrefs\Cref{#1}}}
+
+%\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+\definecolor{bayes}{HTML}{FF7F00}
+\definecolor{standard}{HTML}{377EB8}
+\definecolor{prior}{HTML}{4DAF4A}
+\definecolor{best}{rgb}{0,0,0}
+
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+		\node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\usepackage{dblfloatfix}
+
+\title{Data Driven Adaptive Sampling for Low-Rank Matrix Approximation}
+
+% Authors must not appear in the submitted version. They should be hidden
+% as long as the \iclrfinalcopy macro remains commented out below.
+% Non-anonymous submissions will be rejected without review.
+\author{Arvind Rathnashyam\thanks{Math and CS, Rensselear Polytechnic Institute, \texttt{rathna@rpi.edu}} \and Nicolas Boullé\thanks{Math, Cambridge, \texttt{nb690@cam.cu.uk}} \and Alex Townsend \thanks{Math, Cornell, \texttt{ajt453@cornell.edu}}}
+
+\begin{document}
+	
+	\maketitle
+	
+%\twocolumn[
+%\icmltitle{Data-Driven Sampling for Low-Rank Matrix Approximation}
+%\icmlsetsymbol{equal}{*}
+
+%\begin{icmlauthorlist}
+	%\icmlauthor{Arvind Rathnashyam}{rpi}
+	%\icmlauthor{Nicolas Boullé}{cambridge}
+	%\icmlauthor{Alex Townsend}{cornell}
+
+%\end{icmlauthorlist}
+
+%\icmlaffiliation{rpi}{Department of Mathematics, Rensselaer Polytechnic Institute, Troy, NY, USA}
+%\icmlaffiliation{cambridge}{Isaac Newton Institute, Cambridge, UK}
+%\icmlaffiliation{cornell}{Cornell University, Departments of Mathematics, Ithaca, NY, USA}
+
+%\icmlcorrespondingauthor{Arvind Rathnashyam}{rathna@rpi.edu}
+%\icmlkeywords{Low-Rank Matrix Approximation, Adaptive Sampling, Subspace Perturbation Theory, Matrix-Vector Product Model, PDE Learning, Randomized SVD}
+
+%\vskip 0.3in
+%]
+%\printAffiliationsAndNotice % otherwise use the standard text.
+
+\begin{abstract}%   <- trailing '%' for backward compatibility of .sty file
+\normalsize
+We consider the problem of low-rank matrix approximation in case the when the matrix $\mA$ is accessible only via matrix-vector products and we are given a budget of $k + p$ matrix-vector products. This situation arises in practice when the cost of data acquisition is high, despite the Numerical Linear Algebra (NLA) costs being low. We create an adaptive sampling algorithm to optimally choose vectors to sample. The Randomized Singular Value Decomposition (rSVD) is an effective algorithm for obtaining the low rank representation of a matrix developed by \cite{halko:2011}. Recently, \cite{boulle:2022} generalized the rSVD to Hilbert-Schmidt Operators where functions are sampled from non-standard Covariance Matrices when there is already prior information on the right singular vectors within the column space of the target matrix, $\mA$. In this work, we develop an adaptive sampling framework for the Matrix-Vector Product Model which does not need prior information on the matrix $\mA$. We provide a novel theoretic analysis of our algorithm with subspace perturbation theory. We extend the analysis of \cite{tzeng:2022} for right singular vector approximations from the randomized SVD in the context of non-symmetric rectangular matrices. We also test our algorithm on various synthetic, real-world application, and image matrices. Furthermore, we show our theory bounds on matrices are stronger than state-of-the-art methods with the same number of matrix-vector product queries. 
+\end{abstract}
+\clearpage
+\tableofcontents
+\clearpage
+\section{Introduction}
+In many real-world applications, it is often not possible to run experiments in parallel. Consider the following setting, there are a set of $n$ inputs and $m$ outputs, and there exists a PDE such it maps any set of inputs in $\mathbb{C}^{m} \to \mathbb{C}^{n}$. However, to run experiments, it takes hours for set up, execution, or it is expensive, e.g. aerodynamics \cite{fan:2005}, fluid dynamics \cite{lomax:2001}. Thus, after each experimental run, we want to sample a function such that in expectation, we will be exploring an area of the PDE which we have the least knowledge of. For Low-Rank Approximation the Randomized SVD, \cite{halko:2011}, has been theoretically analyzed and used in various applications. Even more recently, \cite{boulle:2022b} discovered if we have prior information on the right singular vectors of $\mA$, we can modify the Covariance Matrix such that the sampled vectors are within the column space of $\mA$. They extended the theory for Randomized SVD where the covariance matrix is now a general PSD matrix. The basis of our analysis is the idea of sampling vectors in the Null-Space of the Low-Rank Approximation. This idea has been introduced recently in Machine Learning in \cite{wang:2021} for training neural networks for sequential tasks. In a Bayesian sense, we want to maximize the expected information gain of the PDE in each iteration by sampling in the space where we have no information. This leads to the formulation of our iterative algorithm for sampling vectors for the Low-Rank Approximation. The current state of the art algorithms for low-rank matrix approximation in the matrix-vector product model used a fixed covariance matrix structure.\\
+Algorithms for adaptive sampling for CUR low-rank matrix approximation have been explored in \cite{paul:2015}. To our knowledge, we are the first paper to give an algorithm for low-rank approximation in the non-symmetric matrix low-rank approximation in the matrix-vector product model.\\
+{\bf Contributions.}
+\begin{enumerate}
+    \item 
+    We develop a novel adaptive sampling algorithm for Low-Rank Matrix Approximation problem in the matrix-vector product model which does not utilize prior information of $\mA$.  
+    \item 
+    We provide a novel theoretical analysis which utilizes subspace perturbation theory.
+    \item 
+    We perform extensive experiments on matrices with various spectrums and compare with the state of the art methods. 
+\end{enumerate}
+
+\section{Notation, Background Materials, and Relevant Work}
+In this section we will introduce the notation we use throughout the paper, perturbations of singular spaces, as well as relevant work in the Low-Rank Matrix Approximation Literature.
+\subsection{Notation}
+Let $\mA \in \mathbb{R}^{m \times n} $ represent the target matrix. $\norm{\cdot}$ represents the spectral norm, which is equivalent to the max eigenvalue of the argument, $\sigma_{\max}(\cdot)$. Quasimatrices (matrices with infinite rows and finite columns) will be denoted as a variation of the symbol, $\mOmega$. The pseudoinverse is represented by $(\cdot)^\dagger$ s.t. $\mX^\dagger = (\mX^{\T} \mX)^{-1} \mX^{\T}$. The Projection Matrix is defined as $\Pi_{\mY} = \mY\mY^{\dagger} = \mY (\mY^{\T}\mY)^{-1}\mY^{\T}$ as the projection on to the column space of $\mY$. If $\mY$ has orthogonal columns, then $\Pi_{\mY}$ is the Orthogonal Projection defined as $\Pi_{\mY} = \mY\mY^{\T}$. Let $a \land b = \min(a,b)$ and $a \lor b = \max(a,b)$. Let $\mathbb{O}_{n,k}$ be the set of all $n \times k$ matrices with orthogonal columns, i.e. $\left\{\mV: \mV^{\T}\mV = \mI_{k\times k}\right\}$. We also denote $\mathcal{MN}(\vzero, \mI_{n \times n}, \mI_{m \times m})$, denote the distribution of $m \times n$ standard gaussian matrices. The Frobenius norm for a matrix is defined as, 
+\begin{equation}
+	\norm{\mA}_{\F} = \biggl(\sum_{i \in [m]}\sum_{j\in [d]} A_{i,j}^2\biggr)^{1/2} = \sqrt{\Tr\left(\mA^{\T}\mA\right)} = \sqrt{\Tr\left(\mA\mA^{\T}\right)}
+\end{equation}
+We define $\llbracket \mA \rrbracket_r$ as the best rank-$r$ approximation to $\mA$ w.r.t the Frobenius norm. We use Big-O notation, $y \leq \mathcal{O}(x)$, to denote $ y \leq Cx$ for some positive constant, $C$. We define $\mathbb{E}$ as expection, $\mathbb{P}$ as probability, and $\mathbb{V}$ as variance. 
+
+\subsection{Singular Subspace Perturbations}
+To represent the distance between subspaces we utilize the $\sin \Theta$ norm. Let $\mathcal{X}, \mathcal{Y}$ be subspaces, then we denote the principal angles between subspaces (PABS) $\mathcal{X}$ and $\mathcal{Y}$ as $\frac{\pi}{2} \geq \Theta_1(\mathcal{X}, \mathcal{Y}) \geq \ldots \geq \Theta_{m \land n}(\mathcal{X}, \mathcal{Y})$.
+Typically, the norm for distance between subspaces $\mathcal{X}$ and $\mathcal{Y}$ is defined as, 
+\begin{equation}
+	\norm{\sin\Theta\left(\mathcal{X},\mathcal{Y}\right)}_{\F} = \norm{\Pi_{\mathcal{X}} - \Pi_{\mathcal{Y}}}_{\F}
+\end{equation} 
+In a landmark paper by \cite{davis:1970}, they introduced upper bounds for $\norm{\sin\Theta\left(\mathcal{X},\mathcal{Y}\right)}$ and $\norm{\tan\Theta\left(\mathcal{X},\mathcal{Y}\right)}$. 
+A generalized version of the $\sin\Theta$ theorem for rectangular matrices is given in \cite{yu:2015}. 
+\begin{theorem} \label{thm:generalized-wedin}
+	\cite{yu:2015}. Let $\mA,\widehat{\mA} \in \mathbb{R}^{m \times n}$ have singular values $\sigma_1 \geq \ldots \geq \sigma_{m \lor n}$ and $\widehat{\sigma}_1 \geq \ldots \geq \widehat{\sigma}_{m \lor n}$, respectively. Given $j \in 1,\ldots,m \lor n$, it follows
+	\begin{equation}
+		\norm{\sin \Theta\left(\widehat{\vv}_j,\vv_j\right)}_{\F} \leq \frac{2\left(2\sigma_1 + \norm{\widehat{\mA}- \mA}\right)\norm{\widehat{\mA}-\mA}_{\F}}{\sigma^2_j - \sigma^2_{j+1}} \land 1
+	\end{equation}
+\end{theorem}
+However, we would like to note this theorem tends to not be sharp enough for theoretical use. Instead, we introduce Wedin's Theorem,
+\begin{theorem}\label{thm:wedin}
+	\cite{wedin:1972}. Let $\mA,\widehat{\mA} \in \mathbb{R}^{m \times n}$ have singular values $\sigma_1 \geq \ldots \geq \sigma_{m \lor n}$ and $\widehat{\sigma}_1 \geq \ldots \geq \widehat{\sigma}_{m \lor n}$, respectively. Given $j \in 1,\ldots,m \lor n$,
+	\begin{equation}
+		\sin\Theta\left(\vv_1,\widetilde{\vv}_1\right) \leq \frac{\norm{\mA - \widehat{\mA}}}{\sigma_1 - \widehat{\sigma}_2}
+	\end{equation}
+\end{theorem}
+\begin{theorem}\label{thm:modified-wedin}
+	\cite{orourke:2018}. Let $\mA,\widehat{\mA} \in \mathbb{R}^{m \times n}$ have singular values $\sigma_1 \geq \ldots \geq \sigma_{m \lor n}$ and $\widehat{\sigma}_1 \geq \ldots \geq \widehat{\sigma}_{m \lor n}$, respectively. Then,
+	\begin{equation}
+		\sin\Theta\left(\vv_1,\widetilde{\vv}_1\right) \leq \frac{2\norm{\mA - \widehat{\mA}}}{\sigma_1 - \sigma_2}
+	\end{equation}
+\end{theorem}
+Now we give some introduction to singular vector perturbation theory. Given two vectors, $\vv, \widetilde{\vv} \in \mathbb{R}^{n}$ s.t. $\norm{\vv} = \norm{\widetilde{\vv}} = 1$, it follows $\cos\Theta\left(\vv, \widetilde{\vv}\right) = \vv^{\T}\widetilde{\vv}$. Let $\mV$ be the matrix representing an orthonormal basis of vectors in $\mathbb{R}^n$: $\left\{\vv_1,\ldots,\vv_n\right\}$. Using basic ideas in trigonometry we find that,
+\begin{equation}
+	\begin{aligned}
+	\sin^2\Theta\left(\vv_j,\widetilde{\vv}\right) &= 1 - \cos^2\Theta\left(\vv_j, \widetilde{\vv}\right) = \norm{\mV^{\T}\widetilde{\vv}}^2 - \norm{\vv_j^{\T}\widetilde{\vv}}^2 \\
+	&= \sum_{i = 1}^n \mathbbm{1}_{i \neq j} \norm{\vv_i^{\T}\widetilde{\vv}}^2 \triangleq \norm{\mV_{\perp,j}^{\T}\widetilde{\vv}}^2 \label{eq:sin-identity}
+	\end{aligned}
+\end{equation}
+
+\subsection{Relevant Works}
+The Randomized Singular Value Decomposition was developed and analyzed thoroughly in \cite{halko:2011}; throughout this paper we will refer to this algorithm as HMT. 
+The review work by \cite{martinsson:2020} gives significant theory on the Randomized SVD. 
+\cite{boulle:2022} proposed learning the Hilbert-Schmidt Operators associated with the Green's Functions with the randomized SVD algorithm. One of their key findings is they can better approximate the HS Operator when they use functions drawn from $\mathcal{GP}(\vzero, \mK)$ where $\mK$ is not the identity.
+\cite{boulle:2023} extended upon previous work on generalizing the Randomized SVD to learning HS Operators. \cite{hennig:2012} empirically look at Entropy Search for Probabilistic Optimization. \cite{park:2023} analyzed faster algorithms for the approximation of the null-space.
+
+Block iterative methods have also been studied extensively in \cite{halko:2011b}. The study of block Krylov subspaces have also seen increased attention in the last few years, \cite{tropp:2023}. Bounds for the $(1 + \varepsilon)\norm{\mA - \mA_k}$ approximation error with randomized block Krylov Subspace methods have been explored in \cite{musco:2015,bakshi:2022}.
+
+The most relevant work to ours is likely \cite{drineas:2018}. The measure of accuracy in the Krylov Subspace is measured by the $\sin\Theta$ norm. We would like to note the Krylov Subspace method takes $q$ times more matrix-vector products and thus is not a suitable method for our problem. 
+
+Upper bounds on the tangent of principal angles are visited in \cite{nakatsukasa:2012} and improved in \cite{massey:2020}. The highly studied $\sin\Theta$ norms are studied in depth in \cite{cai:2018,orourke:2018}.
+
+Learning algorithms for Low-Rank Matrix Approximations have also been explored. In \cite{indyk:2021} and \cite{indyk:2019}, the sketching matrix is learned. 
+
+A similar analysis of a power method is explored in \cite{hardt:2014} utilizing subspace perturbation theory. In this work, they consider the Matrix-Vector products have noise. In this work, similarly to \cite{drineas:2018}, it takes $d$ times more matrix-vector products to recover the right singular space. Furthermore, a similar projection-based analysis based on the sines of the singular vector perturbations is done in \cite{luo:2021}.
+
+The theoretical analysis of greedy algorithms for low-rank matrix approximation tend to be difficult as noted in the discussion of \cite{gittens:2016}. Such algorithms have been developed for Nystr\"om Approximation in \cite{farahat:2011,kumar:2012}.
+
+\section{Data Driven Sampling} 
+In this section, we will go over the covariance matrices proposed papers and we consider choosing the optimal covariance matrix adaptively for sampling vectors. In the seminal paper by \cite{halko:2011}, the covariance matrix is given as:
+\begin{equation}
+	\mC = \mI
+\end{equation}
+In the generalization of the Randomized SVD, when given some prior information of the matrix, the covariance matrix is given as:
+\begin{equation}
+	\mC = \mK
+\end{equation}
+where $\mK$ should be close to the right singular vectors of $\mA$. 
+Let $\widetilde{\mV}$ be the right singular vectors of the SVD of the low-rank approximation at iteration $k-1$, then the update for the covariance matrix is given as follows:
+\begin{equation} 
+	\mC^{(k+1)} = \widetilde{\mV}_{(:,k)}\widetilde{\mV}_{(:,k)}^{\T}\label{eq:covariance-update}
+\end{equation}
+Throughout this paper we will only consider $\mC^{(0)} = \mI$ due to simplified analysis, however using theory from \cite{boulle:2022}, this can be extended to $\mC^{(0)} = \mK$ if one has some knowledge of the right singular vectors. A similar algorithm can be found in \cite{wang:2021}. Naturally, want to continuously sample in the null space of the the matrix approximation we have already obtained. This ensures we are learning new information in each iteration as we don't want to `waste' samples which do not learn any new information about the matrix. To further motivate our covariance update, we will introduce the following remark.
+\begin{remark}\label{rem:optimal-sampling}
+	Let $\mU \mSigma \mV^{\T}$ be the SVD of $\mA$, then the Covariance update described in \ccref{eq:covariance-update} is the optimal covariance update
+	is the optimal covariance matrix for sampling vectors at iteration $k$. 
+\end{remark}
+\Ccref{rem:optimal-sampling} is an intuitive result, in that when we are learning a matrix $\mA$, we would optimally want to sample the right singular vectors, so the resultant matrix product is the left singular vectors. 
+\subsection{Algorithm}
+The Pseudo Code for the optimal function sampling is given in \ccref{alg:optimal-sampling}. For efficient updates, we frame all operations as rank-$1$ updates. \\
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+	\State {\bfseries Input:} HS Operator: $\oF$, Rank: $r$, Initial Covariance: $\mC$, Oversampling Parameter: $p$
+	\State {\bfseries Output:} Rank-$r$ Approximation, $\widehat{\mA}_r$
+	\State $\mOmega \gets \bigl[\underbrace{\mathcal{N}(\vzero, \mC)\quad \overset{\mathrm{i.i.d}}{\cdots} \quad \mathcal{N}(\vzero,\mC)}_{p}\bigr]$ \Comment{Sample Oversampling Vectors from Standard Normal Matrix}
+	\State $\mY \gets \mA \mOmega$ \Comment{Matrix Vector Products}
+	\State $\left[\mQ_0, \sim\right] \gets \textsc{qr}\left(\mY\right) $ \Comment{Find Orthonormal Basis}
+	\State $\widetilde{\mA} \gets \vzero_{m \times n}$ \Comment{Initial Low-Rank Approximation}
+	\For{$k \in 1,2,\ldots,r$}
+	\State $\widetilde{\mA}_{k} \gets \widetilde{\mA}_{k-1} + \mQ_{(k-1)}\mQ_{(k-1)}^{\T}\mA$ \Comment{Rank-$1$ update to the low-rank approximation}
+	\State $\left[\widetilde{\mU}, \widetilde{\mSigma}, \widetilde{\mV}\right] \gets \textsc{svd}(\widetilde{\mA}_k)$\Comment{SVD of current low-rank approximation}
+	\State $\displaystyle \mC^{(k+1)} \gets \widetilde{\mV}_{(:,k)}\widetilde{\mV}_{(:,k)}^{\T}$\Comment{Form new Covariance Matrix}
+	\State $\vx \sim \mathcal{N}(\vzero, \mC^{(k+1)})$\Comment{Adaptive Sampling of Vector}
+	\State $\mY \gets \left[\mY \quad \mA\vx\right]$ \Comment{Matrix-Vector Product}
+	\State $\left[\mQ_{k}, \sim\right] \gets \textsc{qr}(\mY)$\Comment{Find Orthonormal Basis}
+	\EndFor
+	\State $\widetilde{\mA}_{r} \gets \mQ_r \mQ_r^{\T} \mA$ \Comment{Final Low-Rank Approximation}
+	\State {\bfseries Return: }$ \widetilde{\mA}_{r} $
+\end{algorithmic}
+\caption{Optimal Function Sampling}
+\label{alg:optimal-sampling}
+\end{algorithm}
+
+In \ccref{alg:optimal-sampling}, we first sample a standard normal gaussian matrix which can be considered as the oversampling vectors. These oversampling vectors are used to approximate the first singular vector. This is the first vector which is {\em adaptively} sampled. Next, we form the low-rank approximation $\mQ\mQ^{\T}\mA$ with the adaptive matrix vector query. From here, we adaptively query with the $k$th right singular value of the \textsc{SVD} of the the low rank approximation at iteration $k-1$. We believe this algorithm to be the closest to replicate the idea given in \ccref{rem:optimal-sampling}. 
+\section{Theory}
+In this section we will give the mathematical setup for the theoretical analysis. We will then represent theorems from relevant works on the error bounds for their low-rank approximation methods. We will then give our error bounds and general theory of \Ccref{alg:optimal-sampling} with the proofs in the appendix.
+\subsection{Setup.} \label{sec:theory-setup}
+We follow a similar setup as previous literature. Let $\rho \triangleq \rank(\mA) \leq m \land n$, we will factorize $\mA$ as
+\begin{equation} \label{eq:A-SVD}
+	\begin{aligned}
+    \mA &=	\hspace{0.5em}\begin{bNiceArray}[first-row]{cc}
+    			k & \rho-k\\
+    			\mU_k & \mU_{\rho - k}
+    		\end{bNiceArray}
+    		\begin{bNiceArray}[first-row]{cc}
+                 k & \rho-k \\
+                 \mSigma_k & \\
+                 & \mSigma_{\rho - k}
+                \end{bNiceArray}
+                \begin{bNiceArray}[last-col]{c}
+                    \mV_k^{\T} & k \\
+                    \mV_{\rho-k}^{\T} & \rho-k
+                \end{bNiceArray}
+            = \sum_{i=1}^{\rho}\sigma_i \vu_i \vv_i^{\T} = \sum_{i=1}^{\rho}\mU_{(i)}\mSigma_{(i)}\mV_{(i)}^{\T}
+	\end{aligned}
+\end{equation}
+Furthermore, we let $\mA_{(k)} \triangleq \sigma_k \vu_k \vv_k^{\T}$. 
+Let $\mOmega \in \mathbb{R}^{n \times \ell}$ be a test matrix where $\ell = k + p$ denotes the number of samples and $p$ is the oversampling parameter.
+\subsection{Previous Literature}
+We first restate the expected Frobenius error in the Low-Rank Approximation obtained by the Randomized SVD with data sampling from a central and uncorrelated Normal Distribution. 
+\begin{theorem}\cite{halko:2011}[Theorem 10.5] \label{thm:halko-frobenius}
+    Let $\mA \in \mathbb{R}^{m \times n}$, $k \geq 2$, oversampling parameter $p\geq 2$, where $k+p\leq m \land n$. Let $\mOmega \sim \mathcal{MN}\left(\vzero, \mI_{n\times n},\mI_{k+p\times k+p}\right)$, and $\mQ \triangleq \orth\left(\mA \mOmega\right)$.  Then,
+    \begin{equation}
+    	\mathbb{E}\norm{\mA - \left(\mQ\mQ^{\T}\mA\right)_k}_{\F} \leq \left(1 + \frac{k}{p-1}\right)^{1/2}\sqrt{\sum_{j=k+1}^n\sigma_j^2}
+    \end{equation}
+    \label{thm:hmt-frobenius-norm}
+\end{theorem}
+We will now restate the expected frobenius norm error in the Low-Rank Approximation obtained by the Randomized SVD with vector sampling from a central and correlated Normal Distribution.
+\begin{theorem}\cite{boulle:2022}[Theorem 2]
+	Under the same conditions as \ccref{thm:hmt-frobenius-norm}, except assume the columns of $\mOmega$ are sampled from $\mathcal{N}(\vzero,\mK)$. 
+	\begin{equation}
+		\mathbb{E}\norm{\mA - \left(\mQ\mQ^{\T} \mA\right)_k}_{\F}\leq \left(1 + \sqrt{\frac{\beta_k}{\gamma_k}\frac{(k+p)}{(p-1)}}\right)\sqrt{\sum_{j=k+1}^n\sigma_j^2}
+	\end{equation}
+	where $\gamma_k = \frac{k}{\lambda_1 \Tr\left(\left(\mV_1^{\T}\mK\mV_1\right)^{-1}\right)}$ and $ \beta_k = \frac{\Tr\left(\mSigma_2^2 \mV_2^{\T}\mK\mV_2\right)}{\lambda_1\norm{\mSigma_2}^{2}_{\F}}$.
+	\label{thm:bt-frobenius-norm}
+\end{theorem}
+In the literature, approximation error bounds on $\norm{\mA - \mQ\mQ^{\T}\mA}$ typically are of the form 
+\begin{equation}
+	\biggl(1 + \underbrace{\norm{\mSigma_{\rho-k}\left(\mV_{\rho-k}^{\T}\mOmega\right)\left(\mV_{k}^{\T}\mOmega\right)^{\dagger}}}_{\psi}\biggr)^{1/2}\norm{\mSigma_{\rho-k}}_{\F} \label{eq:literature-norm}
+\end{equation} See \ccref{thm:hmt-frobenius-norm,thm:bt-frobenius-norm} and \cite{boutsidis:2013,gittens:2013}. However, we find working with $\norm{(\mV_{k}^{\T}\mOmega)^{\dagger}}$ is difficult since this norm can be extremely large. The '$\psi$' term in \ccref{eq:literature-norm} has been studied w.r.t to Krylov sSubspaces in \cite{drineas:2018}. In \cite{drineas:2018}[Theorem 2.2], Drineas et al. find
+\begin{equation}
+	\psi \leq \norm{\tan\mTheta\left(\widetilde{\mV},\mV_k\right)}
+\end{equation}
+Since the $\tan$ function is unbounded, upper bounding $\psi$ is difficult and may not lead to strong bounds. 
+First we will introduce a lemma for the resultant vector of sampling from $\mC^{(k)}$.
+\begin{lemma} \label{lem:orthogonal-sampling-rsvd}
+	Let $\widehat{\mQ}_k\widehat{\mQ}_k \mA$ be the rSVD approximation for $\mA$. Then for $\vx \sim \mathcal{N}(\vzero, \widehat{\mV}_{(:,k)}\widehat{\mV}_{(:,k)}^{\T})$, it follows
+	\begin{equation}
+		\vx = \alpha \widehat{\mV}_{(:,k)},\quad \alpha \sim \mathcal{N}(0,1)
+	\end{equation}
+\end{lemma}
+\Ccref{lem:orthogonal-sampling-rsvd} follows due to the Cholesky Factorization of the Covariance Matrix. 
+Since our general proof technique will be an induction. We first want to understand how well we are able to approximate the first right singular vector. To do this, we must know the singular vector perturbation from the error of the low-rank matrix approximation. 
+With \ccref{thm:generalized-wedin}, we can now put bounds on the top right singular vector approximation by the Randomized SVD. 
+\subsection{Deterministic Results}
+First, we introduce a necessary result. 
+\begin{lemma} \label{lem:sum-of-sines}
+	Let $\mV_{\rho-k}$ be the last $\rho-k$ right singular vectors of $\mA$ and let $\widetilde{\mV}_k$ be the $k$ orthonormal adaptively sampled vectors, then 
+	\begin{equation}
+		\norm{\mV_{\rho-k}\widetilde{\mV}_k}_{\F} \leq \left(\sum_{i=1}^k \sin\Theta\left(\vv_i, \widetilde{\vv}_i\right)\right)^{1/2}
+	\end{equation}
+\end{lemma}
+Now, we will come to our main results. 
+\begin{lemma} \label{lem:A-tilde-rank-k-approximation}
+	Let $\mA$ have singular values $\sigma_1 \geq \ldots \geq \sigma_{m \lor n}$ and $\widetilde{\mA}_k$ be the rank-$k$ approximation from \Ccref{alg:optimal-sampling} with oversampling parameter $p$. Let $\mQ \triangleq \orth(\mA \mX) = \orth(\mA \left[\widetilde{\vv}_1 \quad \ldots \quad \widetilde{\vv}_k \right])$. Then, 
+	\begin{equation}
+		\begin{aligned}
+			\norm{\mA - \widetilde{\mQ}\widetilde{\mQ}^{\T}\mA}_{\F} 
+			\leq \left(\norm{\sin\mTheta(\mU_k,\widetilde{\mU})\mSigma_k}_{\F}^2 - \left(k-1\right)\norm{\mSigma_k}^2_{\F}\right)^{1/2} \\
+		\end{aligned}
+	\end{equation}
+\end{lemma}
+
+\begin{remark}
+	If we have a completely flat spectrum, then for any algorithm which produces orthonormal vectors of $\widetilde{\mV}$ will give an optimal approximation. 
+\end{remark}
+
+Now we are interested in the sines of the angles between the sampled vectors and the right singular vectors. 
+
+\begin{figure*}[t]
+	\makebox[\linewidth]{
+		\centering
+		\pgfplotsset{scaled y ticks=false}
+		\begin{tikzpicture}
+			\begin{groupplot}[group style={group size= 3 by 1},height=0.25\textheight,width=0.4\textwidth,xmin=1,xmax=244,
+				ymin=0.8,ymax=2.5,ymajorgrids=true,xmajorgrids=true,
+				grid style=densely dashed,restrict y to domain=0:10]
+				\nextgroupplot[title={Approximation Error / Best Error},xlabel={Number of Samples},legend to name={inverse-legend},{legend columns=4}]
+				\coordinate (c1) at (current axis.left of origin);
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/laplace-inverse-green.txt};\addlegendentry{Standard \cite{halko:2011}}
+				\addplot[color=prior,ultra thick]
+				table[x=x,y=prior,col sep=comma] {experiments/laplace-inverse-green.txt};\addlegendentry{Prior \cite{boulle:2022}}
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/laplace-inverse-green.txt};\addlegendentry{Bayes(ours)}
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/laplace-inverse-green.txt};\addlegendentry{Best}
+				\nextgroupplot[title={Approximation Error / Best Error},xlabel={Number of Samples},xmax=350,ymax=1.75]
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/inverse-poisson-2d.txt};
+				\addplot[color=prior,ultra thick]
+				table[x=x,y=prior,col sep=comma] {experiments/inverse-poisson-2d.txt};
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/inverse-poisson-2d.txt};
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/inverse-poisson-2d.txt};
+				\nextgroupplot[ymin=0,ymax=10,xmax=894,title=Approximation Error / Best Error ,xlabel={Number of Samples}]
+				\coordinate (c2) at (current axis.right of origin);
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/inverse-DK01R.txt};
+				\addplot[color=prior,ultra thick]
+				table[x=x,y=prior,col sep=comma] {experiments/inverse-DK01R.txt};
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/inverse-DK01R.txt};
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/inverse-DK01R.txt};
+			\end{groupplot}
+			\coordinate (c3) at ($(c1)!.5!(c2)$);
+			\node[below] at (c3 |- current bounding box.south)
+			{\pgfplotslegendfromname{inverse-legend}};	
+	\end{tikzpicture}}
+	\caption{Low Rank Approximation for the Inverse Differential Operator given in \Ccref{eq:inverse-laplace} \figleft, Differential Operator Matrix {\tt Poisson2D} \cite{davis:2011} \figcenter, and Differential Operator Matrix {\tt DK01R} \cite{davis:2011} \figright. The experiment on the left is from \cite{boulle:2022} (Figure 2).}
+	\label{fig:inverse-matrices}
+\end{figure*}
+\begin{figure*}[t]
+	\makebox[\linewidth]{
+		\centering
+		\pgfplotsset{scaled y ticks=false}
+		\begin{tikzpicture}
+			\begin{groupplot}[group style={group size= 3 by 1},height=0.25\textheight,width=0.4\textwidth,xmin=1,xmax=232,
+				ymin=0,ymax=10,ymajorgrids=true,xmajorgrids=true,
+				grid style=densely dashed,restrict y to domain=0:10]
+				\nextgroupplot[title={Approximation Error / Best Error},xlabel={Number of Samples},legend to name={forward-legend},{legend columns=3}]
+				\coordinate (c1) at (current axis.left of origin);
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/forward-saylr1.txt};\addlegendentry{Standard \cite{halko:2011}}
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/forward-saylr1.txt};\addlegendentry{Bayes(ours)}
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/forward-saylr1.txt};\addlegendentry{Best}
+				\nextgroupplot[title={Approximation Error / Best Error},xlabel={Number of Samples},xmax=674,ymax=4]
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/forward-fs-680-2.txt};
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/forward-fs-680-2.txt};
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/forward-fs-680-2.txt};
+				\nextgroupplot[ymin=0,ymax=10,xmax=759,title=Approximation Error / Best Error ,xlabel={Number of Samples}]
+				\coordinate (c2) at (current axis.right of origin);
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/forward-mcfe.txt};
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/forward-mcfe.txt};
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/forward-mcfe.txt};
+			\end{groupplot}
+			\coordinate (c3) at ($(c1)!.5!(c2)$);
+			\node[below] at (c3 |- current bounding box.south)
+			{\pgfplotslegendfromname{forward-legend}};	
+	\end{tikzpicture}}
+	\caption{Low Rank Approximation for a matrix for a Computational Fluid Dynamics Problem, \texttt{saylr1} \figleft from \cite{davis:2011}. Subsequent 2D/3D Problem \texttt{fs-680-2} \figcenter from \cite{davis:2011}. Astrophysics 2D/3D Problem \texttt{msfe} \figright from \cite{davis:2011}.}
+	\label{fig:forward-matrices}
+\end{figure*}
+
+\subsection{Expected Bounds}
+Now we will analyze the expected approximation error bounds. First, we want to know the effect of our choices of adaptively sampled vectors in $\widetilde{\mV}$ on the orthonormal basis $\mU$. 
+\begin{lemma} \label{lem:first-singular-vector-approximation-sin}
+	Let $p$ be our predetermined oversampling parameter, then let $\mOmega \in \mathbb{R}^{n \times p}$ be a standard gaussian matrix. Define $\mQ \triangleq \orth(\mA\mOmega)$, let $\widetilde{\vv}_1$ be the first singular vector of the approximation $\mQ\mQ^{\T}\mA$, then 
+	\begin{equation}
+		\sin\Theta\left(\vu_1,\widetilde{\vu}_1\right) = \left(1 + \left(\frac{\sigma_1^2\cos^2\Theta\left(\vv_1,\widetilde{\vv}_1\right)}{\sum_{i=2}^n \sigma_i^2\cos^2\Theta\left(\vv_i,\widetilde{\vv}_1\right)}\right)\right)^{-1/2}
+	\end{equation}
+	More generally, 
+	\begin{equation}
+		\sin\Theta\left(\vu_j,\widetilde{\vu}_1\right) = \left(1 + \left(\frac{\sigma_j^2\cos^2\Theta\left(\vv_j,\widetilde{\vv}_1\right)}{\sum_{i=1}^n \mathbbm{1}_{i \neq j} \sigma_i^2\cos^2\Theta\left(\vv_i,\widetilde{\vv}_1\right)}\right)\right)^{-1/2}
+	\end{equation}
+\end{lemma}
+The proof is deferred to $\S$ \ccref{sec:first-singular-vector-approximation-sin}. 
+We now have an upper bound that depends upon the spectral gap for the dominant left singular vector. This results motivates our analysis in \ccref{lem:kth-singular-vector-approximation-sin}. This bound is dependent on both the spectral gap and the spectral decay. When we have a flat spectrum, the denominator is minimized and our approximation of the left singular vector will be at it's worst. Now we will extend this lemma to the the $j$-th right singular vector. 
+\begin{lemma} \label{lem:kth-singular-vector-approximation-sin}
+	Consider the same setup in \ccref{lem:first-singular-vector-approximation-sin}, with $j-1$ vectors sampled as described in \Ccref{alg:optimal-sampling}, then 
+	\begin{equation}
+		\sin\Theta\left(\vu_j,\widetilde{\vu}_k\right) \leq \left(1 + \left(\frac{\sigma_j^2\cos^2\Theta\left(\vv_j,\widetilde{\vv}_k\right)}{\sum_{j=1}^\rho \sigma_j^2\cos^2\Theta\left(\vv_j,\widetilde{\vv}_i\right) + 2 \sigma_{i}(i-1)\cos\Theta\left(\vv_i,\widetilde{\vv}_i\right)\sum_{j=1}^{\rho}\sigma_j\cos\Theta\left(\vv_j,\widetilde{\vv}_i\right)}\right)\right)^{-1/2}
+	\end{equation}
+\end{lemma}
+The proof is deferred to $\S$ \ccref{sec:kth-singular-vector-approximation-sin}. Here we see we lose a little accuracy from \ccref{lem:first-singular-vector-approximation-sin}. Note in \ccref{lem:first-singular-vector-approximation-sin,lem:kth-singular-vector-approximation-sin}, as $\cos\Theta\left(\vv_j,\widetilde{\vv}_k\right) \to 1$, then $\sin\Theta\left(\vu_j,\widetilde{\vu}_k\right) \to 0$. 
+Now we will introduce the most important theorem of our work. From the result in \ccref{lem:kth-singular-vector-approximation-sin}, we actually see our results will be best when there is a flatter spectrum. From \ccref{lem:first-singular-vector-approximation-sin}, we now have an idea on the effect of sampling the eigenvector approximations. 
+\begin{lemma} \label{lem:first-right-singular-vector-approximation-sin}
+		Let $p$ be our predetermined oversampling parameter, then let $\mOmega \in \mathbb{R}^{n \times p}$ be a standard gaussian matrix. Define $\mQ \triangleq \orth(\mA\mOmega)$, let $\widetilde{\vv}_1$ be the first singular vector of the approximation $\mQ\mQ^{\T}\mA$, then 
+	\begin{equation}
+		\begin{aligned}
+			\mathbb{E}\sin\Theta\left(\vv_1,\widetilde{\vv}_1\right) &\leq \left(\frac{\sigma_2}{\sigma_1}\right)\left(1 + \left(\frac{\sqrt{n}+\sqrt{p}}{p-1}\right)^{1/2}\right)
+		\end{aligned}
+	\end{equation}
+\end{lemma}
+\begin{lemma} \label{lem:kth-right-singular-vector-approximation-sin}
+	Consider the same setup in \ccref{lem:first-right-singular-vector-approximation-sin}, with $j-1$ vectors sampled as described in \Ccref{alg:optimal-sampling}, then 
+	\begin{equation}
+		\sin \Theta\left(\vv_j,\widetilde{\vv}_j\right) \leq \Xi
+	\end{equation}
+\end{lemma}
+We will connect this together with the error bounds of sampling $k$ right singular vector  approximations. 
+With \ccref{lem:A-tilde-rank-k-approximation} and \ccref{lem:first-singular-vector-approximation-sin}, we have the following theorem. 
+\begin{theorem} \label{thm:expected-frobenius-error}
+	Let $\mA \in \mathbb{R}^{m \times n}$, $k \geq 2$, oversampling parameter $p \geq 2$, where $k + p \leq m \land n$. Let $\widetilde{\mA}_k$ be the matrix returned by \Ccref{alg:optimal-sampling}. Then, 
+	\begin{equation}
+		\begin{aligned}
+		&\mathbb{E}\norm{\mA - \widetilde{\mA}_k}_{\F} \leq \sum_{i=1}^n \sigma_i^2\left(\sum_{j=1}^k\left(1 + \left(\frac{\sigma_1^2\cos^2\Theta\left(\vv_j,\widetilde{\vv}_k\right)}{\sum_{i=1}^n \mathbbm{1}_{i \neq j}\sigma_i^2\cos^2\Theta\left(\vv_i,\widetilde{\vv}_k\right)}\right)\right)^{-1/2} -(k-1)\right)
+		\end{aligned}
+	\end{equation}
+\end{theorem}
+{\bf Proof.}
+This theorem follows from the induction formed in \ccref{lem:first-singular-vector-approximation-sin} and \ccref{lem:kth-singular-vector-approximation-sin} and plugging this in to \ccref{lem:A-tilde-rank-k-approximation}. \hfill $\blacksquare$
+
+\subsection{Probabilistic Bounds}
+\begin{lemma} \label{lem:first-right-singular-vector-approximation-sin-prop}
+	Let $p$ be our predetermined oversampling parameter, then let $\mOmega \in \mathbb{R}^{n \times p}$ be a standard gaussian matrix. Define $\mQ \triangleq \orth(\mA\mOmega)$, let $\widetilde{\vv}_1$ be the first singular vector of the approximation $\mQ\mQ^{\T}\mA$, then 
+	\begin{equation}
+		\begin{aligned}
+			\mathbb{P}\left\{\sin\Theta\left(\vv_1,\widetilde{\vv}_1\right) \leq t\cdot\left(\frac{\sigma_2}{\sigma_1}\right)\left(1 + \left(\frac{\sqrt{n}+\sqrt{p}}{p-1}\right)^{1/2}\right)\right\} \leq \frac{1}{t}
+		\end{aligned}
+	\end{equation}
+\end{lemma}
+\begin{corollary} \label{cor:worst-case-frobenius-error}
+	Let $\mA \in \mathbb{R}^{m \times n}$, $k \geq 2$, oversampling parameter $p \geq 2$, where $k + p \leq m \land n$. Let $\widetilde{\mA}_k$ be the matrix returned by \Ccref{alg:optimal-sampling}. Then, 
+	\begin{equation}
+		\begin{aligned}
+			\norm{\mA - \widetilde{\mA}_k}_{\F} &\leq
+		\end{aligned}
+	\end{equation}
+\end{corollary} 
+{\bf Proof. }This follows from a simple upper bound on the multiplicative term on $\sigma_{k+1}$ in \ccref{lem:A-tilde-rank-k-approximation} by using the fact $\sin\Theta(\vx,\vy) \leq 1$ for all $\vx, \vy$. \hfill $\blacksquare$ 
+
+\section{Numerical Experiments}
+In this section we will test various Synthetic Matrices, Differential Operators, Images, and real-world applications, with our framework compared to fixed covariance matrices.
+In our first experiment we attempt to to learn the discretized $250 \times 250$ matrix of the inverse of the following differential operator:
+\begin{equation} \label{eq:inverse-laplace}
+    \mathcal{L}u = \frac{\partial^2 u}{\partial x^2} - 100 \sin\left(5\pi x\right)u,\qquad x \in \left[0,1\right]
+\end{equation}
+Learning the inverse operator of a PDE is equivalent to learning the Green's Function of a PDE. This has been theoretically proven for certain classes of PDEs (Linear Parabolic \cite{boulle:2022c,boulle:2023}) as the inverse Differential operator is compact and there are nice theoretical properties, such as data efficiency. 
+
+In \Ccref{fig:inverse-matrices}\figright,
+note if the Covariance Matrix has eigenvectors orthogonal to the left singular vectors of $\mA$, then the randomized SVD will not perform well. Furthermore, in \ccref{fig:inverse-matrices}\figleft, we can note even without knowledge of the Green's Function, our method achieves lower error than with the Prior Covariance. We also test our algorithm against various Sparse Matrices in the Texas A\& M Sparse Matrix Suite, \cite{davis:2011}. In \ccref{fig:forward-matrices} \figleft, we choose a fluid dynamics problem due to its relevance in low-rank approximation \cite{brunton:2020}. The synthetic matrix is developed in the following scheme:
+\begin{equation} \label{eq:synthetic-matrix}
+	\mA = \sum_{i=1}^{\rho} \frac{100i^{\ell}}{n}\mU_{(:,i)}\mV_{(i,:)}^{\T},\quad \mU \in \mathbb{O}_{m,k}, \mV \in \mathbb{O}_{n,k}
+\end{equation}
+We find our theoretical bounds stronger than \ccref{thm:hmt-frobenius-norm}.
+%\FloatBarrier
+\section{Conclusions}
+We have theoretically and empirically analyzed a novel Covariance Update to iteratively construct the sampling matrix, $\mOmega$ in the Randomized SVD algorithm. Our covariance update for generating sampling vectors and functions can find use various PDE learning applications, \cite{boulle:2022b,brunton:2020}. Numerical Experiments indicate without prior knowledge of the matrix, we are able to obtain superior performance to the Randomized SVD and generalized Randomized SVD with covariance matrix utilizing prior information of the PDE. Theoretically, we provide an analysis of our update extended to $k$-steps and show in expectation, under certain singular value decay conditions, we obtain better performance expectation.
+
+\FloatBarrier
+\section*{Acknowledgments}
+We thank mentors Christopher Wang and Nicolas Boullé and supervisor Alex Townsend for the idea of extending Adaptive Sampling for the Matrix-Vector Product Model and the numerous helpful discussions leading to the formulation of the algorithm and the development of the theory.
+
+
+\bibliography{references}
+\bibliographystyle{plainnat}
+\clearpage
+
+%\onecolumn
+%\startcontents[sections]
+%\printcontents[sections]{l}{1}{\setcounter{tocdepth}{2}}
+%\clearpage
+\appendix
+\section{Deferred Proofs of Main Results}
+
+\subsection{Proof of \Ccref{lem:sum-of-sines}}
+Let $\widetilde{\mV}_k$ be the orthonormal basis for the adaptively sampled vectors. 
+\begin{align}
+	\zeta_1 &\triangleq \norm{\mV_{\rho-k}^{\T}\widetilde{\mV}}_{\F} = \left(\sum_{i=1}^k \sum_{j=k+1}^\rho \norm{\widetilde{\vv}_i^{\T}\vv_j}^2\right)^{1/2} = \left(\sum_{i=1}^k \sum_{j=1}^{n}\norm{\widetilde{\vv}_i^{\T}\vv_j}^2 - \sum_{i=1}^k \sum_{j=1}^k \norm{\widetilde{\vv}_i^{\T}\vv_j}^2\right)^{1/2} &&\\
+	&= \left(\sum_{i=1}^k \sum_{j=1}^{n}\mathbbm{1}_{i\neq j}\norm{\widetilde{\vv}_i^{\T}\vv_j}^2 - \sum_{i=1}^k \sum_{j=1}^k \norm{\widetilde{\vv}_i^{\T}\vv_j}^2 + \sum_{i=1}^k \norm{\widetilde{\vv}_i^{\T}\vv_j}^2\right)^{1/2} &&\\
+	&= \left(\left(\sum_{i=1}^k \sin^2\Theta\left(\vv_i, \widetilde{\vv}_i\right) + \cos^2\Theta\left(\vv_i, \widetilde{\vv}_i\right)\right) - \sum_{i=1}^k \sum_{j=1}^k \norm{\widetilde{\vv}_i^{\T}\vv_j}^2\right)^{1/2} &&\\
+	&= \left(k - \sum_{i=1}^k\sum_{j=1}^k\norm{\widetilde{\vv}_i^{\T}\vv_j}^2\right)^{1/2} = \left(k - \sum_{i=1}^k\norm{\widetilde{\vv}_i^{\T}\vv_i}^2 - \sum_{i=1}^k\sum_{j=1}^k \mathbbm{1}_{i\neq j}\norm{\widetilde{\vv}_i^{\T}\vv_j}^2\right)^{1/2} &&\\
+	&= \biggl(\sum_{i=1}^k \sin^2\Theta\left(\vv_i, \widetilde{\vv}_i\right) - \underbrace{\sum_{i=1}^k\sum_{j=1}^k \mathbbm{1}_{i\neq j}\norm{\widetilde{\vv}_i^{\T}\vv_j}^2}_{\beta}\biggr)^{1/2} \leq \left(\sum_{i=1}^k \sin^2\Theta \left(\vv_i, \widetilde{\vv}_i\right)\right)^{1/2} \label{eq:gamma-upper-bound}&&
+\end{align} Here we have the desired result. \hfill $\blacksquare$\\
+In \Ccref{eq:gamma-upper-bound}, when we use the approximation below, we lose the $\beta$ term, is there any way to lower bound it? 
+
+\subsection{Proof of \Ccref{lem:A-tilde-rank-k-approximation}}
+{\bf Proof.} We will utilize the fact that when working with projection we do not have to account for the orthogonalization of the sampled vectors from the previous eigenvector approximations. First, we define $\widetilde{\mU} \triangleq \orth(\mA \widetilde{\mV})$. 
+\begin{equation} \label{eq:xi-1-xi-2}
+	\norm{\mA - \widetilde{\mA}_k}_{\F} \triangleq \underbrace{\norm{\mA - \widetilde{\mU}\widetilde{\mU}^{\T}\mA}_{\F}}_{\xi_1}
+\end{equation}
+We will upper bound the square. 
+\begin{align}
+	\norm{\mA - \widetilde{\mU}\widetilde{\mU}^{\T}\mA}_{\F}^2 &= \Tr\left(\mA^{\T}\mA - \mA^{\T} \widetilde{\mU}\widetilde{\mU}^{\T}\mA - \mA^{\T} \widetilde{\mU}\widetilde{\mU}^{\T}\mA + \mA^{\T} \widetilde{\mU}\widetilde{\mU}^{\T}\widetilde{\mU}\widetilde{\mU}^{\T}\mA\right) &&\\
+	&= \Tr\left(\mA^{\T}\mA - \mA^{\T} \widetilde{\mU}\widetilde{\mU}^{\T}\mA - \mA^{\T} \widetilde{\mU}\widetilde{\mU}^{\T}\mA + \mA^{\T} \widetilde{\mU}\widetilde{\mU}^{\T}\mA\right) &&\\
+	&= \norm{\mA}^2_{\F} - \norm{\widetilde{\mU}^{\T}\mA}_{\F}^2 = \norm{\mSigma}_{\F}^2 - \Tr\left(\widetilde{\mU}^{\T}\mU\mSigma\mV^{\T}\mV\mSigma\mU^{\T}\widetilde{\mU}\right) &&\\
+	&= \norm{\mSigma}_{\F}^2 - \norm{\widetilde{\mU}^{\T}\mU\mSigma}_{\F}^2 = \sum_{i=1}^n \sigma_i^2 - \sum_{i=1}^n\sigma_i^2\sum_{j=1}^k\cos^2\Theta\left(\vu_i,\widetilde{\vu}_j\right) &&\\
+	&= \sum_{i=1}^n \sigma_i^2\left( 1 - \sum_{j=1}^k \cos^2\Theta\left(\vu_i, \widetilde{\vu}_j\right)\right) = \sum_{i=1}^n \sigma_i^2\left(1 - \norm{\cos\mTheta\left(\mU_{(i)}, \widetilde{\mU}_{k}\right)}_{\F}^2\right) &&\\
+	\overset{\ccshref{lem:sine-cosine-relation}}&{=} \sum_{i=1}^n \sigma_i^2 \left(\norm{\sin\mTheta\left(\mU_{(i)}, \widetilde{\mU}_{k}\right)}_{\F}^2-\frac{k-1}{2}\right) &&\\
+	&= \sum_{i=1}^n \frac{\sigma_i^2}{2}\biggl(\underbrace{\norm{\widetilde{\mU}_{k}\widetilde{\mU}_{k}^{\T} - \mU_{(i)}\mU_{(i)}^{\T}}_{\F}^2}_{\xi_1}-(k-1)\biggr)&&
+\end{align}
+We will now upper bound $\xi_1$ with respect to the sines of the angles between the sampled vectors and true right singular vectors.
+
+\iffalse
+\begin{figure*}[!b]
+	\makebox[\linewidth][c]{
+		\pgfplotsset{scaled y ticks=false}
+		\begin{tikzpicture}
+			\begin{groupplot}[group style={group size=3 by 1},height=0.25\textheight,width=0.4\textwidth,xmin=0,xmax=244,
+				ymin=-8,ymax=1,ymajorgrids=true,
+				grid style=densely dashed,xmajorgrids=true,xminorgrids=true,yminorgrids=true]
+				\nextgroupplot[title={log(Error)},xlabel={Number of Samples},ymin=-10,ymax=-1,xmax=174]
+				\coordinate (c1) at (current axis.left of origin);
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/mona-lisa-theory.txt};
+				\addplot[densely dashed,color=bayes,thick]
+				table[x=x,y=theory,col sep=comma] {experiments/mona-lisa-theory.txt};
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/mona-lisa-theory.txt};
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/mona-lisa-theory.txt};
+				\nextgroupplot[title={log(Error)},xlabel={Number of Samples},legend to name={theory-ratio-legend},{legend columns=4},y=-6,ymax=2]
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/synthetic-theory-1.txt};\addlegendentry{Standard}
+				\addplot[densely dashed,color=bayes,thick]
+				table[x=x,y=theory,col sep=comma] {experiments/synthetic-theory-1.txt};\addlegendentry{Upper Bound \Ccref{eq:rank-k-approximation-sin}}
+				\addplot[color=bayes,ultra thick]			table[x=x,y=bayes,col sep=comma] {experiments/synthetic-theory-1.txt};\addlegendentry{Bayes}
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/synthetic-theory-1.txt};\addlegendentry{Best}
+				\nextgroupplot[title=log(Error),xlabel={Number of Samples},ymin=-8,ymax=2]
+				\coordinate (c2) at (current axis.right of origin);% I moved this to the upper right corner
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/synthetic-theory-2.txt};
+				\addplot[densely dashed,color=bayes,thick]
+				table[x=x,y=theory,col sep=comma] {experiments/synthetic-theory-2.txt};
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/synthetic-theory-2.txt};
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/synthetic-theory-2.txt};
+			\end{groupplot}
+			\coordinate (c3) at ($(c1)!.5!(c2)$);
+			\node[below] at (c3 |- current bounding box.south)
+			{\pgfplotslegendfromname{theory-ratio-legend}};	
+	\end{tikzpicture}}
+	\caption{Low Rank Approximation Error Ratios for the Synthetic Matrix described in \ccref{eq:synthetic-matrix} with $\ell = 1$ \figcenter and $\ell = 2$ \figright and Mona Lisa image \figleft. Upper bound is given in \ccref{eq:rank-k-approximation-sin}.}
+	\label{fig:synthetic-upper-bound}
+\end{figure*}
+\fi
+
+\hfill $\blacksquare$
+\subsection{Proof of \Ccref{lem:first-singular-vector-approximation-sin}} \label{sec:first-singular-vector-approximation-sin}
+{\bf Proof.}
+Let $\widehat{\mA}_1$ be the approximation obtained by $(\mQ\mQ^{\T}\mA)_1$ where $\mQ$ is obtained by $\orth\left(\mA \mOmega\right)$ and $\mOmega \in \mathbb{R}^{n \times p}$ is a standard gaussian matrix. It is important all our sine bounds are less than $1$ or they will not be useful. We will first convert this bound into a bound w.r.t. $\vv_1$ and $\widetilde{\vv}_1$. 
+\begin{align}
+	\sin^2\Theta\left(\vu_1,\widetilde{\vu}_1\right) \overset{\ccshref{eq:sin-identity}}&{=} \frac{\norm{\mU_{\perp,1}^{\T}\mA\widetilde{\vv}_1}_{\F}^2}{\norm{\mA\widetilde{\vv}_1}_{\F}^2} =  \frac{\norm{\mU_{\perp,1}^{\T}\mA\widetilde{\vv}_1}_{\F}^2}{\norm{\mU^{\T}\mA\widetilde{\vv}_1}_{\F}^2} =  \frac{\norm{\mU_{\perp,1}^{\T}\mA\widetilde{\vv}_1}_{\F}^2}{\norm{\mU_{\perp,1}^{\T}\mA\widetilde{\vv}_1}^2_{\F} + \norm{\mU_1^{\T}\mA\widetilde{\vv}_1}^2_{\F}} \label{eq:sin-u-denominator}&&\\
+	&= \left(1 + \left(\frac{\left.\norm{\mU_1^{\T}\mA\widetilde{\vv}_1}_{\F}\right\}\mu_1}{\left.\norm{\mU_{\perp,1}^{\T}\mA\widetilde{\vv}_1}_{\F}\right\}\mu_2}\right)^2\right)^{-1} &&
+\end{align}
+We now lower bound $\mu_1$ and upper bound $\mu_2$.
+\begin{equation}
+	\mu_1 \triangleq \norm{\mU_1^{\T}\mA\widetilde{\vv}_1} = \norm{\mSigma_1\mV_1^{\T}\widetilde{\vv}_1} = \sigma_1 \cos\Theta\left(\vv_1,\widetilde{\vv}_1\right)
+\end{equation}
+\begin{equation}
+	\mu_2 \triangleq \norm{\mU_{\perp,1}^{\T}\mA\widetilde{\vv}_1} = \norm{\mSigma_{\perp,1}\mV^{\T}_{\perp,1}\widetilde{\vv}_1} = \left(\sum_{i=2}^n \sigma_i^2 \cos^2\Theta\left(\vv_i, \widetilde{\vv}_1\right)\right)^{1/2}
+\end{equation}
+The denominator in \eqref{eq:sin-u-denominator} is a result of the Matrix Pythagoras theorem. \\
+Plugging this back into \ccref{eq:sin-u-denominator}, we have
+\begin{equation}
+	\sin\Theta\left(\vu_1,\widetilde{\vu}_1\right) = \left(1 + \left(\frac{\sigma_1^2\cos^2\Theta\left(\vv_1,\widetilde{\vv}_1\right)}{\sum_{i=2}^n \sigma_i^2\cos^2\Theta\left(\vv_i,\widetilde{\vv}_1\right)}\right)\right)^{-1/2}
+	\label{eq:sin-u-upper-bound}
+\end{equation}
+More generally, 
+\begin{equation}
+	\sin\Theta\left(\vu_j,\widetilde{\vu}_1\right) = \left(1 + \left(\frac{\sigma_j^2\cos^2\Theta\left(\vv_j,\widetilde{\vv}_1\right)}{\sum_{i=1}^n \mathbbm{1}_{i \neq j} \sigma_i^2\cos^2\Theta\left(\vv_i,\widetilde{\vv}_1\right)}\right)\right)^{-1/2}
+	\label{eq:sin-u-upper-bound-general}
+\end{equation}
+We now have a relation dependent only on the angles between the adaptively sampled vectors and the right singular vectors. This completes the proof.
+\hfill $\blacksquare$
+
+\subsection{Proof of \Ccref{lem:kth-singular-vector-approximation-sin}}
+\label{sec:kth-singular-vector-approximation-sin}
+{\bf Proof. }We must now handle the orthogonalization of $\widetilde{\mU}$. 
+\begin{align}
+	\sin^2\Theta\left(\vu_i,\widetilde{\vu}_i\right) \overset{\ccshref{eq:sin-identity}}&{=} \frac{\norm{\mU_{\perp,i}^{\T}\orth\left(\mA\widetilde{\vv}_i\right)}^2_{\F}}{\norm{\mU_{\perp,i}^{\T}\orth\left(\mA\widetilde{\vv}_i\right)}^2_{\F}+\norm{\mU_{(i)}^{\T}\orth\left(\mA\widetilde{\vv}_i\right)}^2_{\F}} &&\\
+	&= \left(1 + \frac{\left.\norm{\mU_{(i)}^{\T}\orth\left(\mA\widetilde{\vv}_i\right)}^2_{\F}\right\}\mu_1}{\left.\norm{\mU_{\perp,i}^{\T}\orth\left(\mA\widetilde{\vv}_i\right)}^2_{\F}\right\}\mu_2}\right)^{-1} &&
+\end{align}
+
+First, we will lower bound $\mu_1$. 
+\begin{align}
+	\sqrt{\mu_1} &\triangleq \norm{\mU_{(i)}^{\T}\orth(\mA\widetilde{\vv}_i)}_{\F} =  \norm{\mU_{(i)}^{\T}\left(\mA\widetilde{\vv}_i - \sum_{j=1}^{i-1} \frac{\left(\mA\widetilde{\vv}_i\right)^{\T}\left(\widetilde{\vu}_j\right)}{\norm{\vu_j}^2}\widetilde{\vu}_j\right)}_{\F} &&\\
+	&= \norm{\mSigma_{(i)}\mV_{(i)}^{\T}\widetilde{\vv}_i- \sum_{j=1}^{i-1}\frac{\left(\mA\widetilde{\vv}_i\right)^{\T}\widetilde{\vu}_j}{\norm{\widetilde{\vu}_j}^2}\left(\mU_{(i)}^{\T}\widetilde{\vu}_{j}\right)}_{\F}&&\\
+	&\geq \norm{\mSigma_{(i)}\mV_{(i)}^{\T}\widetilde{\vv}_i}_{\F} - \sum_{j=1}^{i-1}\norm{\frac{\left(\mA\widetilde{\vv}_i\right)^{\T}\widetilde{\vu}_j}{\norm{\widetilde{\vu}_j}^2}\left(\mU_{(i)}^{\T}\widetilde{\vu}_{j}\right)}_{\F}&&\\
+	&\geq \norm{\mSigma_{(i)}\mV_{(i)}^{\T}\widetilde{\vv}_i}_{\F} - \sum_{j=1}^{i-1}\norm{\mA\widetilde{\vv}_i}_{\F}&&
+\end{align}
+Now let us consider the square. 
+\begin{align}
+	\mu_1 &\geq \norm{\mSigma_{(i)}\mV_{(i)}^{\T}\widetilde{\vv}_i}_{\F}^2 - 2(i-1)\norm{\mSigma_{(i)}\mV_{(i)}^{\T}\widetilde{\vv}_i}_{\F}\norm{\mA\widetilde{\vv}_i}_{\F} + (i-1)^2\norm{\mA\widetilde{\vv}_i}^2_{\F} &&\\
+	&= \sigma_i^2 \cos^2\Theta\left(\vv_i,\widetilde{\vv}_i\right) - 2(i-1)\sigma_i\cos\Theta\left(\vv_i,\widetilde{\vv}_i\right)\norm{\mA\widetilde{\vv}_i}_{\F} + (i-1)^2\norm{\mA\widetilde{\vv}_i}_{\F}^2 &&\\
+	\overset{(a)}&{\geq} \sigma_i^2 \cos^2\Theta\left(\vv_i,\widetilde{\vv}_i\right)&&
+\end{align}
+(a) follows if $(i-1)\norm{\mA\widetilde{\vv}_i} \geq 2\sigma_i\cos\Theta(\vv_i,\widetilde{\vv}_i)$, which is true. Now we will analyze $\mu_2$. 
+\begin{align}	
+	\mu_2 &\triangleq \norm{\mU_{\perp,i}^{\T}\orth(\mA\widetilde{\vv}_i)}^2 &&\\
+	&= \norm{\mU^{\T}\left(\mA\widetilde{\vv}_i - \sum_{j=1}^{i-1} \frac{\left(\mA\widetilde{\vv}_i\right)^{\T}\left(\widetilde{\vu}_j\right)}{\norm{\widetilde{\vu}_j}^2}\widetilde{\vu}_j\right)}_{\F}^2 - \norm{\mU_{(i)}^{\T}\left(\mA\widetilde{\vv}_i - \sum_{j=1}^{i-1} \frac{\left(\mA\widetilde{\vv}_i\right)^{\T}\left(\widetilde{\vu}_j\right)}{\norm{\widetilde{\vu}_j}^2}\widetilde{\vu}_j\right)}_{\F}^2 &&\\
+	&= \norm{\mA\widetilde{\vv}_i - \sum_{j=1}^{i-1} \frac{\left(\mA\widetilde{\vv}_i\right)^{\T}\left(\widetilde{\vu}_j\right)}{\norm{\widetilde{\vu}_j}^2}\widetilde{\vu}_j}_{\F}^2 - \norm{\mSigma_{(i)}\mV_{(i)}^{\T}\widetilde{\vv}_i - \sum_{j=1}^{i-1}\frac{\left(\mA\widetilde{\vv}_i\right)^{\T}\left(\widetilde{\vu}_j\right)}{\norm{\widetilde{\vu}_j}^2}\mU_{(i)}^{\T}\widetilde{\vu}_j}_{\F}^2&&\\
+	\overset{(a)}&\leq \norm{\mA\widetilde{\vv}_i}_{\F}^2 + 2\norm{\mSigma_{(i)}\mV_{(i)}^{\T}\widetilde{\vv}_i}_{\F}\norm{\sum_{j=1}^{i-1}\frac{\left(\mA\widetilde{\vv}_i\right)^{\T}\left(\widetilde{\vu}_j\right)}{\norm{\widetilde{\vu}_j}^2}\mU_{(i)}^{\T}\widetilde{\vu}_j}_{\F}&&\\
+	&= \sum_{j=1}^\rho \sigma_j^2\cos^2\Theta\left(\vv_j,\widetilde{\vv}_i\right) + 2 \sigma_{i}(i-1)\cos\Theta\left(\vv_i,\widetilde{\vv}_i\right)\sum_{j=1}^{\rho}\sigma_j\cos\Theta\left(\vv_j,\widetilde{\vv}_i\right)&&
+\end{align}
+In our analysis of $\mu_2$, we make the realization in (a) the Gram-Schmidt Orthogonalization \cite{schmidt:1907}, the norm of the orthogonalized vector will be less than the original vector due to the subtraction of the projections and for all $j$ we have $\norm{\widetilde{\vv}_i} = \norm{\widetilde{\vv}_j} = 1$. 
+We thus have, 
+\begin{equation}
+	\sin\Theta\left(\vu_j,\widetilde{\vu}_k\right) \leq \left(1 + \left(\frac{\sigma_j^2\cos^2\Theta\left(\vv_j,\widetilde{\vv}_k\right)}{\sum_{j=1}^\rho \sigma_j^2\cos^2\Theta\left(\vv_j,\widetilde{\vv}_i\right) + 2 \sigma_{i}(i-1)\cos\Theta\left(\vv_i,\widetilde{\vv}_i\right)\sum_{j=1}^{\rho}\sigma_j\cos\Theta\left(\vv_j,\widetilde{\vv}_i\right)}\right)\right)^{-1/2}
+\end{equation}
+This completes the proof.
+\hfill $\blacksquare$
+
+\subsection{Proof of Lemma \ref{lem:first-right-singular-vector-approximation-sin}}
+{\bf Proof.}
+\begin{align}
+	\sin\Theta\left(\vv_1,\widetilde{\vv}_1\right) \overset{\cshref{thm:modified-wedin}}&{\leq} \frac{\norm{\mA_1 - \llbracket\mQ\mQ^{\T}\mA\rrbracket_1}}{\sigma_1} &&\\
+	&= \frac{\norm{\mA_1 - \mQ\mQ^{\T}\mA_1 +\mQ\mQ^{\T}\mA_1 - \llbracket\mQ\mQ^{\T}\mA\rrbracket_1}}{\sigma_1} &&\\
+	&\leq \frac{\norm{\mA_1 - \mQ\mQ^{\T}\mA_1} + \norm{\mQ\mQ^{\T}\mA_1 - \llbracket\mQ\mQ^{\T}\mA\rrbracket_1}}{\sigma_1} &&\\
+	&\leq \frac{\overbrace{\norm{\left(\mI - \Pi_{\mY}\right)\mA_1}}^{\circled{1}} + \norm{\llbracket\mQ\mQ^{\T}\mA\rrbracket_{\perp,1}}}{\sigma_1} &&
+\end{align}
+Now we will upper bound $\circled{1}$ with standard theory. 
+\begin{align}
+	\circled{1} &= \norm{\mA_1 - \left(\mA\mOmega\right)\left(\mA\mOmega\right)^{\dagger}\mA_1} \overset{\Cshref{lem:boutsidis-5.3}}{\leq} \norm{\mA_1 - \mA\mOmega \left(\mV_1^{\T}\mOmega\right)^{\dagger}\mV_1^{\T}}&&\\
+	&= \norm{\mA_{\rho-1}\mOmega\left(\mV_1^{\T}\mOmega\right)^{\dagger}\mV_1^{\T}}&&
+\end{align}
+In expectation, 
+\begin{align}
+	\mathbb{E}\norm{\mA_{\rho-1}\mOmega\left(\mV_1^{\T}\mOmega\right)^{\dagger}\mV_1^{\T}} &\leq \norm{\mSigma_{\rho-1}} \mathbb{E}\norm{\mV_{\rho-1}^{\T}\mOmega\left(\mV_1^{\T}\mOmega\right)^{\dagger}} &&\\
+	\overset{\mathrm{Cauchy-Scwharz}}&{\leq} \sigma_2 \left(\mathbb{E}\norm{\mV_{\rho-1}^{\T}\mOmega}^2 \mathbb{E}\norm{\left(\mV_1^{\T}\mOmega\right)^{\dagger}}^2\right)^{1/2} &&\\
+	&\leq \sigma_2 \left(\mathbb{E}\norm{\mV_{\rho-1}^{\T}\mOmega}^2\left(\frac{1}{p-1}\right)\right)^{1/2} &&\\
+	\overset{\cshref{lem:gaussian-projection-spectral-square}}&{\leq} \sigma_2\left(\frac{\sqrt{n}+\sqrt{p}}{p-1}\right)^{1/2} &&
+\end{align}
+We thus have 
+\begin{equation}
+	\mathbb{E}\sin\Theta\left(\vv_1,\widetilde{\vv}_1\right) \leq \sigma_2\left(1 + \left(\frac{\sqrt{n}+\sqrt{p}}{p-1}\right)^{1/2}\right)
+\end{equation}
+\hfill $\blacksquare$
+
+\subsection{Proof of Lemma \ref{lem:kth-right-singular-vector-approximation-sin}}
+{\bf Proof.}
+We will use Wedin's Theorem \cite{wedin:1972}. 
+
+\hfill $\blacksquare$
+
+\clearpage
+\section{Singular Subspace Perturbation Lemmas}
+\begin{lemma} \label{lem:sine-vector-difference}
+	Let $\vv$ and $\widetilde{\vv}$ be vectors s.t. $\norm{\vv} = \norm{\widetilde{\vv}} = 1$ and $\vv^{\T}\widetilde{\vv} \geq 0$. Then,
+	\begin{equation}
+		\norm{\vv - \widetilde{\vv}} \leq \sqrt{2}\sin\Theta\left(\vv,\widetilde{\vv}\right)
+	\end{equation}
+\end{lemma}
+\noindent{\bf Proof. }
+\begin{equation}
+	\sin^2\Theta\left(\vv,\widetilde{\vv}\right) = 1 - \left(\vv^{\T}\widetilde{\vv}\right)^2 \overset{(a)}{\geq} 1 - \vv^{\T}\widetilde{\vv} = 1 + \frac{1}{2}\norm{\vv - \widetilde{\vv}}^2 - \frac{1}{2} \norm{\vv}^2 - \frac{1}{2}\norm{\widetilde{\vv}}^2 = \frac{1}{2}\norm{\vv - \widetilde{\vv}}^2
+\end{equation}
+(a) follows from $0 \leq \vv^{\T}\widetilde{\vv} \leq 1$, therefore $\vv^{\T}\widetilde{\vv} \geq \left(\vv^{\T}\widetilde{\vv}\right)^2$. \\
+Plugging this back into the first inequality and taking the square root gives us the desired result.
+\hfill $\blacksquare$
+\begin{lemma} \label{lem:sine-cosine-relation}
+	Let $\mP$ and $\mQ$ be projection matrices s.t. $\mP \triangleq \mU\mU^{\dagger}$ and $\mQ \triangleq \mV\mV^{\dagger}$, then
+	\begin{equation}
+		\norm{\cos\mTheta\left(\mU,\mV\right)}_{\F}^2 = \frac{\rank(\mU)+\rank(\mV)}{2} - \norm{\sin\mTheta\left(\mU,\mV\right)}_{\F}^2 
+	\end{equation}
+\end{lemma}
+\noindent{\bf Proof.}
+\begin{align}
+	\norm{\sin\mTheta\left(\mU,\mV\right)}_{\F}^2 &= \frac{1}{2}\norm{\Pi_{\mU}-\Pi_{\mV}}_{\F}^2 = \frac{1}{2}\Tr\left(\Pi_{\mU}^{\T}\Pi_{\mU} - \Pi_{\mU}^{\T}\Pi_{\mV} - \Pi_{\mV}^{\T}\Pi_{\mU} + \Pi_{\mV}^{\T}\Pi_{\mV}\right) &&\\
+	&= \frac{1}{2}\left(\rank(\mU) + \rank(\mV) - 2\Tr\left(\Pi_{\mU}^{\T}\Pi_{\mV}\right)\right) &&\\
+	&= \frac{1}{2}\left(\rank(\mU) + \rank(\mV)\right) - \norm{\cos\mTheta\left(\mU,\mV\right)}_{\F}^2 &&
+\end{align}
+Subtract the sine term from both sides and add the cosine terms to both sides and the proof is complete.
+\hfill $\blacksquare$
+\clearpage
+
+\section{Auxiliary Lemmas}
+\begin{lemma} \label{lem:gaussian-projection-spectral-square}
+	Let $\mV \in \mathbb{R}^{n \times k}$ s.t. the columns are orthonormal and $\mOmega \in \mathbb{R}^{n \times p}$ is a standard gaussian matrix. Then, 
+	\begin{equation}
+		\mathbb{E}\norm{\mV^{\T}\mOmega}^2 \leq \Xi
+	\end{equation}
+\end{lemma}
+{\bf Proof.}
+\begin{align}
+	\mathbb{E}\norm{\mV^{\T}\mOmega}^2 &= \mathbb{E}\norm{\mV^{\T}\mOmega\mOmega^{\T}\mV} \leq \mathbb{E}\norm{\mOmega\mOmega^{\T}}\left(\norm{\mV}\right)^2 = \mathbb{E}\norm{\mOmega\mOmega^{\T}} \leq \sqrt{n}+\sqrt{p}&&
+\end{align}
+\hfill $\blacksquare$
+\begin{lemma} \label{lem:mirsky}
+	\cite{mirsky:1960}. 
+	For any matrices $\mA$, $\mB$, and $\mC$, then for any unitarily invariant norm $\unorm{\cdot}$, it follows
+	\begin{equation}
+		\unorm{\mA \mB \mC} \leq \min\left\{\unorm{\mA}\norm{\mB}_2\norm{\mC}_2,\norm{\mA}_2 \unorm{\mB} \norm{\mC}_2,\norm{\mA}_2\norm{\mB}_2\unorm{\mC}\right\}
+	\end{equation}
+\end{lemma}
+\begin{lemma} \label{lem:hmt}
+	\cite{halko:2011}.
+	Let $\Pi$ be the projection operator and $\mQ \triangleq \orth(\mY)$, it then follows
+	\begin{equation}
+		\unorm{\mA - \mQ\mQ^{\T}\mA} = \unorm{\left(\mI - \Pi_{\mY}\right)\mA}
+	\end{equation}
+\end{lemma}
+\begin{lemma} \label{lem:martinsson-lemma-6}
+    \cite{woolfe:2006}[Lemma 6]. 
+    Let $m, n \in \mathbb{N}$ s.t. $n \geq m$. Suppose $\mA \in \mathbb{R}^{n \times m}$, then if $(\mA^{\T}\mA)$ is invertible
+    \begin{equation}
+    \norm{\left(\mA^{\T}\mA\right)^{-1}\mA^{\T}} = \frac{1}{\sigma_{m}}
+    \end{equation}
+\end{lemma}
+\begin{lemma}
+	\label{lem:boutsidis-5.3}
+	\cite{boutsidis:2013}[Lemma 5.3]. 
+	Given $\mA \in \mathbb{R}^{m \times n}$, $\mC \in \mathbb{R}^{m \times r}$, and for all $\mX \in \mathbb{R}^{r \times n}$ and for $\xi = 2,\F$
+	\begin{equation}
+		\norm{\mA - \mC\mC^{\dagger}\mA}_{\xi}^2 \leq \norm{\mA - \mC \mX}_{\xi}^2
+	\end{equation}
+\end{lemma}
+\begin{lemma}
+	\label{lem:vershynin-5.32} \cite{vershynin:2012}[Theorem 5.32]. Given a standard normal matrix $\mG \in \mathbb{R}^{m \times n}$, then
+	\begin{equation}
+		\mathbb{E}\left[\sigma_1(\mG)\right] \leq \left(\sqrt{m} + \sqrt{n}\right)^2
+	\end{equation}
+\end{lemma}
+
+\clearpage
+\section{Additional Experiments}
+In this section we perform more experiments on learning the inverse operator for PDE matrices with State of the Art Matrix Experiments. 
+\begin{figure}[!h]
+	\centering
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[xmin=1,xmax=219,
+				ymin=0.8,ymax=2,ymajorgrids=true,xmajorgrids=true,
+				grid style=densely dashed,restrict y to domain=0:10,
+				title={Approximation Error / Best Error},xlabel={Number of Samples},legend style={at={(0.02,0.98)},anchor=north west}]
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/inverse-pde-225.txt};\addlegendentry{Standard \cite{halko:2011}}
+				\addplot[color=prior,ultra thick]
+				table[x=x,y=prior,col sep=comma] {experiments/inverse-pde-225.txt};\addlegendentry{Prior \cite{boulle:2022}}
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/inverse-pde-225.txt};\addlegendentry{Bayes(ours)}
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/inverse-pde-225.txt};\addlegendentry{Best}
+			\end{axis}
+		\end{tikzpicture}
+		\label{fig:pde-225}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[xmin=1,xmax=900,
+				ymin=0.8,ymax=2.5,ymajorgrids=true,xmajorgrids=true,
+				grid style=densely dashed,restrict y to domain=0:10,
+				title={Approximation Error / Best Error},xlabel={Number of Samples},legend style={at={(0.02,0.98)},anchor=north west}]
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/inverse-pde-900.txt};\addlegendentry{Standard \cite{halko:2011}}
+				\addplot[color=prior,ultra thick]
+				table[x=x,y=prior,col sep=comma] {experiments/inverse-pde-900.txt};\addlegendentry{Prior \cite{boulle:2022}}
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/inverse-pde-900.txt};\addlegendentry{Bayes(ours)}
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/inverse-pde-900.txt};\addlegendentry{Best}
+			\end{axis}
+			
+		\end{tikzpicture}
+		\label{fig:pde-900}
+	\end{minipage}%
+	\caption{In \figleft, Matrix from TAMU Sparse Matrix Suite \texttt{pde 225}. In \figright, Matrix from TAMU Sparse Matrix Suite \texttt{pde 900}. With the prior, we use the covariance matrix associated with the discrete Green's Function for the Laplacian as in \ccref{eq:inverse-laplace}.}
+	\label{fig:pde}
+\end{figure}
+\begin{figure}[!h]
+	\centering
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[xmin=1,xmax=955,
+				ymin=0.8,ymax=2,ymajorgrids=true,xmajorgrids=true,
+				grid style=densely dashed,restrict y to domain=0:10,
+				title={Approximation Error / Best Error},xlabel={Number of Samples},legend style={at={(0.02,0.98)},anchor=north west}]
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/inverse-cdde1.txt};\addlegendentry{Standard \cite{halko:2011}}
+				\addplot[color=prior,ultra thick]
+				table[x=x,y=prior,col sep=comma] {experiments/inverse-cdde1.txt};\addlegendentry{Prior \cite{boulle:2022}}
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/inverse-cdde1.txt};\addlegendentry{Bayes(ours)}
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/inverse-cdde1.txt};\addlegendentry{Best}
+			\end{axis}
+		\end{tikzpicture}
+		\label{fig:cdde1}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[xmin=1,xmax=955,
+				ymin=0.8,ymax=1.5,ymajorgrids=true,xmajorgrids=true,
+				grid style=densely dashed,restrict y to domain=0:10,
+				title={Approximation Error / Best Error},xlabel={Number of Samples},legend style={at={(0.98,0.02)},anchor=south east}]
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/inverse-cdde2.txt};\addlegendentry{Standard \cite{halko:2011}}
+				\addplot[color=prior,ultra thick]
+				table[x=x,y=prior,col sep=comma] {experiments/inverse-cdde2.txt};\addlegendentry{Prior \cite{boulle:2022}}
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/inverse-cdde2.txt};\addlegendentry{Bayes(ours)}
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/inverse-cdde2.txt};\addlegendentry{Best}
+			\end{axis}
+			
+		\end{tikzpicture}
+		\label{fig:cdde2}
+	\end{minipage}%
+	\caption{In these figures we look at matrices from Computational Fluid Dynamics. In \figleft, Matrix from TAMU Sparse Matrix Suite \texttt{cdde1}. In \figright, Matrix from TAMU Sparse Matrix Suite \texttt{cdde1}. With the prior, we use the covariance matrix associated with the discrete Green's Function for the Laplacian as in \ccref{eq:inverse-laplace}.}
+	\label{fig:cdde}
+\end{figure}
+\begin{figure}[!h]
+	\centering
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[xmin=1,xmax=302,
+				ymin=0.8,ymax=2,ymajorgrids=true,xmajorgrids=true,
+				grid style=densely dashed,restrict y to domain=0:10,
+				title={Approximation Error / Best Error},xlabel={Number of Samples},legend style={at={(0.98,0.02)},anchor=south east}]
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/inverse-cz308.txt};\addlegendentry{Standard \cite{halko:2011}}
+				\addplot[color=prior,ultra thick]
+				table[x=x,y=prior,col sep=comma] {experiments/inverse-cz308.txt};\addlegendentry{Prior \cite{boulle:2022}}
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/inverse-cz308.txt};\addlegendentry{Bayes(ours)}
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/inverse-cz308.txt};\addlegendentry{Best}
+			\end{axis}
+		\end{tikzpicture}
+		\label{fig:cz308}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[xmin=1,xmax=622,
+				ymin=0.8,ymax=2,ymajorgrids=true,xmajorgrids=true,
+				grid style=densely dashed,restrict y to domain=0:10,
+				title={Approximation Error / Best Error},xlabel={Number of Samples},legend style={at={(0.98,0.02)},anchor=south east}]
+				\addplot[color=standard,ultra thick]
+				table[x=x,y=standard,col sep=comma] {experiments/inverse-cz628.txt};\addlegendentry{Standard \cite{halko:2011}}
+				\addplot[color=prior,ultra thick]
+				table[x=x,y=prior,col sep=comma] {experiments/inverse-cz628.txt};\addlegendentry{Prior \cite{boulle:2022}}
+				\addplot[color=bayes,ultra thick]
+				table[x=x,y=bayes,col sep=comma] {experiments/inverse-cz628.txt};\addlegendentry{Bayes(ours)}
+				\addplot[densely dashed, color=black,thick]
+				table[x=x,y=best,col sep=comma] {experiments/inverse-cz628.txt};\addlegendentry{Best}
+			\end{axis}
+		\end{tikzpicture}
+		\label{fig:cz628}
+	\end{minipage}%
+	\caption{In these figures we look at matrices from the PDE for the Poisson Differential Operator. In \figleft, Matrix from TAMU Sparse Matrix Suite \texttt{cz308}. In \figright, Matrix from TAMU Sparse Matrix Suite \texttt{cz628}. With the prior, we use the covariance matrix associated with the discrete Green's Function for the Laplacian as in \ccref{eq:inverse-laplace}.}
+	\label{fig:cz}
+\end{figure}
+\end{document}
