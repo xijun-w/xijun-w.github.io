@@ -1,0 +1,1086 @@
+\documentclass{article} % For LaTeX2e
+%\usepackage[T1]{fontenc}
+%\usepackage{palatino}
+
+\usepackage{eso-pic} % used by \AddToShipoutPicture
+\RequirePackage{fancyhdr}
+\RequirePackage[numbers]{natbib}
+%\setcitestyle{authoryear,round,citesep={;},aysep={,},yysep={;}}
+\usepackage[verbose=true,letterpaper]{geometry}
+\AtBeginDocument{
+	\newgeometry{
+		textheight=9in,
+		textwidth=6.5in,
+		top=1in,
+		headheight=14pt,
+		headsep=25pt,
+		footskip=30pt
+	}
+}
+\newcommand{\mycomment}[1]{}
+%\usepackage{iclr2023_conference,times}
+
+\input{math_commands.tex}
+
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{thmtools}
+\usepackage{thm-restate}
+\usepackage{mathtools}
+\usepackage{aligned-overset}
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black,
+	filecolor=magenta,      
+	urlcolor=cyan,
+	citecolor=teal,
+}
+
+\usepackage{geometry}
+
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{parskip}% http://ctan.org/pkg/parskip
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\usepackage{bbm}
+\usepackage{dsfont}
+
+\usepackage{nicematrix}
+
+\usepackage{color, colortbl}
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkpink}{RGB}{204,120,188}
+\definecolor{darkblue}{RGB}{86,180,233}
+\definecolor{darkgreen}{RGB}{2,158,115}
+\definecolor{darkorange}{RGB}{222,143,5}
+
+\usepackage{hyperref}
+
+\usepackage{cleveref}
+
+\usepackage{tikz,pgfplots,float}
+\usetikzlibrary {datavisualization.formats.functions}
+\usepgfplotslibrary{fillbetween}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{matrix}
+\usepackage{xcolor}
+\usepgfplotslibrary{groupplots}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{proposition}[thm]{Proposition}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{corollary}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[thm]{Definition}
+\newtheorem{assumption}[thm]{Assumption}
+\newtheorem{interpretation}[thm]{Interpretation}
+\theoremstyle{remark}
+\newtheorem{remark}[thm]{Remark}
+
+\definecolor{darkred}{rgb}{0.6,0,0}%
+
+\newcommand{\ccref}[1]{\textcolor{black}{\cref{#1}}}
+\newcommand{\Ccref}[1]{\textcolor{black}{\Cref{#1}}}
+
+\crefrangeformat{equation}{\text{eqns. }(#3#1#4)-(#5#2#6)}
+
+\DeclareRobustCommand{\abbrevcrefs}{%
+	\crefname{figure}{\text{fig.}}{figs.}%
+	\Crefname{figure}{\text{Fig.}}{Figs.}%
+	\crefname{equation}{\text{eqn.}}{\text{eqns.}}%
+	\Crefname{equation}{\text{Eqn.}}{\text{Eqns.}}%
+	\crefname{lemma}{\text{lem.}}{\text{lems.}}%
+	\Crefname{lemma}{\text{Lem.}}{\text{Lems.}}%
+	\crefname{thm}{\text{thm.}}{\text{thms.}}%
+	\Crefname{thm}{\text{Thm.}}{\text{Thms.}}%
+	\crefname{figure}{\text{fig.}}{\text{figs.}}%
+	\Crefname{figure}{\text{Fig.}}{\text{Figs.}}%
+	\crefname{algorithm}{\text{alg.}}{\text{algs.}}%
+	\Crefname{algorithm}{\text{Alg.}}{\text{Algs.}}%
+	\crefname{assumption}{\text{asm.}}{\text{asms.}}%
+	\Crefname{assumption}{\text{Asm.}}{\text{Asms.}}%
+}
+
+\DeclareRobustCommand{\cshref}[1]{{\abbrevcrefs\ccref{#1}}}
+\DeclareRobustCommand{\Cshref}[1]{{\abbrevcrefs\Ccref{#1}}}
+
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\DontPrintSemicolon
+% Set algorithm keyword formatting
+\SetKwComment{tcc}{$\triangleright$~}{}
+\SetCommentSty{normalfont}
+\SetKwInput{KwInput}{Input}                % Set the Input
+\SetKwInput{KwOutput}{Output}              % set the Output
+% Set algorithm line numbers
+\SetNlSty{}{}{:}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{darkblue}{#1}}
+\SetCommentSty{mycommfont}
+
+\usepackage{url}
+
+\usepackage{appendix}
+\usepackage{titletoc}
+
+\usepackage{booktabs,caption,dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{4}}% column type for figures with 4 decimals
+\newcommand{\subhead}[1]{\multicolumn{1}{c}{#1}}% to format sub-headings of d-type columns
+
+\title{Subquantile Minimization for Kernel Learning in the Huber $\eps$-Contamination Model}
+
+\author{Arvind Rathnashyam\thanks{CS, Rensselear Polytechnic Institute, \texttt{rathna@rpi.edu}} \and Alex Gittens\thanks{CS, Rensselaer Polytechnic Institute, \texttt{gittea@rpi.edu}}}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{abstract}
+		\normalsize
+		In this paper we propose Subquantile Minimization for learning with adversarial corruption in the training set. Superquantile objectives have been formed in the past in the context of fairness where one wants to learn an underrepresented distribution equally \cite{laguel:2021,rockafeller:2014}. Our intuition is to learn a more favorable representation of the {\em majority} class, thus we propose to optimize over the $p$-subquantile of the loss in the dataset. In particular, we study the Huber Contamination Problem for Kernel Learning where the distribution is formed as, $\hat{\mathbb{P}} = (1- \varepsilon)\mathbb{P} + \varepsilon \mathbb{Q}$, and we want to find the function $\inf_f \mathbb{E}_{\vx \in \mathbb{P}}\left[\ell_f(\vx)\right]$, from the noisy distribution, $\hat{\mathbb{P}}$. We assume the adversary has knowledge of the true distribution of $\mathbb{P}$, and is able to corrupt the covariates and the labels of $\varepsilon$ samples. To our knowledge, we are the first to study the problem of general kernel learning in the Huber Contamination Model. We theoretically analyze Kernel Ridge Regression and Kernel Classification and empirically show the strength of Subquantile Minimization. Furthermore, we run experiments on various datasets and compare with the state-of-the-art algorithms to show the superior performance of Subquantile Minimization. 
+	\end{abstract}
+	\clearpage
+	
+	\section{Introduction}
+	There has been extensive study of algorithms to learn the target distribution from a Huber $\varepsilon$-Contaminated Model for a Generalized Linear Model (GLM), \citep{diakonikolas:2019,awasthi:2022,li:2021,osama:2020,fischler:1981} as well as for linear regression \cite{bhatia:2017,mukhoty:2019}. Robust Statistics has been studied extensively \cite{diakonikolas:2023}, problems include high-dimensional mean estimation.  Subquantile minimization aims to address the shortcomings of standard ERM in applications of noisy/corrupted data \citep{khetan:2018,jiang:2018}. In many real-world applications, linear models are insufficient to model the data. Therefore, we introduce the problem of Robust Learning for Kernel Learning. 
+	
+	\begin{definition}
+		(\textbf{Huber $\mathbf{\eps}$-Contamination Model} \cite{huber:2009}). Given a corruption parameter $0 < \eps < 0.5$, a data matrix, $\mX$ and labels $\vy$. An adversary is allowed to inspect all samples and modify $n\varepsilon$ samples arbitrarily. The algorithm is then given the $\eps$-corrupted data matrix $\mX$ and $\vy$ as training data. 
+	\end{definition}
+
+	\noindent{\bf Contributions}
+	\begin{enumerate}
+		\item We propose a gradient-descent based algorithm for robust kernel learning in the Huber $\eps$-Contamination Model which is fast. 
+		\item We provide a theoretical analysis and give error bounds for kernel ridge regression and kernel classification. 
+	\end{enumerate}
+	
+	\subsection{Related Work}
+	In this section we will describe previous works in robust algorithms for the Huber $\eps$-Contamination Model and works in minimax optimization that will be relevant to our theoretical analysis. \\
+	\noindent\textbf{Robust Algorithms}
+	
+	\citep{diakonikolas:2019} proposed a robust meta-algorithm which filters points based their outlier likelihood score, which they define as the projection of the gradient of the point on to the top right singular vector of the Singular Value Decomposition of the Gradient of Losses. Empirically SEVER is strong in adversarially robust linear regression and Singular Vector Machines. SEVER however requires a base learner execution and SVD calculation for each iteration, thus it does not scale well for large scale applications. 
+	
+	\citep{li:2021} proposed optimization over the Tilted Empirical Loss. This is done by minimization of an exponentially weighted functional of the traditional Empirical Risk. Their involves a hyperparameter $t$, negative values of $t$ trains more robustly, whereas positive values of $t$ trains more fairly. This empirically works well in machine learning applications such as Noisy Annotation. The issue with introducing the exponential smoothing into the ERM function is the lack of interpretability.
+	
+	\citep{awasthi:2022} theoretically analyzed the Trimmed Maximum Likelihood Estimator algorithm in General Linear Models, including Gaussian Regression. They were able to show the Trimmed Maximum Likelihood Estimator achieves near optimal error for Gaussian Regression.
+	
+	\citep{cheng:2020} studied empirical covariance estimation by gradient descent. They use gradient descent on a minimax formulation of the estimation problem. Their theoretical analysis is based upon the Moreau envelope. They prove their algorithm results in the norm of the gradient of the Moreau Envelope, and the ensuing $\vw$ is a good point in the search space. We tend to follow their general framework but we adapt it the Reproducing Kernel Hilbert Space Norm and for our minimax objective. 
+	\\
+	\textbf{Minimax Optimization}
+	
+	\citep{jin:2019} studied minimax optimization in the non-convex non-concave setting. Furthermore, they study convergence of alternating minimizing-maximizing algorithm with a maximizing oracle. Their research utilizes the Moreau Envelope. 
+	
+	\citep{yang2022} studied minimax optimization in the case of non-strong concavity. 
+	
+	\subsection{Notation}
+	The data matrix $\mX$ is a fixed $n \times d$ matrix, the matrix $\mK$ is the Gram Matrix, where $\mK_{ij} = k\left(\vx_i,\vx_j\right)$ and $k(\cdot,\cdot)$ represents a kernel function, e.g. Linear kernel: $k\left(\vx,\vy\right) = \vx^\top\vy$, RBF kernel: $k\left(\vx,\vy\right) = \exp\left(-\gamma \norm{\vx-\vy}_2^2\right)$. We denote $\mX^\top = \left[\vx_1,\vx_2,\dots,\vx_n\right]$ where $\vx_1,\vx_2,\dots,\vx_n$ represent the data vectors of the data matrix. We denote $X$ as the set of all data vectors, $X = \left\{\vx_1,\vx_2,\ldots,\vx_n\right\}$. We represent the data matrix $\mX = \begin{pmatrix}
+		\mP^\top & \mQ^\top
+	\end{pmatrix}^\top$, the labels vector as $ \vy = \begin{pmatrix} \vy_P^\top & \vy_Q^\top \end{pmatrix}^\top$, and the dataset $X = P \cup Q =  \{(\vx_i,y_i)\}_{i=1}^n = \{\vx_i, y_i\}_{i \in P} \cup \{\vx_i,y_i\}_{i \in Q}$.
+	
+	We denote $\mI_{k\times k}$ as the $k \times k$ identity matrix. The spectral norm of $\mA$ is $\norm{\mA}_2 = \max_{\norm{\vx}=1}\norm{\mA\vx}=\sigma_{\max}\left(\mA\right)$. The reproducing Hilbert Space Norm of $f$ is given as $\norm{f}_{\HN} \triangleq \vw^{\T}\mK\vw$ where $f(\cdot) = \sum_{i=1}^n w_ik(\vx_i, \cdot)$. 
+	
+	We also denote $\triangleq$ as `defined as', to be used when we are defining a variable. We will use $\stackrel{\text{def}}{=}$ to say a variable is defined as a quantity from previous literature. 
+	
+	Uppercase bold $(\mX,\mY,\mZ,\dots)$ are matrices. Uppercase Roman are sets $(X,S,P,Q)$. Lowercase bold are vectors $(\vx,\vy,\vz,\dots)$.
+	
+	\section{Subquantile Minimization}
+	We propose to optimize over the subquantile of the risk. The $p$-quantile of a random variable, $U$, is given as $\mathcal{Q}_p(U)$, this is the largest number, $t$, such that the probability of $U \leq t$ is at least $p$. 
+	\begin{equation}
+		\mathcal{Q}_p(U) \leq t \iff \mathbb{P}\left\{U \leq t\right\} \geq p
+	\end{equation}
+	The $p$-subquantile of the risk is then given by
+	\begin{equation}
+		\mathbb{L}_{p}\left(U\right) = \frac{1}{p}\int_0^p\mathcal{Q}_p\left(U\right)dq = \mathbb{E}\left[U \vert U\leq \mathcal{Q}_p\left(U\right)\right] = \max_{t \in \mathbb{R}}\left\{t - \frac{1}{p}\mathbb{E}\left(t- U\right)^+\right\}
+	\end{equation}
+	Given a convex objective function, $f$, the learning problem becomes:
+	\begin{equation}
+		\hat{\vw} = \argmin_{\vw \in \mathbb{R}^d: \norm{\vw} \leq R} \max_{t \in \mathbb{R}} \left\{g(t,\vw) \triangleq \sum_{i=1}^n\left(t - (f(\vx_i;\vw) - y_i)^2\right)^+\right\}
+	\end{equation}
+	where $t$ is the $p$-quantile of the empirical risk. Note that for a fixed $t$ therefore the objective is not concave with respect to $\vw$. Thus, to solve this problem we use the iterations from equation 11 in \citep{razaviyayn:2020}. Let $\Pi_{\mathcal{K}}$ be the projection of a vector on to the convex set $\mathcal{K} \triangleq \{\vx \in \mathbb{R}^n: \norm{\vx}_{\mathcal{H}} \leq R\}$, then our update steps are
+	\begin{equation}
+		\label{eqn:t-update}
+		t^{(k+1)} = \argmax_{t \in \mathbb{R}} g(\vw^{(k)},t)
+	\end{equation}
+	\begin{equation}
+		\label{eqn:theta-update}
+		\vw^{(k+1)} = \Pi_{\mathcal{K}}\left(\vw^{(k)} - \alpha \nabla g(\vw^{(k)},t^{(k+1)})\right)
+	\end{equation}
+	We note this is a non-convex concave minimax optimization problem. 
+	We provide an algorithm for Subquantile Minimization of the ridge regression and classification kernel learning algorithm. \ccref{alg:suquantile-gradient} is applicable to both kernel ridge regression and kernel classication.\\
+	\begin{minipage}{0.48\textwidth}
+		\begin{algorithm}[H]
+			\DontPrintSemicolon
+			\KwInput{Iterations: $T$; Quantile: $p$; Data Matrix: $\mX, (n \times d), n \gg d$; Learning schedule: $\alpha_1,\cdots,\alpha_T$; Ridge parameter: $\lambda$}
+			\KwOutput{Trained Parameters, $ \vw_{(T)}$}
+			$\vw_{(0)} \gets \mathcal{N}_{d}(0,\sigma)$\\
+			\For{$k \in 1,2,\ldots,T$}
+			{
+				$\mS_{(k)} \gets \textsc{Subquantile}(\vw^{(k)},\mX)$\\
+				$\vw^{(k+1)} \gets \vw^{(k)} - \alpha_{(k)}\nabla_\vw g\left(t^{(k+1)},\vw^{(k)}\right)$
+			}
+			\KwRet{$ \vw_{(T)} $}
+			\caption{\textsc{Subq-Gradient}}
+			\label{alg:subq-gradient}
+		\end{algorithm}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.48\textwidth}
+		\begin{algorithm}[H]
+			\KwInput{Parameters $\vw$, Data Matrix: $\mX, (n \times d)$, Convex Loss Function $f$}
+			\KwOutput{Subquantile Matrix $S$}
+			$\hat{\vnu}_i \gets f(\vx_i;\vw,y_i)$ s.t. $\hat{\vnu}_{i-1} \leq \hat{\vnu}_i \leq \hat{\vnu}_{i+1}$\\
+			$t \gets \hat{\vnu}_{np}$\\
+			Let $\vx_1,...,\vx_{np}$ be $np$ points such that $f(\vx_i;\vw,y_i) \leq t$\\
+			$\mS \gets \begin{pmatrix} \vx_1^\top & \dots & \vx_{np}^\top\end{pmatrix}^\top$\\
+			\KwRet{$ \mS $}
+			\caption{\textsc{Subquantile}}
+			\label{alg:subquantile}
+		\end{algorithm}
+	\end{minipage}
+	
+	\section{Structural Results}
+	To consider theoretical guarantees of Subquantile Minimization, we first analyze the inner and outer optimization problems. We first analyze kernel learning in the presence of corrupted data. Next, we provide error bounds for the two most important kernel learning problems, kernel ridge regression, and kernel classification. 
+    Now we will give our first result regarding kernel learning in the Huber $\eps$-contamination model. 
+	Now we will analyze the two-step minimax optimization steps described in \Ccref{eqn:t-update,eqn:theta-update}. 
+	\begin{lemma}
+		\label{lem:t-update}
+		Let $f(\vx;\vw)$ be a convex loss function. Let $\vx_1,\vx_2,\cdots,\vx_n$ denote the $n$ data points ordered such that $f(\vx_1;\vw,y_1) \leq f(\vx_2;\vw,y_2) \leq \cdots \leq f(\vx_n;\vw,y_n)$. If we denote $\hat{\vnu}_i \triangleq f(\vx_i;\vw,y_i)$, it then follows $\argmax_{t \in \mathbb{R}}g(t,\vw) = \hat{\vnu}_{np}$.
+	\end{lemma}
+	\noindent{\bf Proof.}
+		First we can note, the max value of $t$ for $g$ is equivalent to the min value of $t$ for $g$. We can now find the Fermat Optimality Conditions for $g$. 
+		\begin{align}
+			\partial(-g(t,\vw)) &= \partial\left(-t + \frac{1}{np}\sum_{i=1}^{n}(t - \hat{\vnu}_i)\right) &&\\
+			&= -1 + \frac{1}{np}\sum_{i=1}^{np}\begin{cases}
+				1 & \text{ if } t > \hat{\vnu}_i \\
+				0 & \text{ if } t < \hat{\vnu}_i \\
+				[0,1] & \text{ if } t = \hat{\vnu}_i
+			\end{cases} &&\\
+			&= 0 \text{ when } t = \hat{\vnu}_{np}
+		\end{align}
+		This is equivalent to the $p$-quantile of the Risk.
+	\hfill $\blacksquare$
+	\begin{interpretation}
+		From \ccref{lem:t-update}, we see the $t$ will be greater than or equal to the errors of exactly $np$ points. Thus, we are continuously updating over the $np$ minimum errors.  
+	\end{interpretation}
+	
+	\begin{lemma}
+		Let $\hat{\vnu}_i \triangleq f(\vx_i;\vw,y_i)$ s.t. $\hat{\vnu}_{i-1} \leq \hat{\vnu}_{i} \leq \hat{\vnu}_{i+1}$, if we choose $t^{(k+1)} = \hat{\vnu}_{np}$ as by \ccref{lem:t-update}, it then follows $ \nabla_\vw g(t^{(k)},\vw^{(k)}) = \frac{1}{np}\sum_{i=1}^{np} \nabla f(\vx_i;\vw^{(k)},y_i)$
+	\end{lemma}
+	\noindent{\bf Proof.}
+		By our choice of $t^{(k+1)}$, it follows:
+		\begin{align}
+			\nabla_\vw g(t^{(k+1)},\vw^{(k)}) &= \nabla_\vw\left(\hat{\vnu}_{np} - \frac{1}{np}\sum_{i=1}^{n}\left(\hat{\vnu}_{np} - f(\vx_i;\vw,y_i)\right)^+\right) &&\\
+			&= -\frac{1}{np}\sum_{i=1}^{np}\nabla_\vw\left(\hat{\vnu}_{np} - f(\vx_i;\vw,y_i)\right)^+ &&\\
+			&= \frac{1}{np}\sum_{i=1}^n\nabla_\vw f(\vx_i;\vw^{(k)},y_i)\begin{cases}
+				1 & \text{ if } t > \hat{\vnu}_i \\
+				0 & \text{ if } t < \hat{\vnu}_i \\
+				[0,1] & \text{ if } t = \hat{\vnu}_i 
+			\end{cases} &&
+		\end{align}
+		Now we note $\vnu_{np} \leq t^{(k+1)} \leq \vnu_{np+1}$
+		\begin{equation}
+			\nabla_\vw g(t^{(k+1)},\vw^{(k)}) = \frac{1}{np}\sum_{i=1}^{np} \nabla_\vw f(\vx_i;\vw,y_i)
+		\end{equation}
+		This concludes the proof.
+	\hfill $\blacksquare$
+	
+	\subsection{Kernel Regression} \label{sec:kernel-regression}
+	The loss for the Kernel Ridge Regression problem for a single training pair $(\vx_i,y_i)$ is given by the following equation
+	\begin{equation}
+		f\left(\vx,y_i,;\vw\right) = \left( \vw^{\top}\vk_i - y_i\right)^2 
+	\end{equation}
+	For our theory, we need the $L$-lipschitz constant and $\beta$-smoothness constant. 
+	
+	\begin{lemma} \label{lem:kernel-regression-lipschitz}
+		($L$-Lipschitz of $g\left(t,\vw\right)$ w.r.t $\vw$). Let $\vx_1,\vx_2,\cdots,\vx_n$, represent the data vectors. It then follows:
+		\begin{equation}
+			\left| g\left(t,\vw\right) - g\left(t,\widehat{\vw}\right)\right| \leq L\norm{\vw - \widehat{\vw}}_{\HN}
+		\end{equation}
+		where $ L = \frac{2R}{np}\norm{\sum_{i=1}^n\vk_i}_{\HN}^2 + \frac{2}{np}\norm{\sum_{i=1}^n \vk_{i}}_{\HN}\norm{\vy}_2$
+	\end{lemma}
+	
+
+	\begin{lemma}\label{lem:kernel-regression-beta}
+		($\beta$-Smoothness of $g(t,\vw)$ w.r.t $\vw$). Let $\vx_1,\vx_2,\cdots,\vx_n$ represent the rows of the data matrix $\mX$. It then follows:
+		\begin{equation}
+			\norm{\nabla_\vw g\left(t,\vw\right) - \nabla_\vw g\left(t,\widehat{\vw}\right)} \leq \beta \norm{\vw - \widehat{\vw}}_{\mathcal{H}}
+		\end{equation}
+		where $ \beta = \frac{2}{np}\norm{\sum_{i \in X}\vk_i}_{\HN}^2$
+	\end{lemma}
+	\noindent{\bf Proof.}
+		W.L.O.G, let $S$ be the set of points such that if $\vx \in S$, then $t \geq \left(\vk_\vx^\top\vw - y\right)^2$. Since $g$ is twice differentiable, we will analyze the Hessian. 
+		\begin{equation}
+			\norm{\nabla_\vw^2 g\left(t,\vw\right)}_{\HN} = \norm{ \frac{2}{np}\sum_{i \in S}\vk_i\vk_i^\top}_{\HN} \stackrel{\cshref{eqn:PSD-2-norm}}{\leq} \norm{\frac{2}{np} \sum_{i \in X} \vk_i \vk_i^\top}_{\HN} \leq \frac{2}{np}\norm{\sum_{i \in X}\vk_i}_{\HN}^2 \overset{\cshref{lem:norm-sum-kernel-all}}{\leq}
+		\end{equation}
+		This concludes the proof.
+	\hfill $\blacksquare$
+	\subsection{Kernel Classification}
+	The hinge loss for the the Kernel Classification problem is given by the following equation for a single training pair $(\vx_i,y_i)$
+	\begin{equation}
+		f\left(\vx_i,y_i;\vw\right) = \left(1 - y_i\left(\vw^{\top}\vk_i\right)\right)^{+}
+	\end{equation}
+	Similar to $\S$ \ccref{sec:kernel-regression}, we require the $L$-Lipschitz constant and $\beta$-smoothness constant. 
+	\begin{lemma} \label{lem:kernel-classification-lipschitz}
+		($L$-Lipschitz of $g\left(t,\vw\right)$ w.r.t $\vw$). Let $\vx_1,\vx_2,\cdots,\vx_n$, represent the data vectors. It then follows:
+		\begin{equation}
+			\left| g\left(t,\vw\right) - g\left(t,\widehat{\vw}\right)\right| \leq L\norm{\vw - \widehat{\vw}}_{\HN}
+		\end{equation}
+		where $ L = \frac{2R}{np}\norm{\sum_{i=1}^n\vk_i}_{\HN}^2 + \frac{2}{np}\norm{\sum_{i=1}^n \vk_{i}}_{\HN}\norm{\vy}_2$
+	\end{lemma}
+	
+	
+	\begin{lemma}\label{lem:kernel-classification-beta}
+		($\beta$-Smoothness of $g(t,\vw)$ w.r.t $\vw$). Let $\vx_1,\vx_2,\cdots,\vx_n$ represent the rows of the data matrix $\mX$. It then follows:
+		\begin{equation}
+			\norm{\nabla_\vw g\left(t,\vw\right) - \nabla_\vw g\left(t,\widehat{\vw}\right)} \leq \beta \norm{\vw - \widehat{\vw}}_{\mathcal{H}}
+		\end{equation}
+		where $ \beta = \frac{2}{np}\norm{\sum_{i \in X}\vk_i}_{\HN}^2$
+	\end{lemma}
+	
+	\begin{remark}
+		\label{rmk:phi}
+		Define the function $ \Phi\left(\vw\right) \triangleq \max_{t \in \mathbb{R}} g\left(t,\vw\right)$. This function is a $L$-weakly convex function, i.e., $ \Phi\left(\vw\right) + \frac{L}{2}\norm{\vw}^2$ is a convex function over $\vw$.
+	\end{remark}
+	\subsection{Necessary Kernel Inequalities}
+	We will first extend the idea of Resilience \cite{steinhardt:2018} to kernel learning. 
+	\begin{definition}
+		\label{def:resilience}
+		(\textbf{Resilience}) from \citep{steinhardt:2018}. Let $\mathcal{H}$ represent a RKHS, then given the feature mapping $\phi:\mathcal{X} \to \mathcal{H}$, and the set $X = \left\{\vx_i\right\}_{i=1}^n = P \cup Q$, such that $|P| = n(1-\eps)$ and $|Q| = n\eps$, it holds that for all $S \subseteq X$ s.t. $|S| \geq (1-\eps)n$, then $ \norm{\frac{1}{|S|}\sum_{i\in S}\phi\left(\vx_i\right) - \mu} \leq \tau$ then we say the set $X$ has $(\eps,\tau)$-resilience in the Reproducing Kernel Hilbert Space.
+	\end{definition}
+	Without the idea of resilience defined in \ccref{def:resilience}, we will be unable to put error bounds on our algorithm. 
+	\begin{lemma} \label{lem:norm-sum-kernel-all}
+		Let $S$ be the set of elements in the subquantile, then 
+		\begin{equation}
+			\norm{\frac{1}{np}\sum_{i \in X} \vk_{i}}_{\HN} \leq \mathcal{O}\left(\right)
+		\end{equation}
+	\end{lemma}
+	\begin{lemma} \label{lem:norm-sum-kernel-subquantile}
+		Under the same setting as \ccref{lem:norm-sum-kernel-all},
+		\begin{equation}
+			\norm{\frac{1}{np}\sum_{i \in S} \vk_{i}}_{\HN} \leq \mathcal{O}\left(\right) 
+		\end{equation}
+	\end{lemma}
+	
+We denote the matrix $\mK$ as the Gram Matrix where $ K_{ij} = \kappa(\vx_i,\vx_j) \triangleq \exp(-\gamma\norm{\vx_i-\vx_j}_2^2)$. Given a parameter set $\vw$, the prediction for a new point will be: $ f(\vx^{\star};\vw) = \sum_{i=1}^n \vw_i \kappa(\vx_i,\vx^{\star})$\\
+	
+	\begin{thm}
+		\label{thm:monotonically-decreasing}
+		(Monotonically Decreasing). Let $f$ be a convex loss function and $\mX$ follows \ccref{asm:normal-data} with learning schedule $\alpha_{(1)},\alpha_{(2)},\cdots,\alpha_{(T)}$. Then it follows at any iteration $k \in \mathbb{N}$:
+		\begin{equation}
+			g\left(t^{(k+1)},\vw^{(k+1)}\right) \leq g\left(t^{(k)},\vw^{(k)}\right)
+		\end{equation}
+	\end{thm}
+	
+	From our definition of $S^{(k)}$ in \ccref{thm:monotonically-decreasing}, we are interested in as $k \to \infty$ the quantities: $|\vx \in S^{(k)} \cap P|$ and $|\vx \in S^{(k)} \cap Q|$, where the latter cardinality represents the number of corrupted points in the subquantile set.
+
+	\begin{definition}
+		\label{def:moreau-envelope}
+		(\textbf{Moreau Envelope}, \cite{moreau:1965}). Let $f$ be proper lower semi-continuous convex function $f: \mathcal{X} \to \mathbb{R}$, then the Moreau Envelope is defined as:
+		\begin{equation}
+			\label{eqn:moreau-envelope}
+			f_{\lambda}(\vx) \triangleq \inf_{\widehat{\vx} \in \mathcal{X}}\left(f(\widehat{\vx}) + \frac{1}{2\lambda}\norm{\vx - \widehat{\vx}}_2^2\right)
+		\end{equation}
+	\end{definition}
+	The Moreau Envelope can be interpreted as an infimal convolution of the function $f$ with a quadratic. 
+	\begin{assumption}
+		Define $\Phi(\cdot)$ as the function in \ccref{rmk:phi}. Then it follows $ \argmin_{\vw \in \mathbb{R}^d}\Phi\left(\vw\right) = \vw^{\star}$
+	\end{assumption}
+	\begin{definition}
+		\label{def:stationary-point}
+		(\textbf{First-Order Stationary Point}). Let $\Phi(\vw) = \max_t g(t,\vw)$. Then $\vw$ is a first-order stationary point if
+		\begin{equation}
+			\nabla_\vw \Phi(\vw)^\top (\widetilde{\vw} - \vw) \geq 0 \quad \forall \widetilde{\vw} \in \mathcal{K}
+		\end{equation}
+	\end{definition}
+	\begin{definition}
+		\label{def:stationary-point-2}
+		(\textbf{First-Order Stationary Point}). Let $\Phi(\vw) = \max_t g(t,\vw)$. Then $\vw$ is a first-order stationary point if
+		\begin{equation}
+			\norm{\nabla\Phi_{\lambda}\left(\vw\right)}_{\mathcal{H}} = 0
+		\end{equation}
+		i.e.
+		\begin{equation}
+		\vw = \argmin_{\widehat{\vw} \in \mathcal{K}}\left(\Phi\left(\widehat{\vw}\right) + \frac{1}{2}\norm{\vw - \widehat{\vw}}_{\mathcal{H}}\right)
+		\end{equation}
+	\end{definition}
+	
+	\begin{thm}
+		\label{thm:stationary-point-is-good}
+		Let $\widehat{\vw}$ be a stationary point defined in \ccref{def:stationary-point} for the function $\Phi$ defined in \ccref{def:phi}. Then, 
+		\begin{equation}
+			\norm{\widehat{\vw} - \vw^*}_{\HN} \leq \mathcal{O}\left(\Xi\right)
+		\end{equation}
+	\end{thm} 
+	{\bf Proof.}
+	First,
+	\begin{equation}
+		\norm{\nabla\Phi_{\lambda}\left(\vw\right)}_{\mathcal{H}}= \norm{\frac{1}{\lambda}\left(\vw - \prox_{\lambda,\Phi}\left(\vw\right)\right)}_{\HN} = \norm{\frac{1}{\lambda}\left(\vw - \argmin_{\widehat{\vw}\in\mathcal{K}}\left(\Phi\left(\widehat{\vw}\right) + \frac{1}{2}\norm{\vw - \widehat{\vw}}_{\mathcal{H}}\right)\right)}_{\HN} 0 
+	\end{equation}
+	This implies for any $\widetilde{\vw} \in \mathcal{K}$, it follows 
+	\begin{equation}
+		\Phi\left(\widehat{\vw}\right) < \Phi\left(\widetilde{\vw}\right) + \frac{1}{2}\norm{\widetilde{\vw} - \widehat{\vw}}_{\HN}
+	\end{equation}
+	For any $\widehat{\vw}$ satisfying above, then the distance from the optimal must be low. How?
+	Let $\widetilde{\vw} = \vw^*$, then we have
+	\begin{align}
+		\Phi\left(\widehat{\vw}\right) - \Phi\left(\vw^*\right) &\leq \frac{1}{2}\norm{\widehat{\vw} - \vw^*}_{\HN} &&
+	\end{align}
+	\hfill $\blacksquare$
+	
+	\begin{lemma} \label{lem:phi-from-w-star-w}
+		If $\norm{\vw - \vw^*} \leq \eta$, then it follows
+		\begin{equation}
+			\Phi\left(\vw\right) - \Phi\left(\vw^*\right) = \mathcal{O}\left( \eta^2 \Xi^2 + 2 \eta \rho \Xi \right)
+		\end{equation}
+	\end{lemma}
+	The proof is deferred to $\S$ \Ccref{sec:phi-from-w-star-w}. 
+	In practice, however, it is important to note that solving for  $\norm{\nabla\Phi_\lambda} = 0$ is NP-Hard. Thus, we will analyze the approximate stationary point. 
+	\begin{lemma}
+		\label{lem:moreau-envelope-gradient-small}
+		(\cite{Rockafellar1970,rockafellar:2015}). Assume the function $\Phi$ is $\ell$-weakly convex. Let $\lambda < \frac{1}{\ell}$, and denote \\$\widehat{\vw} = \argmin_{\vw'}\left(\Phi\left(\vw'\right) + \frac{1}{2\lambda}\norm{\vw - \vw'}_{\HN}^2\right)$, $\norm{\nabla \Phi_{\lambda}(\vw)}_{\HN}\leq \eps$ implies:
+		\begin{equation}
+			\norm{\widehat{\vw}- \vw} = \lambda \eps \text{ and } \min_{\vg \in \partial\Phi(\widehat{\vw}) + \partial\mathcal{I}_{\mathcal{K}}(\widehat{\vw})}\norm{\vg}\leq \eps
+		\end{equation}
+		\textcolor{blue}{How to extend this to Hilbert Space Norm?}
+	\end{lemma}
+	Note the subdifferential of the support function is the normal cone, i.e.
+	\begin{equation}
+		\partial\mathcal{I}_{\mathcal{K}} = \mathcal{N}(\widehat{\vw}) = \left\{\widetilde{\vw} \in \mathbb{R}^n \vert \langle\widetilde{\vw},\bar{\vw} - \widehat{\vw}\rangle \leq \forall \bar{\vw} \in \mathcal{K} \right\}
+	\end{equation}
+	We will define a convex cone. 
+	\begin{definition}
+		A set $\Omega$ is a cone if $\lambda x \in \Omega$ whenever $x \in \Omega$ and $\lambda \geq 0$, if $\Omega$ is convex then it is a convex cone.
+	\end{definition}
+	Thus there exists $\vg = \vu + \vv$ where $\vu \in \partial \Phi(\widehat{\vw})$ and $\vv \in \mathcal{N}(\widehat{\vw})$. 
+	
+	\begin{thm}
+		Let $\widehat{\vw} = \argmin_{\vw'}\left(\Phi\left(\vw'\right) + \frac{1}{2\lambda}\norm{\vw - \vw'}^2\right)$ s.t. $\norm{\nabla\Phi_{\lambda}(\vw)}\leq \eps$, then it follows
+		\begin{equation}
+			\norm{\widehat{\vw} - \vw^*}_{\mathcal{H}} \leq \Xi
+		\end{equation}
+	\end{thm}
+	
+	\begin{definition}
+		\label{def:approximate-stationary-point}
+		(\textbf{Approximate First-Order Stationary Point}) from \citep{cheng:2020}. For any function $f$ and closed convex set $\mathcal{K}$ consider its associated Moreau envelope $f_\beta(\vw)$ in \ccref{def:moreau-envelope}. Then we say that a point $\vw$ is a $\rho$-approximate stationary point if $\norm{f_\beta(\vw)}_2 \leq \rho$.
+	\end{definition}
+	\textcolor{black}{The approximate stationary point in \ccref{def:approximate-stationary-point} is used in the analysis of the minimax algorithm in \citep{cheng:2020}. First, if you can prove a stationary point is good, \ccref{thm:stationary-point-is-good}, then using \ccref{lem:moreau-envelope-gradient-small}, you can show an approximate stationary point is good}.
+	
+	\iffalse
+	\begin{definition}
+		\label{def:approximate-stationary-point-tmle}
+		(\textbf{Approximate First-Order Stationary Point}) from \citep{awasthi:2022}. A regression coefficients vector, $\vw$ is an approximate stationary point if:
+		\begin{equation}
+			\left(\sum_{\vx \in S} \vk_{\vx}\left(\vk_{\vx}^\top \vw - y\right)\right)^\top\left(\frac{\left(\vw - \vw^{\star}\right)}{\norm{\vw-\vw^{\star}}}\right) \leq \eta
+		\end{equation}
+	\end{definition}
+	\fi
+	
+	We adopt the proof strategy of \citep{awasthi:2022} and \citep{cheng:2020}, and have a two-part proof strategy. First we show an approximate stationary point is close to the true distribution of $\mathbb{P}$. Then, we analyze the optimization to show \ccref{alg:subq-gradient} converges to an approximate stationary point in a polynomial number of iterations. 
+	
+	\iffalse
+	\begin{thm}
+		\label{thm:stationary-point}
+		Let $\widehat{\vw}$ be the vector returned from \ccref{alg:subq-gradient} after $T$ iterations with $\alpha = \frac{1}{\beta}$, then we reach an approximation stationary point defined in \ccref{def:approximation-stationary-point-tmle}, 
+		\begin{equation}
+			\left(\sum_{\vx \in S} \vk_{\vx}\left(\vk_{\vx}^\top \vw - y\right)\right)^\top\left(\frac{\left(\vw - \vw^{\star}\right)}{\norm{\vw-\vw^{\star}}}\right) \leq \eta
+		\end{equation}
+	\end{thm}
+	
+	\begin{thm}
+		\label{thm:approximate-stationary-point-is-good}
+		(\textbf{Approximate Stationary Point is Good}). Let $\widehat{\vw}$ be a $\eta$-stationary point as defined in \ccref{def:approximate-stationary-point-tmle}. It then follows:
+		\begin{equation}
+			\norm{\widehat{\vw} - \vw^{\star}} \leq \frac{\norm{\sum_{\vx \in S \cap P}\xi_\vx \vk_\vx} + \sqrt{\frac{p}{1-p}}\left(\norm{\sum_{i \in P\cap S}\xi_i}\norm{\sum_{\vx \in S \cap P}\vk_\vx}\right)}{\norm{\sum_{\vx \in S \cap P}\vk_\vx}^2 - \sqrt{\frac{p}{1-p}}\norm{\sum_{\vx \in P\setminus S}\vk_\vx}}
+		\end{equation} where $S^{(T)}$ represents the $np$ set of points in the subquantile.
+	\end{thm}
+	\fi
+	
+	
+	\section{Optimization Results}
+	Since we are solving a minimax objective, we want a relation between the norm of the gradient of the Moreau Envelope of $\Phi$ and $\left(\sum_{\vx \in S^{(T)}} \vk_{\vx}\left(\vk_{\vx}^\top \vw^{(T)} - y\right)\right)^\top\left(\frac{\vw^{(T)} - \vw^{\star}}{\norm{\vw^{(T)}-\vw^{\star}}}\right)$. 
+	First, we will show using stepsize of $1/\beta$ returns a $\mu$-approximate stationary point.
+	\begin{thm}
+		(\textbf{Algorithm \ccref{alg:subq-gradient} reaches a $\eta$-approximate stationary point}). Algorithm \ccref{alg:subq-gradient} reaches a $\eta$-approximate stationary point in a polynomial number of iterations. 
+	\end{thm}
+	\noindent{\bf Proof.}
+		\textcolor{black}{From \citep{lin2020} Theorem $31$ and \citep{cheng:2020} Lemma $4.2$, it follows:}
+		\begin{equation}
+			\mathbb{E}\left[\norm{\nabla\Phi_{1/2\ell}\left(\overline{\vw}\right)}^2\right] \leq 2 \cdot \frac{\left(\Phi_{1/2\ell}\left(\vw_0\right) - \min\Phi\left(\vw\right)\right) + \ell \beta^2 \gamma^2}{\gamma\sqrt{T+1}}
+		\end{equation} where $\widehat{\vw} = \argmin_{\vw'}\Phi\left(\vw'\right) + \ell\norm{\vw - \vw'}^2$.\\
+		Let $\norm{\nabla\Phi_{1/2\ell}\left(\vw^{(T)}\right)} \leq \mu$, it then follows from \ccref{lem:moreau-envelope-gradient-small}, $\norm{\widehat{\vw}-\vw^{(T)}} = \mu/2\ell$. 
+	\hfill $\blacksquare$
+	
+	\subsection{Accelerated Gradient Methods}
+	When working with big data it is often the case we need faster gradient methods as the gradient can be expensive to obtain. In this section, we give results on the convergence rate of accelerated gradient methods on the update of $\vw$. We will analyze the convergence of three popular accelerated gradient methods. 
+	
+	\subsubsection{Momentum Accelerated Gradient Descent}
+	
+	\subsubsection{Conjugate Gradient Descent}
+	
+	\subsubsection{Nesterov Accelerated Gradient Descent}
+	
+
+
+\section{Experiments}
+We perform numerical experiments on state of the art datasets comparing with other state of the art methods. 
+\subsection{Kernel Regression}
+\begin{algorithm}[H]
+	\DontPrintSemicolon
+	\KwInput{Iterations: $T$; Quantile: $p$; Data Matrix: $\mX, (n \times d), n \gg d$; Labels: $\vy, (n \times 1)$; Learning schedule: $\alpha_1,\cdots,\alpha_T$; Ridge parameter: $\lambda$}
+	\KwOutput{Trained Parameters: $ \vw_{(T)}$; Base Learner: $\mathcal{L}$}
+	$\vw_{(0)} \gets \left(\mK^\top\mK + \lambda\mI\right)\mK^\top \vy$\Comment{Base Learner}\\
+	\For{$k \in 1,2,\ldots,T$}
+	{
+		$\mS_{(k)} \gets \textsc{Subquantile}(\vw^{(k)},\mX)$\Comment{ \Ccref{alg:subquantile}}\\
+		$\nabla_\vw g\left(t^{(k+1)},\vw^{(k)}\right) \gets 2 \sum_{i \in S^{(k)}}\vk_{i}\left(\vk_{i}\vw^{(k)}-y_i\right) + \lambda \mK \vw^{(k)}$\Comment{Gradient Calculation}\\
+		$\vw^{(k+1)} \gets \vw^{(k)} - \alpha_{(k)}\nabla_\vw g\left(t^{(k+1)},\vw^{(k)}\right)$\Comment{$\vw$-update in \cshref{eqn:theta-update}}
+	}
+	\KwRet{$ \vw_{(T)} $}
+	\caption{\textsc{Subq-Kernel-Ridge-Regression}}
+	\label{alg:subq-kernel-ridge}
+\end{algorithm}
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{lcccc}
+		\toprule 
+		\textbf{Objectives}&\multicolumn{4}{c}{Test RMSE (\texttt{Polynomial Regression (Degree = 3)})}\\                   
+		\cmidrule(rl){2-5}
+		&\subhead{$\eps = 0.1$}& \subhead{$\eps = 0.2$}& \subhead{$\eps = 0.3$}& \subhead{$\eps=0.4$}\\ 
+		\midrule
+		KRR  &$0.460_{(0.2143)}$&$1.171_{(0.7809)}$&$0.950_{(0.3053)}$&$1.230_{(0.4678)}$\\
+		TERM \citep{li:2021} &$\infty$&$\infty$&$\infty$&$\infty$\\
+		SEVER \citep{diakonikolas:2019} &$0.071_{(0.0106)}$&$0.015_{(0.0041)}$&$0.056_{(0.0513)}$&$0.101_{(0.0643)}$\\
+		\rowcolor{LightCyan}
+		\textsc{Subquantile}($p = 1-\epsilon$) &$\mathbf{0.010_{(0.0004)}}$&$\mathbf{0.010_{(0.0002)}}$&$\mathbf{0.010_{(0.0007)}}$&$\mathbf{0.012_{(0.0030)}}$\\
+		\midrule 
+		Genie ERM &$\infty$&$\infty$&$\infty$&$\infty$\\
+		\bottomrule
+	\end{tabular}
+	\caption{\texttt{Polynomial Regression} Synthetic Dataset. $1000$ samples, $x \sim \mathcal{N}(0,1)$, $y \sim \mathcal{N}(\sum_{i=0}a_ix^{i},0.01)$ where $a_i \sim \mathcal{N}(0,1)$. Oblivious Noise is sampled from $\mathcal{N}(0,5)$. Subquantile is capped at 10,000 iterations. Polynomial Kernel: $K(\vx,\vy) = \left(\vx^\top \vy + 1\right)^3$. Regularization parameters is chosen as $\lambda = 1$. SEVER is trained with $16$ iterations and $p = 0.02$. }
+	\label{tab:polynomial-regression}
+\end{table}
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{lcccc}
+		\toprule 
+		\textbf{Objectives}&\multicolumn{4}{c}{Test RMSE (\texttt{Boston Housing Regression)}}\\                   
+		\cmidrule(rl){2-5}
+		&\subhead{$\eps = 0.1$}& \subhead{$\eps = 0.2$}& \subhead{$\eps = 0.3$}& \subhead{$\eps=0.4$}\\ 
+		\midrule
+		KRR  &$0.544_{(0.0712)}$&$0.862_{(0.1199)}$&$0.865_{(0.0811)}$&$1.049_{(0.2249)}$\\
+		TERM \citep{li:2021} &$0.888_{(0.1360)}$&$0.891_{(0.1699)}$&$1.023_{(0.1329)}$&$0.931_{(0.0433)}$\\
+		SEVER \citep{diakonikolas:2019} &$0.593_{(0.0478)}$&$0.573_{(0.0559)}$&$0.567_{(0.1191)}$&$\infty$\\
+		\rowcolor{LightCyan}
+		\textsc{Subquantile}($p = 1-\epsilon$) &$\mathbf{0.427_{(0.0691)}}$&$\mathbf{0.534_{(0.1105)}}$&$\mathbf{0.510_{(0.0695)}}$&$\mathbf{0.549_{(0.1030)}}$\\
+		\midrule 
+		Genie ERM &$\infty$&$\infty$&$\infty$&$\infty$\\
+		\bottomrule
+	\end{tabular}
+	\caption{\texttt{Boston Housing Regression} Dataset. Oblivious Noise is sampled from $\mathcal{N}(0,5)$. Subquantile is capped at 10,000 iterations. Regularization Parameter is chosen as $\lambda = 2$}
+	\label{tab:boston-housing}
+\end{table}
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{lcccc}
+		\toprule 
+		\textbf{Objectives}&\multicolumn{4}{c}{Test RMSE (\texttt{Concrete Data Regression)}}\\                   
+		\cmidrule(rl){2-5}
+		&\subhead{$\eps = 0.1$}& \subhead{$\eps = 0.2$}& \subhead{$\eps = 0.3$}& \subhead{$\eps=0.4$}\\ 
+		\midrule
+		KRR  &$0.802_{(0.0324)}$&$0.929_{(0.0209)}$&$0.993_{(0.0441)}$&$0.775_{(0.0514)}$\\
+		TERM \citep{li:2021} &$0.874_{(0.0205)}$&$0.916_{(0.0421)}$&$0.840_{(0.0249)}$&$0.878_{(0.0749)}$\\
+		SEVER \citep{diakonikolas:2019} &$0.532_{(0.0134)}$&$0.516_{(0.0340)}$&$0.526_{(0.0217)}$&$0.552_{(0.0444)}$\\
+		\rowcolor{LightCyan}
+		\textsc{Subquantile}($p = 1-\epsilon$) &$\mathbf{0.468_{(0.0220)}}$&$\mathbf{0.491_{(0.0271)}}$&$\mathbf{0.555_{(0.0391)}}$&$\mathbf{0.566_{(0.0405)}}$\\
+		\midrule 
+		Genie ERM &$\infty$&$\infty$&$\infty$&$\infty$\\
+		\bottomrule
+	\end{tabular}
+	\caption{\texttt{Concrete Data Regression} Dataset. Oblivious Noise is sampled from $\mathcal{N}(0,5)$. Subquantile is capped at 10,000 iterations. Regularization Parameter is chosen as $\lambda = 2$.}
+	\label{tab:concrete-data}
+\end{table}
+
+\begin{figure*}[!hbtp]
+	\centerline{
+	\pgfplotsset{scaled y ticks=false}
+	\begin{tikzpicture}
+		\begin{groupplot}[group style={group size= 3 by 2},height=0.2\textheight,width=0.4\textwidth,xmin=9,xmax=9999,
+			ymin=0,ymax=1,ymajorgrids=true,xmajorgrids=true,
+			grid style=dashed,yticklabel style={
+				/pgf/number format/fixed,
+				/pgf/number format/precision=5
+			},
+			scaled y ticks=false,
+			]
+			\nextgroupplot[title=\texttt{Concrete},ylabel={Test RMSE},xlabel={Iteration},ymin=0.4,ymax=0.8]
+			\coordinate (c1) at (current axis.left of origin);
+			\addplot[color=darkblue, ultra thick] table [x=Step,y=one,col sep=comma] {subquantile-concrete-test-accuracy-50.csv};
+			\addplot[color=darkorange, ultra thick] table [x=Step,y=two,col sep=comma] {subquantile-concrete-test-accuracy-50.csv};
+			\addplot[color=darkpink, ultra thick] table [x=Step,y=three,col sep=comma] {subquantile-concrete-test-accuracy-50.csv};
+			\addplot[color=darkgreen, ultra thick] table [x=Step,y=four,col sep=comma] {subquantile-concrete-test-accuracy-50.csv};  
+			%\addplot[name path=one-top,color=darkblue!50] table [x =Step,y=one-max,col sep=comma] {subquantile-concrete-test-accuracy-50.csv};
+			%\addplot[name path=one-down,color=darkblue!50] table [x =Step,y=one-min,col sep=comma] {subquantile-concrete-test-accuracy-50.csv};
+			%\addplot[name path=two-top,color=darkorange!50] table [x =Step,y=two-max,col sep=comma] {subquantile-concrete-test-accuracy-50.csv};
+			%\addplot[name path=two-down,color=darkorange!50] table [x =Step,y=two-min,col sep=comma] {subquantile-concrete-test-accuracy-50.csv};
+			%\addplot[name path=three-top,color=darkpink!50] table [x =Step,y=three-max,col sep=comma] {subquantile-concrete-test-accuracy-50.csv};
+			%\addplot[name path=three-down,color=darkpink!50] table [x =Step,y=three-min,col sep=comma] {subquantile-concrete-test-accuracy-50.csv}; 
+			%\addplot[name path=four-top,color=darkgreen!50] table [x =Step,y=four-max,col sep=comma] {subquantile-concrete-test-accuracy-50.csv};
+			%\addplot[name path=four-down,color=darkgreen!50] table [x =Step,y=four-min,col sep=comma] {subquantile-concrete-test-accuracy-50.csv};
+			%\addplot[darkblue!50,fill opacity=0.5] fill between[of=one-top and one-down];
+			%\addplot[darkorange!50,fill opacity=0.5] fill between[of=two-top and two-down];
+			%\addplot[red!50,fill opacity=0.5] fill between[of=three-top and three-down];
+			%\addplot[darkgreen!50,fill opacity=0.5] fill between[of=four-top and four-down];			 
+			
+			\nextgroupplot[title=\texttt{Boston Housing},xlabel={Iteration},legend to name={TestAccuracyLegend},legend style={legend columns=4},ymin=0.4,ymax=0.8]
+			\addplot[color=darkblue, ultra thick] table [x=Step,y=one,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv};\addlegendentry{Noise: $0.1$}
+			\addplot[color=darkorange, ultra thick] table [x=Step,y=two,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv};\addlegendentry{Noise: $0.2$}
+			\addplot[color=darkpink, ultra thick] table [x=Step,y=three,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv};\addlegendentry{Noise: $0.3$}
+			\addplot[color=darkgreen, ultra thick] table [x=Step,y=four,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv};\addlegendentry{Noise: $0.4$}
+			%\addplot[name path=one-top,color=darkblue!50] table [x =Step,y=one-max,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv};
+			%\addplot[name path=one-down,color=darkblue!50] table [x =Step,y=one-min,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv};
+			%\addplot[name path=two-top,color=darkorange!50] table [x =Step,y=two-max,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv};
+			%\addplot[name path=two-down,color=darkorange!50] table [x =Step,y=two-min,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv};
+			%\addplot[name path=three-top,color=darkpink!50] table [x =Step,y=three-max,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv};
+			%\addplot[name path=three-down,color=darkpink!50] table [x =Step,y=three-min,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv}; 
+			%\addplot[name path=four-top,color=darkgreen!50] table [x =Step,y=four-max,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv};
+			%\addplot[name path=four-down,color=darkgreen!50] table [x =Step,y=four-min,col sep=comma] {subquantile-boston-housing-test-accuracy-50.csv};
+			%\addplot[darkblue!50,fill opacity=0.5] fill between[of=one-top and one-down];
+			%\addplot[darkorange!50,fill opacity=0.5] fill between[of=two-top and two-down];
+			%\addplot[red!50,fill opacity=0.5] fill between[of=three-top and three-down];
+			%\addplot[darkgreen!50,fill opacity=0.5] fill between[of=four-top and four-down];	
+			
+			\nextgroupplot[title=\texttt{Polynomial Synthetic},xlabel={Iteration},ymin=0,ymax=2]
+			\coordinate (c2) at (current axis.right of origin);% I moved this to the upper right corner
+			\addplot[color=darkblue, ultra thick] table [x=Step,y=one,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv};
+			\addplot[color=darkorange, ultra thick] table [x=Step,y=two,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv};
+			\addplot[color=darkpink, ultra thick] table [x=Step,y=three,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv};
+			\addplot[color=darkgreen, ultra thick] table [x=Step,y=four,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv};
+			%\addplot[name path=one-top,color=darkblue!50] table [x =Step,y=one-max,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv};
+			%\addplot[name path=one-down,color=darkblue!50] table [x =Step,y=one-min,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv};
+			%\addplot[name path=two-top,color=darkorange!50] table [x =Step,y=two-max,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv};
+			%\addplot[name path=two-down,color=darkorange!50] table [x =Step,y=two-min,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv};
+			%\addplot[name path=three-top,color=darkpink!50] table [x =Step,y=three-max,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv};
+			%\addplot[name path=three-down,color=darkpink!50] table [x =Step,y=three-min,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv}; 
+			%\addplot[name path=four-top,color=darkgreen!50] table [x =Step,y=four-max,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv};
+			%\addplot[name path=four-down,color=darkgreen!50] table [x =Step,y=four-min,col sep=comma] {subquantile-polynomial-test-accuracy-50.csv};
+			%\addplot[darkblue!50,fill opacity=0.5] fill between[of=one-top and one-down];
+			%\addplot[darkorange!50,fill opacity=0.5] fill between[of=two-top and two-down];
+			%\addplot[red!50,fill opacity=0.5] fill between[of=three-top and three-down];
+			%\addplot[darkgreen!50,fill opacity=0.5] fill between[of=four-top and four-down];		
+			\\
+			\nextgroupplot[xlabel={Iteration},ylabel={$\varepsilon^{(k)}$},ymax=0.15]
+			\coordinate (c1) at (current axis.left of origin);
+			\addplot[color=darkblue, ultra thick] table [x=Step,y=one,col sep=comma] {subquantile-concrete-epsilon-50.csv};
+			\addplot[color=darkorange, ultra thick] table [x=Step,y=two,col sep=comma] {subquantile-concrete-epsilon-50.csv};
+			\addplot[color=darkpink, ultra thick] table [x=Step,y=three,col sep=comma] {subquantile-concrete-epsilon-50.csv};
+			\addplot[color=darkgreen, ultra thick] table [x=Step,y=four,col sep=comma] {subquantile-concrete-epsilon-50.csv};  
+			%\addplot[name path=one-top,color=darkblue!50] table [x =Step,y=one-max,col sep=comma] {subquantile-concrete-epsilon-50.csv};
+			%\addplot[name path=one-down,color=darkblue!50] table [x =Step,y=one-min,col sep=comma] {subquantile-concrete-epsilon-50.csv};
+			%\addplot[name path=two-top,color=darkorange!50] table [x =Step,y=two-max,col sep=comma] {subquantile-concrete-epsilon-50.csv};
+			%\addplot[name path=two-down,color=darkorange!50] table [x =Step,y=two-min,col sep=comma] {subquantile-concrete-epsilon-50.csv};
+			%\addplot[name path=three-top,color=darkpink!50] table [x =Step,y=three-max,col sep=comma] {subquantile-concrete-epsilon-50.csv};
+			%\addplot[name path=three-down,color=darkpink!50] table [x =Step,y=three-min,col sep=comma] {subquantile-concrete-epsilon-50.csv}; 
+			%\addplot[name path=four-top,color=darkgreen!50] table [x =Step,y=four-max,col sep=comma] {subquantile-concrete-epsilon-50.csv};
+			%\addplot[name path=four-down,color=darkgreen!50] table [x =Step,y=four-min,col sep=comma] {subquantile-concrete-epsilon-50.csv};
+			%\addplot[darkblue!50,fill opacity=0.5] fill between[of=one-top and one-down];
+			%\addplot[darkorange!50,fill opacity=0.5] fill between[of=two-top and two-down];
+			%\addplot[red!50,fill opacity=0.5] fill between[of=three-top and three-down];
+			%\addplot[darkgreen!50,fill opacity=0.5] fill between[of=four-top and four-down];			 
+			
+			\nextgroupplot[xlabel={Iteration},legend to name={EpsilonLegend},legend style={legend columns=4},ymax=0.15]
+			\addplot[color=darkblue, ultra thick] table [x=Step,y=one,col sep=comma] {subquantile-boston-housing-epsilon-50.csv};\addlegendentry{Noise: $0.1$}
+			\addplot[color=darkorange, ultra thick] table [x=Step,y=two,col sep=comma] {subquantile-boston-housing-epsilon-50.csv};\addlegendentry{Noise: $0.2$}
+			\addplot[color=darkpink, ultra thick] table [x=Step,y=three,col sep=comma] {subquantile-boston-housing-epsilon-50.csv};\addlegendentry{Noise: $0.3$}
+			\addplot[color=darkgreen, ultra thick] table [x=Step,y=four,col sep=comma] {subquantile-boston-housing-epsilon-50.csv};\addlegendentry{Noise: $0.4$}
+			%\addplot[name path=one-top,color=darkblue!50] table [x =Step,y=one-max,col sep=comma] {subquantile-boston-housing-epsilon-50.csv};
+			%\addplot[name path=one-down,color=darkblue!50] table [x =Step,y=one-min,col sep=comma] {subquantile-boston-housing-epsilon-50.csv};
+			%\addplot[name path=two-top,color=darkorange!50] table [x =Step,y=two-max,col sep=comma] {subquantile-boston-housing-epsilon-50.csv};
+			%\addplot[name path=two-down,color=darkorange!50] table [x =Step,y=two-min,col sep=comma] {subquantile-boston-housing-epsilon-50.csv};
+			%\addplot[name path=three-top,color=darkpink!50] table [x =Step,y=three-max,col sep=comma] {subquantile-boston-housing-epsilon-50.csv};
+			%\addplot[name path=three-down,color=darkpink!50] table [x =Step,y=three-min,col sep=comma] {subquantile-boston-housing-epsilon-50.csv}; 
+			%\addplot[name path=four-top,color=darkgreen!50] table [x =Step,y=four-max,col sep=comma] {subquantile-boston-housing-epsilon-50.csv};
+			%\addplot[name path=four-down,color=darkgreen!50] table [x =Step,y=four-min,col sep=comma] {subquantile-boston-housing-epsilon-50.csv};
+			%\addplot[darkblue!50,fill opacity=0.5] fill between[of=one-top and one-down];
+			%\addplot[darkorange!50,fill opacity=0.5] fill between[of=two-top and two-down];
+			%\addplot[red!50,fill opacity=0.5] fill between[of=three-top and three-down];
+			%\addplot[darkgreen!50,fill opacity=0.5] fill between[of=four-top and four-down];	
+			\pgfplotsset{scaled y ticks=false}
+			\nextgroupplot[xlabel={Iteration},ymin=0,ymax=0.1]
+			\coordinate (c2) at (current axis.right of origin);% I moved this to the upper right corner
+			\addplot[color=darkblue, ultra thick] table [x=Step,y=one,col sep=comma] {subquantile-polynomial-epsilon-50.csv};
+			\addplot[color=darkorange, ultra thick] table [x=Step,y=two,col sep=comma] {subquantile-polynomial-epsilon-50.csv};
+			\addplot[color=darkpink, ultra thick] table [x=Step,y=three,col sep=comma] {subquantile-polynomial-epsilon-50.csv};
+			\addplot[color=darkgreen, ultra thick] table [x=Step,y=four,col sep=comma] {subquantile-polynomial-epsilon-50.csv};
+			%\addplot[name path=one-top,color=darkblue!50] table [x =Step,y=one-max,col sep=comma] {subquantile-polynomial-epsilon-50.csv};
+			%\addplot[name path=one-down,color=darkblue!50] table [x =Step,y=one-min,col sep=comma] {subquantile-polynomial-epsilon-50.csv};
+			%\addplot[name path=two-top,color=darkorange!50] table [x =Step,y=two-max,col sep=comma] {subquantile-polynomial-epsilon-50.csv};
+			%\addplot[name path=two-down,color=darkorange!50] table [x =Step,y=two-min,col sep=comma] {subquantile-polynomial-epsilon-50.csv};
+			%\addplot[name path=three-top,color=darkpink!50] table [x =Step,y=three-max,col sep=comma] {subquantile-polynomial-epsilon-50.csv};
+			%\addplot[name path=three-down,color=darkpink!50] table [x =Step,y=three-min,col sep=comma] {subquantile-polynomial-epsilon-50.csv}; 
+			%\addplot[name path=four-top,color=darkgreen!50] table [x =Step,y=four-max,col sep=comma] {subquantile-polynomial-epsilon-50.csv};
+			%\addplot[name path=four-down,color=darkgreen!50] table [x =Step,y=four-min,col sep=comma] {subquantile-polynomial-epsilon-50.csv};
+			%\addplot[darkblue!50,fill opacity=0.5] fill between[of=one-top and one-down];
+			%\addplot[darkorange!50,fill opacity=0.5] fill between[of=two-top and two-down];
+			%\addplot[red!50,fill opacity=0.5] fill between[of=three-top and three-down];
+			%\addplot[darkgreen!50,fill opacity=0.5] fill between[of=four-top and four-down];
+		\end{groupplot}
+		\coordinate (c3) at ($(c1)!.5!(c2)$);
+		\node[below] at (c3 |- current bounding box.south)
+		{\pgfplotslegendfromname{TestAccuracyLegend}};
+	\end{tikzpicture}}
+	\caption{Test RMSE over the iterations in \texttt{Concrete}, \texttt{Boston Housing}, and \texttt{Polynomial} Datasets for \textsc{Subquantile} at different noise levels} 
+	\label{fig:subquantile-test-rmse-epsilon}
+\end{figure*}
+In \ccref{fig:subquantile-test-rmse-epsilon}, we see the final subquantile has significantly less outliers than the original corruption in the data set. Furthermore, we see there is a greater decrease in the higher outlier settings. Looking at \ccref{tab:polynomial-regression} and figures \ccref{fig:subquantile-test-rmse-epsilon}, subquantile minimization has near optimal performance in the \texttt{Polynomial Regression} Synthetic Dataset.
+
+\subsection{Kernel Classification}
+In this section we will give the algorithm for subquantile minimization for the kernel classification problem and then give some experimental results on state of the art datasets comparing against other state of the art robust algorithms. \\
+\begin{algorithm}
+	\DontPrintSemicolon
+	\KwInput{Iterations: $T$; Quantile: $p$; Data Matrix: $\mX, (n \times d), n \gg d$; Labels: $\vy, (n \times 1)$; Learning schedule: $\alpha_1,\cdots,\alpha_T$; Ridge parameter: $\lambda$}
+	\KwOutput{Trained Parameters: $ \vw_{(T)}$; Base Learner: $\mathcal{L}$}
+	$\vw_{(0)} \gets \left(\mK^\top\mK + \lambda\mI\right)\mK^\top \vy$\Comment{Base Learner}\\
+	\For{$k \in 1,2,\ldots,T$}
+	{
+		$\mS_{(k)} \gets \textsc{Subquantile}(\vw^{(k)},\mX)$\Comment{Algorithm \ccref{alg:subquantile}}\\
+		$\nabla_\vw g\left(t^{(k+1)},\vw^{(k)}\right) \gets -\sum_{i \in S^{(k)}}y_i\vk_{i} + \lambda \mK \vw^{(k)}$\Comment{Gradient Calculation}\\
+		$\vw^{(k+1)} \gets \vw^{(k)} - \alpha_{(k)}\nabla_\vw g\left(t^{(k+1)},\vw^{(k)}\right)$\Comment{$\vw$-update in \cshref{eqn:theta-update}}
+	}
+	\KwRet{$ \vw_{(T)} $}
+	\caption{\textsc{Subq-Kernel-Classification}}
+	\label{alg:subq-kernel-classification}
+\end{algorithm}
+
+\section{Discussion}
+The main contribution of this paper is the study of a nonconvex-concave optimization algorithm for the robust learning problem for kernel ridge regression and kernel classification.  \\\\
+\textbf{Interpretability.} One of the strengths in Subquantile Optimization is the high interpretability. Once training is finished, we can see the $n(1-p)$ points with highest error to find the outliers. Furthermore, there is only hyperparameter $p$, which should be chosen to be approximately the percentage of inliers in the data and thus is not very difficult to tune for practical purposes.\\\\
+\textbf{General Assumptions}. The general assumption is the majority of the data should inliers. This is not a very strong assumption, as by the definition of outlier it should be in the minority. \\\\
+\noindent
+In future work, the analysis of Subquantile Minimization can be extended to neural networks and other learning algorithms. 
+
+\clearpage
+
+\bibliographystyle{plain}
+\bibliography{references.bib}
+
+\clearpage
+
+%\startcontents[sections]
+%\printcontents[sections]{l}{1}{\setcounter{tocdepth}{2}}
+\tableofcontents
+\clearpage
+
+\begin{appendices}
+	
+	\clearpage
+	\appendix
+	\iffalse
+	\begin{center}
+		\huge{Appendix for Subquantile Minimization}
+	\end{center}
+	\startcontents[sections]
+	\printcontents[sections]{l}{1}{\setcounter{tocdepth}{2}}
+	\clearpage
+	\fi
+	\section{Kernel Embedding Inequalities}
+	\begin{lemma}
+		(Resilience on Inlier Samples). Let $X = \left\{\vx_i\right\}_{i=1}^n$ and $P = \left\{\vx_i\right\}_{i=1}^{np}$, and $\left[\vk_{i}\right]_j = \phi\left(\vx_i\right)^\top \phi\left(\vx_j\right)$. If the conditions in assumption \ccref{def:resilience} it then follows:
+		\begin{equation*}
+			\mathbb{P}\left\{\norm{\frac{1}{np}\sum_{i \in P}\phi\left(\vx\right) - \mu_\mathbb{P}} > \eps \right\} \leq 2\exp\left(-\frac{2np\eps^2}{d^2}\right)
+		\end{equation*} where $\norm{\phi\left(\vx\right)} \leq d$ for any $ \vx \in \mathcal{X}$ a.s. \textcolor{black}{A similar inequality can be found in \citep{Schneider2016}, Theorem 2}
+	\end{lemma}
+	
+	\begin{lemma}
+		Let $\left\{\xi_i\right\}_{i=1}^n$ represent realizations of a random variable, $\xi_i \sim \mathcal{N}\left(\mu, \sigma^2\right)$. It then follows with high probability:
+		\begin{equation}
+			\norm{\sum_{i=1}^n \xi_i} \leq C \text{ with high probability}
+		\end{equation}
+		First, we can note,
+		\begin{equation}
+			\sum_{i=1}^n \xi_i \sim \mathcal{N}\left(n\mu, n \sigma^2\right)
+		\end{equation}
+		With Hoeffding's Inequality, we have:
+		\begin{equation}
+			\mathbb{P}\left\{\norm{\frac{1}{n}\sum_{i=1}^n \xi_i - \mu} \geq \eps\right\} \leq 2\exp\left(-\frac{2n^2\eps^2}{\sum_{i=1}^n\norm{\xi_i}_{\psi_2}^2}\right)
+		\end{equation}
+	\end{lemma}
+
+	\subsection{Proof of \Ccref{lem:norm-sum-kernel-all}}
+	{\bf Proof.}
+	\begin{align}
+		\norm{\frac{1}{np}\sum_{i \in S \cap P} \vk_{i}} &= \frac{1}{np}\norm{\sum_{i \in S \cap P} \sum_{j \in X}\phi\left(\vx_i\right)^{\top}\phi\left(\vx_j\right) } &&
+	\end{align}
+	\hfill $\blacksquare$
+	
+	\subsection{Proof of \Ccref{lem:norm-sum-kernel-subquantile}}
+	{\bf Proof.}
+	\hfill $\blacksquare$
+
+	\clearpage
+	\section{Deferred Proofs}
+	In this section we give some deferred proofs.
+	\subsection{Proof of \Ccref{lem:phi-from-w-star-w}} 
+	\label{sec:phi-from-w-star-w}
+	{\bf Proof.} Let $S$ be the set containing the points with minimum error from $X$ w.r.t to the weights vector $\vw$. 
+	\begin{align}
+		\norm{\Phi\left(\vw\right) - \Phi\left(\vw^*\right)} &= \norm{\sum_{i \in S}\left(\vw^{\top}\vk_i - y_i\right)^2 - \sum_{j \in P}\left(\vw^{*\top}\vk_j - y_j\right)^2} &&\\
+		&= \norm{\sum_{i \in S \cap P}\left(\vw^{\top}\vk_i - y_i\right)^2 + \sum_{i \in S \cap Q}\left(\vw^{\top}\vk_i - y_i\right)^2 - \sum_{j \in P}\left(\vw^{*\top}\vk_j - y_j\right)^2} &&\\
+		\overset{(a)}&{\leq} \norm{\sum_{i \in S \cap P}\left(\vw^{\top}\vk_i - y_i\right)^2 + \sum_{i \in P \setminus S}\left(\vw^{\top}\vk_i - y_i\right)^2 - \sum_{j \in P}\left(\vw^{*\top}\vk_j - y_j\right)^2} &&\\
+		&= \norm{\sum_{i \in P}\left(\vw^{\top}\vk_i - y_i\right)^2  - \sum_{j \in P}\left(\vw^{*\top}\vk_j - y_j\right)^2} &&\\
+		&= \norm{\sum_{i\in P}\left(\vw^{\top}\vk_i\right)^2 - 2y_i \vw^{\top}\vk_i - \left(\vw^{*\top}\vk_i\right)^2 + 2y_i\left(\vw^{*\top}\vk_i\right)} &&\\
+		&= \norm{\sum_{i \in P}\norm{\left(\vw - \vw^*\right)^{\top}\vk_i}^2  + (1-2y_i)\left(\vw - \vw^*\right)^{\top}\vk_i - 2\norm{\vw^{*\top}\vk_i}^2} &&\\
+		\overset{\mathrm{Cauchy-Schwarz}}&{\leq} \sum_{i \in P}\norm{\vw - \vw^*}^2\norm{\vk_i}^2 + \left|1 - 2y_i\right|\norm{\vw - \vw^*}\norm{\vk_i} - \norm{\vw^{*\top}\vk_i}^2 &&\\
+		&= \eta^2 \left(\sum_{i \in P}\norm{\vk_i}^2 \right) + 2\eta\norm{\vy_P}\left(\sum_{i \in P}\norm{\vk_i}\right) - \left(\sum_{i \in P}\norm{\vw^{*\top}\vk_i}^2\right) &&\\
+		&= \mathcal{O}\left(\eta^2 \Xi^2 + 2\eta \rho\Xi\right)
+	\end{align}
+	(a) follows since the points outside the subquantile set in $P$ will have greater error than the points inside the subquantile in $Q$ by the formation of the subquantile set in \Ccref{eqn:t-update}. \\
+	\textcolor{blue}{This requires distributional assumptions on the elements in $P$, from which we can derive probabilistic and expected inequalities on the sum of the norms.}
+	\hfill $\blacksquare$
+	
+	\subsection{Proof of \Ccref{thm:stationary-point-is-good}}
+	{\bf Proof.} 
+	Let $i \in [np]$ be the $np$ indices with the lowest error, then we recall the derivative of $\Phi$ is given by, 
+	\begin{equation}
+		\nabla_{\vw}\Phi\left(\widehat{\vw}\right) = \sum_{i=1}^{np}\vk_i\left(\vk_i^{\top}\widehat{\vw} - y_i\right)
+	\end{equation}
+	We will do a proof by contrapositive. Assume $\norm{\widehat{\vw} - \vw^*}_{\mathcal{H}} > \mathcal{O}(\Xi)$. We will prove $\widehat{\vw}$ is not a stationary point. Note, the stationary point $\widehat{\vw}$ satisfies the following property, 
+	\begin{equation} \label{eq:stationary-alternative}
+		\nabla_{\vw}\Phi\left(\widehat{\vw}\right)^{\top}\widehat{\vw} \geq \nabla_{\vw}\Phi\left(\widehat{\vw}\right)^{\top}\widetilde{\vw} \quad \forall \widehat{\vw} \in \mathcal{K}
+	\end{equation}
+	Thus it suffices to prove there exists $\vw \in \mathcal{K}$ s.t. \Ccref{eq:stationary-alternative} is satisfied. 
+	\begin{align}
+		\nabla_{\vw}\Phi\left(\widehat{\vw}\right)^{\top}\widetilde{\vw} &= \left(\sum_{i=1}^{np}\vk_i\left(\vk_i^{\top}\widehat{\vw} - y_i\right)\right)^{\top}\widehat{\vw}
+	\end{align}
+	For what $\Xi$ does there exist $\widetilde{\vw} \in \mathcal{K}$ s.t.
+	\begin{equation}
+		\left(\sum_{i=1}^{np}\vk_i\left(\vk_i^{\top}\widehat{\vw} - y_i\right)\right)^{\top}\widehat{\vw} \geq \left(\sum_{i=1}^{np}\vk_i\left(\vk_i^{\top}\widehat{\vw} - y_i\right)\right)^{\top}\widetilde{\vw}
+	\end{equation}
+	This is equivalent to 
+	\begin{equation}
+		\sum_{i=1}^{np}\left(\vk_i^{\top}\widehat{\vw} - y_i\right)\vk_i^{\top}\widehat{\vw} \geq \sum_{i=1}^{np}\left(\vk_i^{\top}\widehat{\vw} - y_i\right)\vk_i^{\top}\widetilde{\vw}
+	\end{equation}
+	\hfill $\blacksquare$
+	
+	\subsection{Proof of \Ccref{thm:monotonically-decreasing}}
+	\noindent{\bf Proof.}
+	We will introduce new notation, let $S^{(k)}$ denote the set of $np$ data points from $\mX$ with the lowest objective value $ f(\vx;\vw^{(k)},y) \triangleq \left(f\left(\vx;\vw^{(k)}\right) - y\right)^2$. We will also define $ F(\vw,S) \triangleq \sum_{\vx \in S}\left(f\left(\vx;\vw^{(k)}\right) - y\right)^2$. Note this is an equivalent characterization of $g$ from \ccref{lem:t-update}. 
+	
+	\begin{align}
+		F(\vw^{(k+1)},S^{(k+1)}) &\leq F(\vw^{(k)},S^{(k)}) &&\\
+		F(\vw^{(k+1)},S^{(k+1)}) - F(\vw^{(k)}, S^{(k+1)})  &\leq F(\vw^{(k)}, S^{(k)}) - F(\vw^{(k)},S^{(k+1)}) &&
+	\end{align}
+	\textbf{Upper Bound of LHS}\\
+	Note that Kernel Ridge Regression is Lipschitz Continuous, let $L$ denote the Lipschitz-Constant.
+	\begin{align}
+		F(\vw^{(k+1)},S^{(k+1)}) &- F(\vw^{(k)},S^{(k+1)})\leq \langle \nabla_\vw F(\vw^{(k)},S^{(k+1)}), \vw^{(k+1)} - \vw^{(k)}\rangle + \frac{L}{2}\norm{\vw^{(k+1)} - \vw^{(k)}}_2^2 &&\\
+		&= \langle \nabla_\vw F(\vw^{(k)},S^{(k+1)}), -\alpha^{(k)}\nabla_\vw F(\vw^{(k)},S^{(k+1)})\rangle + \frac{L}{2}\norm{\vw^{(k+1)} - \vw^{(k)}}_2^2 &&\\
+		&= -\alpha^{(k)}\norm{\nabla_\vw F(\vw^{(k)},S^{(k+1)})}_2^2 + \frac{L}{2}\norm{\vw^{(k+1)} - \vw^{(k)}}_2^2 &&\\
+		&= -\alpha^{(k)}\norm{\nabla_\vw F(\vw^{(k)},S^{(k+1)})}_2^2 + \frac{L \alpha_{(k)}^2}{2}\norm{\nabla_\vw F(\vw^{(k)},S^{(k+1)})}_2^2 &&\\
+		&= \left(\frac{L\alpha_{(k)}^2}{2} - \alpha_{(k)}\right) \norm{\nabla_\vw F(\vw^{(k)},S^{(k+1)})}_2^2 &&
+	\end{align}
+	\textbf{Lower Bound of RHS}\\
+	We first note that the points in $S^{(k+1)}$ and not in $S^{(k)}$ have lower residuals.
+	\begin{align}
+		&F(\vw^{(k)}, S^{(k)}) - F(\vw^{(k)}, S^{(k+1)}) = \sum_{\vx \in S^{(k)} \setminus S^{(k+1)}} f(\vx;\vw^{(k)},y) - \sum_{\vx \in S^{(k+1)} \setminus S^{(k)}} f(\vx;\vw^{(k)},y)&&\\
+		&\geq |S^{(k)}\setminus S^{(k+1)}|\inf\left\{f(\vx;\vw^{(k)},y): \vx \in S^{(k)}\setminus S^{(k+1)}\right\} - |S^{(k+1)}\setminus S^{(k)}|\sup\left\{f(\vx;\vw^{(k)},y):\vx \in S^{(k+1)} \setminus S^{(k)}\right\}&&
+	\end{align}	
+	Let $\eta \triangleq |S^{(k)} \setminus S^{(k+1)} = |S^{(k+1)} \setminus S^{(k)}|$
+	\begin{align}
+		&= \eta \left(\inf\left\{f(\vx;\vw^{(k)},y): \vx \in S^{(k)}\setminus S^{(k+1)}\right\} - \sup\left\{f(\vx;\vw^{(k)},y):\vx \in S^{(k+1)} \setminus S^{(k)}\right\}\right) &&\\
+		&= \eta\left(\hat{\vnu}^{(k)}_{np+1} - \hat{\vnu}^{(k)}_{np}\right) &&\\
+		&\geq 0&&
+	\end{align}
+	Therefore, if $ \alpha_{(k)} \leq \frac{2}{L}$, then it follows $ F(\vw^{(k+1)},S^{(k+1)}) \leq F(\vw^{(k)},S^{(k)})$.
+	This concludes the proof as we shown descent lemma.
+	\hfill $\blacksquare$
+	
+	\subsection{Proof of \Ccref{lem:kernel-regression-lipschitz}}
+	
+	{\bf Proof.}
+	We use the $\HN$ norm of the gradient to bound $L$ from above. 
+	\begin{align}
+		\norm{\nabla_\vw g\left(t,\vw\right)}_{\mathcal{H}} &= \norm{\frac{2}{np}\sum_{i=1}^n\mathds{1}_{t \geq (\vk_i^\top\vw -y_i)^2}\left(\vk_i\left(\vk_i^\top\vw - y_i\right)\right)}_{\mathcal{H}} &&
+	\end{align}
+	W.L.O.G, let $\vx_1,\vx_2,\cdots,\vx_m$ where $0 \leq m \leq n$, represent the data vectors such that $t \geq \left(\vk_{i}^\top\vw - y_i\right)^2$.
+	\begin{align}
+		&= \norm{\frac{2}{np}\sum_{i=1}^m\vk_{i}\left(\vk_{i}^\top\vw -y_i\right)}_{\HN} &&\\
+		\overset{(a)}&{\leq} \frac{2}{np}\left(\norm{\sum_{i=1}^m\vk_{i}\left(\vk_{i}^\top\vw\right)}_{\HN} + \norm{\sum_{i=1}^m \vk_{i} y_i}_{\HN}\right) &&\\
+		\overset{(b)}&{\leq} \frac{2}{np}\left( \norm{\sum_{i=1}^m\vk_{i}}_{\HN}\norm{\sum_{i=1}^m\vk_i^{\top}\vw}_{\HN} + \norm{\sum_{i=1}^m \vk_{i}}_{\HN}\left(\sum_{i=1}^m y_i^2\right)^{1/2}\right) &&\\
+		\overset{(c)}&{\leq} \frac{2}{np}\left(\norm{\sum_{i=1}^m\vk_i}_{\HN}^2\norm{\vw}_{\HN} + \norm{\sum_{i=1}^m \vk_{i}}_{\HN}\norm{\vy}_2\right)&&\\
+		\overset{(d)}&{\leq}
+		\frac{2R}{np}\norm{\sum_{i=1}^{np}\vk_i}_{\HN}^2 + \frac{2}{np}\norm{\sum_{i=1}^{np} \vk_{i}}_{\HN}\norm{\vy}_2 &&
+	\end{align}
+	where (a) follows from Triangle Inequality, (b) and (c) followc from Cauchy-Schwarz Inequality, (d) follows from assuming $\norm{\vw}_{\mathcal{H}} \leq R$, where $R \in \mathbb{R}_+ < \infty$ is some positive constant.
+	This concludes the proof.
+	\hfill $\blacksquare$
+	
+	\subsection{Proof of \Ccref{lem:kernel-classification-lipschitz}}
+	{\bf Proof.}
+	We use the $\HN$ norm of the gradient to bound $L$ from above. Let $S$ be denoted as the subquantile set.
+	\begin{align}
+		\norm{\nabla_{\vw}g(t,\vw)}_{\HN} &= \norm{\frac{1}{np}\sum_{i=1}^n \mathbbm{1}_{t \geq (1 - y_i \vk_i^{\top}\vw)^+}-y_i\vk_i}_{\HN} &&\\
+		&\leq \frac{1}{np}\left(\sum_{i\in S} y_i^2\right)^{1/2}\norm{\sum_{i\in S} \vk_i}_{\HN} &&\\
+		&= \frac{1}{np}\norm{\vy}\norm{\sum_{i\in S} \vk_i}_{\HN} \leq \frac{1}{np}\norm{\vy}\norm{\sum_{i\in S} \vk_i}_{\HN} = \frac{\sqrt{n}}{np}\norm{\sum_{i\in S} \vk_i}_{\HN}&&
+	\end{align}
+	
+	\hfill $\blacksquare$
+	
+	\iffalse
+	\subsection{Proof of \ccref{thm:approximate-stationary-point-is-good}}
+	\noindent
+	{\bf Proof.} \textcolor{black}{This proof follows a similar structure to \citep{awasthi:2022}, Lemma A.1}
+	\begin{align}
+		&\left(\frac{1}{np}\sum_{\vx \in S} \vk_\vx\left(\vk_\vx^\top \vw - y\right)\right)^\top\left(\vw - \vw^{\star}\right) \leq \eta \norm{\widehat{\vw} - \vw^{\star}} &&\\
+		&\iff \left(\frac{1}{np}\sum_{\vx \in S \cap P} \vk_{\vx}\left(\vk_\vx^\top \widehat{\vw} - y\right)\right)^\top\left(\widehat{\vw} - \vw^{\star}\right) \leq \left(-\frac{1}{np}\sum_{\vx \in S \cap Q} \vk_{\vx} \left(\vk_\vx^\top \widehat{\vw} - y\right)\right)^{\T}\left(\widehat{\vw} - \vw^{\star}\right) + \eta\norm{\widehat{\vw} - \vw^{\star}} &&
+	\end{align}
+	\textbf{Lower Bound on LHS}
+	\begin{align}
+		&\left(\frac{1}{np}\sum_{\vx \in S \cap P} \vk_{\vx}\left(\vk_\vx^\top \widehat{\vw} - y\right)\right)^\top\left(\widehat{\vw} - \vw^{\star}\right) &&\\ \overset{\cshref{asm:gaussian}}&{=} \left(\frac{1}{np}\sum_{\vx \in S \cap P} \vk_{\vx}\left(\vk_\vx^\top \vw - \vk_\vx^\top \vw^{\star} - \xi_i\right)\right)^\top\left(\vw - \vw^{\star}\right) &&\\
+		&= \frac{1}{np}\sum_{\vx \in S \cap P}\left(\vw - \vw^{\star}\right)^\top\left(\vk_\vx \vk_\vx^\top\right)\left(\vw - \vw^{\star}\right) - \xi_i\vk_\vx^\top\left(\vw - \vw^{\star}\right) &&\\
+		&\geq \frac{1}{np}\sum_{\vx \in S \cap P}\left(\vk_\vx^\top\left(\vw- \vw^{\star}\right)\right)^2 - \norm{\xi_i\vk_\vx}\norm{\vw -\vw^{\star}}&&\\
+		&\geq \frac{1}{np}\left(K\norm{\vw-\vw^{\star}}^2-\norm{\sum_{\vx \in S \cap P}\xi_i\vk_{\vx}}\norm{\vw - \vw^{\star}}_{\mathcal{H}}\right)&&
+	\end{align}
+	where $K$ is a lower bound on $\norm{\sum_{\vx \in S \cap P}\vk_{\vx} \vk_{\vx}^\top - \mathbb{E}\left[\vk_\vx \vk_\vx^\top\right]}$. Note this term will be significantly greater than the other term in the denominator. \\
+	\textbf{Upper Bound on RHS}
+	\begin{align}
+		&\left(-\frac{1}{np}\sum_{\vx \in S \cap Q} \vk_{\vx} \left(\vk_\vx^\top \widehat{\vw} - y\right)\right)^\top\left(\widehat{\vw} - \vw^{\star}\right) &&\\
+		\overset{\text{Cauchy-Schwarz}}&{\leq} \left(\frac{1}{np}\sum_{\vx \in S \cap Q}\left(\vk_\vx^\top \vw - y\right)^2\right)^{1/2}\left(\frac{1}{np}\sum_{\vx \in S \cap Q}\left(\vk_{\vx}^\top\left(\vw - \vw^{\star}\right)\right)^2\right)^{1/2} &&\\
+		&\leq \frac{1}{np}\left(\sum_{\vx \in S \cap Q}\left(\vk_\vx^\top \vw - y\right)^2\right)^{1/2}\left(\left(\sum_{\vx \in S \cap Q}\norm{\vk_\vx}^2\right)\norm{\vw-\vw^{\star}}^2\right)^{1/2} &&\\
+		\overset{(a)}&{\leq} \frac{1}{np}\left(\sum_{\vx \in S \cap Q}\left(\vk_\vx^\top \vw - y\right)^2\right)^{1/2}\left(\norm{\sum_{\vx \in S \cap Q}\vk_\vx}^2\norm{\vw-\vw^{\star}}^2\right)^{1/2} &&\\
+		\overset{(b)}&{\leq} \frac{1}{np}\left(\frac{p}{1-p}\sum_{\vx \in P \setminus S} \left(\vk_\vx^\top\left(\vw - \vw^{\star}\right)-\xi_i\right)^2\right)^{1/2}\left(\norm{\sum_{\vx \in S \cap Q}\vk_\vx}\norm{\vw-\vw^{\star}}\right)&&\\
+		\overset{(c)}&{\leq} \frac{1}{np}\left(\frac{p}{1-p}\left(\norm{\sum_{\vx \in P\setminus S}\vk_\vx}\norm{\vw-\vw^{\star}}  + \norm{\sum_{\vx \in P\setminus S}\xi_i}\right)^2\right)^{1/2}\left(\norm{\sum_{\vx \in S \cap Q}\vk_\vx}\norm{\vw-\vw^{\star}}\right) &&\\
+		&= \frac{1}{np}\sqrt{\frac{p}{1-p}}\left(\norm{\sum_{\vx \in P\setminus S}\vk_\vx}\norm{\vw-\vw^{\star}}  + \norm{\sum_{\vx \in P\setminus S}\xi_i}\right)\left(\norm{\sum_{\vx \in S \cap Q}\vk_\vx}\norm{\vw-\vw^{\star}}\right)
+	\end{align}
+	(a) holds because all entries in $\vk_\vx$ are strictly non-negative.\\
+	(b) holds because the points outside of the subquantile will have greater average error than the points within the subquantile, we use this step as we do not make distributional assumptions on $Q$. We also introduce the $\frac{p}{1-p}$ since this is the fraction of points within the subquantile to outside. \\
+	(c) holds because of the inequality, $\norm{\vx - \vy}^2 = \norm{\vx}^2 - 2\vx^\top \vy + \norm{\vy}^2 \leq \norm{\vx}^2 + 2\norm{\vx}\norm{\vy} + \norm{\vy}^2 = \left(\norm{\vx} + \norm{\vy}\right)^2$. \\
+	We know analyze the LHS and RHS together to upper bound $\norm{\vw - \vw^{\star}}_\mathcal{H}$.
+	\begin{align}
+		&K\norm{\vw-\vw^{\star}} - \norm{\sum_{\vx \in S \cap P} \xi_\vx \vk_\vx} \leq \sqrt{\frac{p}{1-p}}\left(\norm{\sum_{\vx \in P\cap S}\vk_{\vx}}\norm{\vw - \vw^{\star}} + \norm{\sum_{i \in P \setminus S}\xi_i}\right)\norm{\sum_{\vx \in S \cap Q}\vk_\vx} + \eta&&\\
+		&\norm{\vw - \vw^{\star}} \leq \frac{\norm{\sum_{\vx \in S \cap P}\xi_\vx \vk_\vx} + \sqrt{\frac{p}{1-p}}\left(\norm{\sum_{i \in P \setminus S}\xi_i}\norm{\sum_{\vx \in S \cap P}\vk_\vx}\right) + \eta}{K - \sqrt{\frac{p}{1-p}}\norm{\sum_{\vx \in P\setminus S}\vk_\vx}}
+	\end{align}
+	\textcolor{black}{Can we extend the notion of resilience in \citep{steinhardt:2018}(Definition 1, Proposition 2),  \citep{awasthi:2022}(Proposition D.1, D.3, D.4), and \citep{Jambulapati2020}(Lemma 8, Corollary 3, Corollary 4) to the kernel feature space $\phi: \mathcal{X} \to \mathcal{H}$. \citep{Staib2019} has some analysis on gaussian kernels which might be useful. }\\
+	\textcolor{black}{In \citep{liao:2020}, equation $1$ and equation $2$, there is an approximation for the Kernel Gram Matrix for Gaussian Kernel, $\mK$. The original idea is in \citep{rahimi:2007}. This could be easier to model. 
+		\begin{equation}
+			\left[\mK_\mX\right]_{ij} = e^{-\frac{1}{2}\left(\norm{\vx_i}^2+\norm{\vx_j}^2\right)}\left(\cosh\left(\vx_i^\top\vx_j\right) + \sinh\left(\vx_i^\top\vx_j\right)\right)
+	\end{equation}}\\
+	This concludes the proof.
+	\hfill $\blacksquare$
+	\clearpage
+	\
+	
+	\section{Robust Linear Regression}
+	\begin{thm}
+		\label{thn:linear-regression-approximate-stationary-point-is-good}
+		(\textbf{Approximate Stationary Point is Good}). Let $\widehat{\vw}$ be a $\eta$-stationary point as defined in \ccref{def:approximate-stationary-point-tmle}. It then follows:
+		\begin{equation}
+			\norm{\widehat{\vw} - \vw^{\star}} \leq \frac{\norm{\sum_{\vx \in S \cap P}\xi_\vx \vk_\vx} + \sqrt{\frac{p}{1-p}}\left(\norm{\sum_{i \in P\cap S}\xi_i}\norm{\sum_{\vx \in S \cap P}\vk_\vx}\right)}{\norm{\sum_{\vx \in S \cap P}\vk_\vx}^2 - \sqrt{\frac{p}{1-p}}\norm{\sum_{\vx \in P\setminus S}\vk_\vx}}
+		\end{equation} where $S^{(T)}$ represents the $np$ set of points in the subquantile.
+	\end{thm}
+	\noindent
+	{\bf Proof.}
+		We start from the proof of \ccref{thm:approximate-stationary-point-is-good}. 
+		\begin{align}
+			\norm{\widehat{\vw} - \vw^{\star}} &\leq \frac{\norm{\sum_{i \in S \cap P}\xi_i \vx_i} + \sqrt{\frac{p}{1-p}}\left(\norm{\sum_{i \in P\cap S}\xi_i}\norm{\sum_{i \in S \cap P}\vx_i}\right)}{\norm{\sum_{i \in S \cap P}\vx_i}^2 - \sqrt{\frac{p}{1-p}}\norm{\sum_{i \in P\setminus S}\vx_i}}&&\\
+			&\leq \frac{\sigma\varepsilon\log\left(1/\varepsilon\right) + \sqrt{\frac{p}{1-p}}\left(\varepsilon + \varepsilon \sqrt{\log\left(1/\varepsilon\right)}\right)}{(1-\varepsilon\log(1/\varepsilon))^2- \sqrt{\frac{p}{1-p}}\varepsilon\sqrt{\log(1/\varepsilon)}}&&
+		\end{align}
+	\hfill $\blacksquare$
+	\fi
+	\clearpage
+	
+	\section{Base Learner Algorithm}
+	\label{app:base-learner}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\KwInput{Iterations: $T$; Quantile: $p$; Data Matrix: $\mX, (n \times d), n \gg d$; Labels: $\vy, (n \times 1)$; Learning schedule: $\alpha_1,\cdots,\alpha_T$; Ridge parameter: $\lambda$}
+		\KwOutput{Trained Parameters: $ \vw_{(T)}$; Base Learner: $\mathcal{L}$}
+		$\vw_{(0)} \gets \mathcal{L}(\mX,\vy)$\Comment{Base Learner}\\
+		\For{$k \in 1,2,\ldots,T$}
+		{
+			$\mS_{(k)} \gets \textsc{Subquantile}(\vw^{(k)},\mX)$\Comment{Algorithm \ccref{alg:subquantile}}\\
+			$\vw^{(k+1)} \gets \mathcal{L}\left(\mS^{(k)},\vy_S\right)$\Comment{$\vw$-update by base learner}\\
+		}
+		\KwRet{$ \vw_{(T)} $}
+		\caption{\textsc{Subq-Base-Learner}}
+		\label{alg:subq-base-learner}
+	\end{algorithm}
+	Here we can note the similarity of Algorithm \ccref{alg:subq-base-learner} to the algorithm described in \citep{awasthi:2022}. This is because the Trimmed Maximum Likelihood Estimator is equivalent to minimizing over the subquantile of the likelihood. 
+	
+	\begin{remark}
+		Define the function $\Psi\left(t\right) \triangleq \min_{\vw} g\left(t,\vw\right)$
+	\end{remark}
+	
+	\clearpage
+	
+	\section{Experimental Details}
+	Our datasets are synthetic and are sourced from \citep{Dua2019}
+	\begin{table}[!h]
+		\centering
+		\begin{tabular}{lccc}
+			\toprule 
+			\textbf{Dataset}&\textbf{Dimension} $d$& \textbf{Sample Size} $n$& \textbf{Source}\\
+			\midrule
+			\texttt{Polynomial} & 3 & 1000 & Ours \\
+			\texttt{Boston Housing} & 13 & 506 & \citep{Dua2019} \\
+			\texttt{Concrete Data} & 8 & 1030 & \citep{Dua2019} \\
+			\texttt{Wine Quality} & 11 & 1599 & \citep{Dua2019}\\
+			\bottomrule
+		\end{tabular}
+		\caption{\texttt{Polynomial Regression} Synthetic Dataset. $1000$ samples, $x \sim \mathcal{N}(0,1)$, $y \sim \mathcal{N}(\sum_{i=0}a_ix^{i},0.01)$ where $a_i \sim \mathcal{N}(0,1)$. Oblivious Noise is sampled from $\mathcal{N}(0,5)$. Subquantile is capped at 10,000 iterations.}
+		\label{tab:dataset-information}
+	\end{table}
+	
+	\clearpage
+	\section{Detailed Related Works}
+	In this section we will give a detailed analysis of the relevant works. 
+	\subsection{High-dimensional Robust Mean Estimation via Gradient Descent \cite{cheng:2020}}
+	In this work, Cheng et al. study high dimensional mean estimation when there exists an $\eps$-fraction of adversarially corrupted data. They form a non-convex optimization problem based on a lemma from a previous paper of theirs minimize the objective with gradient descent. Let $F$ be the objective function. First they define stationary points. Let $u \in \argmax f(w)$, then a stationary point is defined as
+	\begin{equation}
+		\left(\nabla_w F(w,u)\right)^{\top}(\widetilde{w}-w) \geq 0 \quad \forall \widetilde{w} \in K 
+		\label{eq:cheng-stationary-point}
+	\end{equation}
+	where $K$ is a closed convex set. They show that any stationary point is a good point, i.e. $\norm{\mu_w - \mu^\star} = \mathcal{O}(\eps\sqrt{\log(1/\eps)})$. Next, they show any approximate stationary point is a good point, i.e. if $\norm{\nabla f_{\beta}(w)} = \mathcal{O}(\log(1/\eps))$, then $\norm{\mu_w - \mu^{\star}} = \mathcal{O}(\eps \sqrt{\log(1/\eps)})$. Next, they show gradient descent converges to an approximate stationary point in a polynomial number of iterations. \\\\
+	\noindent{\bf Technical Results: }
+	\begin{enumerate}
+		\item $F$ is $L$-lipschitz, and $\beta$-smooth
+		\item To prove all stationary points are good, they prove by contradiction by showing if $\norm{\mu_w - \mu^{\star}} > \mathcal{O}(\eps \sqrt{\log(1/\eps)})$, then there exists a corrupted point with a high gradient and a good point with a low gradient.  
+		\item Let $f(w) \triangleq \max_{u}F(u,w)$ and $f_{\beta}(w) \triangleq \min_{\widetilde{w}}f(\widetilde{w}) + \beta\norm{w - \widetilde{w}}_2^2$ be the Moreau envelope. They then prove $\norm{\nabla f_{\beta}(w)} = \mathcal{O}(\log(1/\eps))$.
+		\item Then prove $\norm{\nabla f_{\beta}(w)} = \mathcal{O}(\log(1/\eps))$ in a polynomial number of iterations w.r.t to $n$ the sample size, and $d$ the sample dimension.  
+	\end{enumerate}
+	
+	\subsection{Trimmed Maximum Likelihood Estimation for Robust Generalized Linear Model \cite{awasthi:2022}}
+	First we will give the algorithm
+ 	\begin{equation}
+		S^{(t)} = \argmin_{T\subset S^{(0)}:|T|=(1-2\eps)n}\sum_{i \in T}-\log f(y_i\vert \langle \vbeta^{(t)},\vx_i\rangle)
+		\label{eq:tmle-step-1}
+	\end{equation}
+	\begin{equation}
+		\vbeta^{(t+1)} = \argmin_{\beta,\norm{\vbeta}\leq R} \sum_{i \in S^{(t)}} -\log f(y_i\vert \langle \vbeta^{(t)},\vx_i\rangle)
+		\label{eq:tmle-step-2}
+	\end{equation}
+	In \Ccref{eq:tmle-step-1}, the algorithm chooses the $(1-2\eps)n$ points giving the least error and put this in the set $S^{(t)}$. Next, in \Ccref{eq:tmle-step-2}, the algorithm then finds $\beta$ that minimizes the negative log likelihood error for all the points in $S^{(t)}$ s.t. $\norm{\vbeta} \leq R$. For the theoretical analysis, Awasthi et al. consider a different approximation stationary point from \cite{cheng:2020}. 
+	\begin{equation}
+		\frac{1}{n}\sum_{i \in S}\nabla_{\vbeta}\log f(y_i\vert \langle\vbeta,\vx_i\rangle)^{\top}\frac{(\vbeta^{\star}-\vbeta)}{\norm{\vbeta^{\star}-\vbeta}} \leq \gamma
+		\label{eq:tmle-stationary}
+	\end{equation}
+	We see \Ccref{eq:tmle-stationary} is an upper bound, instead of a lower bound, of \Ccref{eq:cheng-stationary-point}. Next, they prove their algorithm reaches a $\eta$ stationary point. Their proof does not use Moreau Envelopes or ideas in concave-non-convex optimization, rather they use the fact their algorithm terminates after it reaches a point when it can no longer make $\eta$ improvement. 
+\end{appendices}
+\end{document}
