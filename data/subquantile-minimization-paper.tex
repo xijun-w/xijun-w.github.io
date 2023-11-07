@@ -1,0 +1,274 @@
+\documentclass[11pt,letterpaper]{article}
+\special{papersize=8.5in,11in}
+\usepackage[numbers]{natbib}
+
+\usepackage{thmtools}
+\usepackage{mathtools}
+\usepackage{thm-restate}
+\usepackage{bm}
+%
+\usepackage{mathrsfs}           %
+\usepackage{vmargin,fancyhdr}   %
+\usepackage{tikz}
+\usetikzlibrary{positioning,chains,fit,shapes,calc}
+
+\usepackage{subcaption}
+\usepackage{enumerate}
+
+\usepackage{amsmath,amssymb, amsthm}    %
+\usepackage{verbatim}           %
+\usepackage{xspace}             %
+%
+\usepackage{graphicx,float}     %
+\usepackage{ifthen,calc}        %
+\usepackage{textcomp}           %
+\usepackage{fancybox}           %
+\usepackage{hhline}             %
+\usepackage{float}              %
+
+%
+\usepackage[vflt]{floatflt}     %
+\usepackage[small,compact]{titlesec}
+\usepackage{setspace}
+%
+\renewcommand{\baselinestretch}{1.0}
+%
+
+%
+\usepackage{color}
+\definecolor{ForestGreen}{rgb}{0.1333,0.5451,0.1333}
+\usepackage{thumbpdf}
+\usepackage[letterpaper,
+colorlinks,linkcolor=ForestGreen,citecolor=ForestGreen,
+backref,
+bookmarks,bookmarksopen,bookmarksnumbered]
+{hyperref}
+
+%
+\setpapersize{USletter}
+%
+\setmarginsrb{1in}{.5in}        %
+{1in}{.5in}        %
+{.25in}{.25in}     %
+{.25in}{.5in}      %
+%
+\setlength{\marginparwidth}{.75in}
+\setlength{\marginparsep}{.05in}
+
+\input{sections/math_commands.tex}
+
+\usepackage{aligned-overset}
+\usepackage{subcaption}
+\usepackage{pifont}
+
+\usepackage{array,makecell}
+\setcellgapes{3pt}
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\usepackage{bbm}
+\usepackage{dsfont}
+
+\usepackage{nicematrix}
+
+\usepackage{color, colortbl}
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkpink}{RGB}{204,120,188}
+\definecolor{darkblue}{RGB}{86,180,233}
+\definecolor{darkgreen}{RGB}{2,158,115}
+\definecolor{darkorange}{RGB}{222,143,5}
+
+\usepackage{algpseudocode}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+
+\usepackage{hyperref}
+
+\usepackage{cleveref}
+
+\usepackage{tikz,pgfplots,float}
+\pgfplotsset{compat=newest}
+\usetikzlibrary {datavisualization.formats.functions}
+\pgfplotsset{compat=1.17}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{matrix}
+\usepackage{adjustbox}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\pagestyle{fancy}
+\newcounter{hours}\newcounter{minutes}
+\newcommand{\hhmm}{%
+	\setcounter{hours}{\time/60}%
+	\setcounter{minutes}{\time-\value{hours}*60}%
+	\ifthenelse{\value{hours}<10}{0}{}\thehours:%
+	\ifthenelse{\value{minutes}<10}{0}{}\theminutes}
+\lhead{}
+\chead{}
+%\ifthenelse{\showccc=0}{\rhead{}}{\rhead{\today \ [\hhmm]}}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{proposition}[thm]{Proposition}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{corollary}[thm]{Corollary}
+\newtheorem{claim}[thm]{Claim}
+\theoremstyle{definition}
+\newtheorem{definition}[thm]{Definition}
+\newtheorem{assumption}[thm]{Assumption}
+\newtheorem{interpretation}[thm]{Interpretation}
+\newtheorem{remark}[thm]{Remark}
+
+\definecolor{darkred}{rgb}{0.6,0,0}%
+
+\newcommand{\ccref}[1]{\textcolor{black}{\cref{#1}}}
+\newcommand{\Ccref}[1]{\textcolor{black}{\Cref{#1}}}
+
+\crefrangeformat{equation}{\text{eqns. }(#3#1#4)-(#5#2#6)}
+
+\DeclareRobustCommand{\abbrevcrefs}{%
+	\crefname{figure}{\text{fig.}}{figs.}%
+	\Crefname{figure}{\text{Fig.}}{Figs.}%
+	\crefname{equation}{\text{eqn.}}{\text{eqns.}}%
+	\Crefname{equation}{\text{Eqn.}}{\text{Eqns.}}%
+	\crefname{lemma}{\text{lem.}}{\text{lems.}}%
+	\Crefname{lemma}{\text{Lem.}}{\text{Lems.}}%
+	\crefname{thm}{\text{thm.}}{\text{thms.}}%
+	\Crefname{thm}{\text{Thm.}}{\text{Thms.}}%
+	\crefname{figure}{\text{fig.}}{\text{figs.}}%
+	\Crefname{figure}{\text{Fig.}}{\text{Figs.}}%
+	\crefname{algorithm}{\text{alg.}}{\text{algs.}}%
+	\Crefname{algorithm}{\text{Alg.}}{\text{Algs.}}%
+	\crefname{assumption}{\text{asm.}}{\text{asms.}}%
+	\Crefname{assumption}{\text{Asm.}}{\text{Asms.}}%
+	\crefname{claim}{\text{clm.}}{\text{clms.}}%
+	\Crefname{claim}{\text{Clm.}}{\text{Clms.}}%
+}
+
+\DeclareRobustCommand{\cshref}[1]{{\abbrevcrefs\ccref{#1}}}
+\DeclareRobustCommand{\Cshref}[1]{{\abbrevcrefs\Ccref{#1}}}
+
+\usetikzlibrary{fit,calc}
+\newcommand*{\tikzmk}[1]{\tikz[remember picture,overlay,] \node (#1) {};\ignorespaces}
+%define a boxing command, argument = colour of box
+\newcommand{\boxit}[1]{\tikz[remember picture,overlay]{\node[yshift=3pt,fill=#1,opacity=.25,fit={(A)($(B)+(.95\linewidth,.8\baselineskip)$)}] {};}\ignorespaces}
+%define some colours according to algorithm parts (or any other method you like)
+\colorlet{pink}{red!40}
+\colorlet{lightblue}{cyan!60}
+
+\DontPrintSemicolon
+% Set algorithm keyword formatting
+\SetKwComment{tcc}{$\triangleright$~}{}
+\SetCommentSty{normalfont}
+\SetKwInput{KwInput}{Input}                % Set the Input
+\SetKwInput{KwOutput}{Output}              % set the Output
+% Set algorithm line numbers
+\SetNlSty{}{}{:}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{darkblue}{#1}}
+\SetCommentSty{mycommfont}
+
+\usepackage{url}
+
+\usepackage{appendix}
+\usepackage{titletoc}
+
+\usepackage{booktabs,caption,dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{4}}% column type for figures with 4 decimals
+\newcommand{\subhead}[1]{\multicolumn{1}{c}{#1}}% to format sub-headings of d-type columns
+\allowdisplaybreaks
+
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+
+\newcounter{marknumber}
+\pgfplotsset{
+	error bars/every nth mark/.style={
+		/pgfplots/error bars/draw error bar/.prefix code={
+			\pgfmathtruncatemacro\marknumbercheck{mod(floor(\themarknumber/2),#1)}
+			\ifnum\marknumbercheck=0
+			\else
+			\begin{scope}[opacity=0]
+				\fi
+			},
+			/pgfplots/error bars/draw error bar/.append code={
+				\ifnum\marknumbercheck=0
+				\else
+			\end{scope}
+			\fi
+			\stepcounter{marknumber}    
+		}
+	}
+}
+\usetikzlibrary{tikzmark}
+\tikzset{mycircled/.style={circle,draw,inner sep=0.1em,line width=0.04em}}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=0.1em] (char) {#1};}}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\includeonly{sections/introduction,sections/structural-results,sections/concentration-inequalities,sections/structural-proofs,sections/optimization-results,sections/necessary-lemmas,sections/experiments}
+
+\begin{document}
+
+\begin{titlepage}
+	\def\thepage{}
+	\thispagestyle{empty}
+	\title{Subquantile Minimization for Kernel Learning in the Huber $\eps$-Contamination Model\thanks{Preliminary Work}}
+	\author{Arvind Rathnashyam\\RPI Math and CS, \href{mailto:rathna@rpi.edu}{\textcolor{ForestGreen}{\texttt{rathna@rpi.edu}}} \and Alex Gittens\\RPI CS, \href{mailto:gittea@rpi.edu}{\textcolor{ForestGreen}{\texttt{gittea@rpi.edu}}}}
+	\date{}
+ 	\maketitle
+ 	\input{sections/abstract}
+\end{titlepage}
+\iffalse
+\include{sections/introduction}
+\include{sections/subquantile-minimization}
+\include{sections/structural-results}	
+\include{sections/optimization-results}
+\include{sections/experiments}
+\include{sections/discussion}
+\fi
+\input{sections/introduction}
+\input{sections/subquantile-minimization}
+\input{sections/structural-results}	
+\input{sections/optimization-results}
+\input{sections/experiments}
+\input{sections/discussion}
+
+\clearpage
+
+\bibliographystyle{alpha}
+\bibliography{sections/references.bib}
+
+\clearpage
+
+\startcontents[sections]
+%\printcontents[sections]{l}{1}{\setcounter{tocdepth}{2}}
+
+\clearpage
+\begin{appendices}
+	
+\clearpage
+\appendix
+\iffalse
+\include{sections/concentration-inequalities}
+\include{sections/structural-proofs}
+\include{sections/optimization-proofs}
+\include{sections/necesary-lemmas}
+\include{sections/experimental-details}
+\fi
+\input{sections/concentration-inequalities}
+\input{sections/structural-proofs}
+\input{sections/optimization-proofs}
+\input{sections/necesary-lemmas}
+\input{sections/experimental-details}
+
+%\include{sections/detailed-related-works}
+\end{appendices}
+\end{document}
