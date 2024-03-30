@@ -50,7 +50,45 @@
         </tbody></table>
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
 
-    
+    <tr onmouseout="icon_stop()" onmouseover="icon_start()">
+      <td style="padding:20px;width:25%;vertical-align:middle">
+        <div class="one">
+          <div class="two" id='icon_image'>
+            <img src='images/sim2real_after.png' width="160"></div>
+          <img src='images/sim2real_before.png' width="160">
+        </div>
+        <script type="text/javascript">
+          function icon_start() {
+            document.getElementById('icon_image').style.opacity = "1";
+          }
+
+          function icon_stop() {
+            document.getElementById('icon_image').style.opacity = "0";
+          }
+          icon_stop()
+        </script>
+      </td>
+      <td style="padding:20px;width:75%;vertical-align:middle">
+        <a href="https://openaccess.thecvf.com/content/ICCV2023/papers/Sudhakar_Exploring_the_Sim2Real_Gap_Using_Digital_Twins_ICCV_2023_paper.pdf">
+          <papertitle>Exploring the Sim2Real Gap using Digital Twins</papertitle>
+        </a>
+        <br>
+        <strong>Sruthi Sudhakar</strong>,
+        <a href="https://www.linkedin.com/in/jon-hanzelka-80701b78/">Jon Hanzelka</a>, 
+        <a href="https://www.linkedin.com/in/josh-bobillot-39a0b77/">Josh Bobillot</a>,
+        <a href="https://www.linkedin.com/in/tvrandhavane/">Tanmay Randhavane</a>,
+        <a href="https://neelj.com/">Neel Joshi</a>,
+        <a href="https://vibhav-vineet.github.io/">Vibhav Vineet</a>,
+        <br>
+        <em>ICCV</em>, 2023
+        <br>
+        <a href="https://openaccess.thecvf.com/content/ICCV2023/papers/Sudhakar_Exploring_the_Sim2Real_Gap_Using_Digital_Twins_ICCV_2023_paper.pdf">arXiv</a>
+        <p></p>
+        <p>
+         We study factors of variation in 3D model quality between simulated and real data to determine what factors are important for computer vision model performanc. To do so, we create a new YCB-Real and digital twin YCB-Synthetic dataset to study adaptation and generalization in controlled environments.
+        </p>
+      </td>
+    </tr>    
 
     <tr onmouseout="icon_stop()" onmouseover="icon_start()">
       <td style="padding:20px;width:25%;vertical-align:middle">
