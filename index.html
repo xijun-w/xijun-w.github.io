@@ -67,9 +67,11 @@
           <table style="width:100%;border:0px;border-spacing:0px 10px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
 
 
-    <tr onmouseout="gen_photo()" onmouseover="gen_photo_start()" >
+
+        <tr onmouseout="gen_photo()" onmouseover="gen_photo_start()" >
       <td style="padding:16px;width:20%;vertical-align:middle">
-          <div class="two" id='gen_photo'><image  width=100% height=100% muted autoplay loop>
+          <div class="two" id='gen_photo'>
+              <image  width=100% height=100% muted autoplay loop>
           <source src="images/gen_photo.png" type="image/png">
 
 
@@ -111,11 +113,11 @@
     <tr onmouseout="newton_gen()" onmouseover="newton_gen_start()" >
       <td style="padding:16px;width:20%;vertical-align:middle">
           <div class="two" id='newton_gen'><image  width=100% height=100% muted autoplay loop>
-          <source src="images/newton_gen_1.png" type="image/png">
+          <img src="images/newtongen.gif" width="100%" height="100%">
 
 
           </image></div>
-          <img src='images/newton_gen_1.png' width="160">
+          <img src='images/newtongen.gif' width="160">
         <script type="text/javascript">
 <!--          function bolt3d_start() {-->
 <!--            document.getElementById('newton_gen').style.opacity = "1";-->
@@ -144,6 +146,45 @@
         <a href="https://github.com/pandayuanyu/NewtonGen">project page</a>
         /
         <a href="https://arxiv.org/abs/2509.21309">PDF</a>
+        <p></p>
+        <p>
+		</p>
+      </td>
+    </tr>
+
+
+        <tr onmouseout="seeu()" onmouseover="seeu_start()" >
+      <td style="padding:16px;width:20%;vertical-align:middle">
+          <div class="two" id='seeu'>
+              <img src="images/SeeU.gif" width="100%" height="100%">
+          </div>
+          <img src='images/SeeU.gif' width="160">
+        <script type="text/javascript">
+<!--          function bolt3d_start() {-->
+<!--            document.getElementById('seeu').style.opacity = "1";-->
+<!--          }-->
+
+          function seeu() {
+            document.getElementById('seeu').style.opacity = "0";
+          }
+          seeu()
+        </script>
+      </td>
+      <td style="padding:8px;width:80%;vertical-align:middle">
+        <a href="https://arxiv.org/abs/2412.02168">
+          <span class="papertitle">SeeU: Seeing the Unseen World via 4D Dynamics-aware Generation</span>
+        </a>
+        <br>
+        Yu Yuan,
+        Tharindu Wickremasinghe,
+        Zeeshan Nadir,
+          <strong>Xijun Wang</strong>,
+          Yiheng Chi,
+        Stanley H. Chan
+        <br>
+        <em>Under Review</em>
+        <br>
+        <a href="https://yuyuanspace.com/SeeU/">project page</a>
         <p></p>
         <p>
 		</p>
@@ -225,6 +266,7 @@
           </tbody></table>
 
 <table style="width:100%;border:0px;border-spacing:0px 10px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+
     <tr onmouseout="blind_face()" onmouseover="blind_face_start()" >
       <td style="padding:16px;width:20%;vertical-align:middle">
           <div class="two" id='blind_face'><image  width=100% height=100% muted autoplay loop>
@@ -259,6 +301,43 @@
         <em>IEEE ICIP</em>, 2025
         <br>
         <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11084394">PDF</a>
+        <p></p>
+        <p>
+		</p>
+      </td>
+    </tr>
+
+        <tr onmouseout="video_for_restoration()" onmouseover="video_for_restoration_start()" >
+      <td style="padding:16px;width:20%;vertical-align:middle">
+          <div class="two" id='video_for_restoration'><image  width=100% height=100% muted autoplay loop>
+          <source src="images/video_for_restoration.png" type="image/png">
+
+
+          </image></div>
+          <img src='images/video_for_restoration.png' width="160">
+        <script type="text/javascript">
+<!--          function bolt3d_start() {-->
+<!--            document.getElementById('video_for_restoration').style.opacity = "1";-->
+<!--          }-->
+
+          function video_for_restoration() {
+            document.getElementById('video_for_restoration').style.opacity = "0";
+          }
+          video_for_restoration()
+        </script>
+      </td>
+      <td style="padding:8px;width:80%;vertical-align:middle">
+<!--        <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11084394">-->
+          <span class="papertitle">Progressive Image Restoration via Text-Conditioned Video Generation</span>
+        </a>
+        <br>
+          Peng Kang<sup>1</sup>,
+        <strong>Xijun Wang</strong><sup>1</sup>,
+        Yu Yuan (Joint first author<sup>1</sup>)
+        <br>
+        <em>IEEE ICNC</em>, 2026
+        <br>
+<!--        <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11084394">PDF</a>-->
         <p></p>
         <p>
 		</p>
@@ -752,7 +831,7 @@
         <br>
         Yunan Wu<sup>1</sup>,
         <strong>Xijun Wang</strong><sup>1</sup>,
-        Aggelos K. Katsaggelos (<sup>1</sup>Joint first author)
+        Aggelos K. Katsaggelos (Joint first author<sup>1</sup>)
         <br>
         <em>International Symposium on Medical Information Processing and Analysis <strong>(Oral)</strong></em>, 2021
         <br>
